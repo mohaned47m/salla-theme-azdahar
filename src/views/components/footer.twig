@@ -1,66 +1,135 @@
-<footer class="bg-brand-dark text-white" style="background-color: var(--brand-dark);">
-    <div class="px-4 md:px-10 lg:px-40 py-16">
-        <div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-            <!-- About -->
-            <div>
-                <div class="flex items-center gap-2 mb-6">
-                    <div class="size-8" style="color: var(--brand-secondary);">
-                        <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                            <path clip-rule="evenodd" d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z" fill="currentColor" fill-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-lg font-black">{{ store.name }}</h3>
+{# Footer Component - تذييل الصفحة #}
+<footer class="text-white pt-20 pb-10" style="background-color: var(--brand-dark);">
+    <div class="max-w-[1440px] mx-auto px-4 md:px-10 lg:px-40">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+
+            {# About Store #}
+            <div class="space-y-6 text-right">
+                <div class="flex items-center gap-3 justify-start">
+                    {% if store.logo %}
+                        <a href="{{ store.url }}">
+                            <img src="{{ store.logo }}" alt="{{ store.name }}" class="h-8 w-auto object-contain">
+                        </a>
+                    {% else %}
+                        <div class="size-8" style="color: var(--brand-secondary);">
+                            <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-black">{{ store.name }}</h2>
+                    {% endif %}
                 </div>
-                <p class="text-slate-400 text-sm leading-relaxed">{{ store.description }}</p>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    {{ store.description | default('نضع المعايير الذهبية للتميز في الصيد والتخييم منذ عام ٢٠١٤. نوفر فقط المعدات الأكثر موثوقية والمجربة ميدانياً.') }}
+                </p>
+                <div class="flex gap-4">
+                    {% if store.social.twitter %}
+                        <a href="{{ store.social.twitter }}" class="size-10 rounded-full flex items-center justify-center hover:brightness-110 transition-all" style="background-color: rgba(255,255,255,0.05);" target="_blank" rel="noopener">
+                            <span class="material-symbols-outlined text-lg">alternate_email</span>
+                        </a>
+                    {% endif %}
+                    {% if store.social.instagram %}
+                        <a href="{{ store.social.instagram }}" class="size-10 rounded-full flex items-center justify-center hover:brightness-110 transition-all" style="background-color: rgba(255,255,255,0.05);" target="_blank" rel="noopener">
+                            <span class="material-symbols-outlined text-lg">photo_camera</span>
+                        </a>
+                    {% endif %}
+                    {% if store.social.snapchat %}
+                        <a href="{{ store.social.snapchat }}" class="size-10 rounded-full flex items-center justify-center hover:brightness-110 transition-all" style="background-color: rgba(255,255,255,0.05);" target="_blank" rel="noopener">
+                            <span class="material-symbols-outlined text-lg">public</span>
+                        </a>
+                    {% endif %}
+                    {% if not store.social.twitter and not store.social.instagram %}
+                        <a href="#" class="size-10 rounded-full flex items-center justify-center hover:brightness-110 transition-all" style="background-color: rgba(255,255,255,0.05);">
+                            <span class="material-symbols-outlined text-lg">public</span>
+                        </a>
+                        <a href="#" class="size-10 rounded-full flex items-center justify-center hover:brightness-110 transition-all" style="background-color: rgba(255,255,255,0.05);">
+                            <span class="material-symbols-outlined text-lg">alternate_email</span>
+                        </a>
+                    {% endif %}
+                </div>
             </div>
-            
-            <!-- Links -->
-            <div>
-                <h4 class="font-black mb-4" style="color: var(--brand-secondary);">الروابط السريعة</h4>
-                <ul class="space-y-2 text-sm text-slate-400">
-                    <li><a href="#" class="hover:text-white transition-colors">عن المتجر</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">المنتجات</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">العروض</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">الاتصال بنا</a></li>
+
+            {# Collections #}
+            <div class="text-right">
+                <h4 class="text-lg font-bold mb-8 text-white border-b w-fit pb-1" style="border-color: var(--brand-secondary);">{{ 'مجموعاتنا' | trans }}</h4>
+                <ul class="space-y-4 text-sm text-slate-400">
+                    {% for category in categories | slice(0, 5) %}
+                        <li>
+                            <a href="{{ category.url }}" class="hover:text-white transition-colors" style="--hover-color: var(--brand-secondary);" onmouseover="this.style.color='var(--brand-secondary)'" onmouseout="this.style.color=''">
+                                {{ category.name }}
+                            </a>
+                        </li>
+                    {% else %}
+                        <li><a href="{{ store.urls.products }}" class="hover:text-white transition-colors">{{ 'وصلنا حديثاً' | trans }}</a></li>
+                        <li><a href="{{ store.urls.products }}" class="hover:text-white transition-colors">{{ 'الأكثر مبيعاً' | trans }}</a></li>
+                        <li><a href="{{ store.urls.products }}" class="hover:text-white transition-colors">{{ 'بصريات احترافية' | trans }}</a></li>
+                        <li><a href="{{ store.urls.products }}" class="hover:text-white transition-colors">{{ 'حقائب التخييم' | trans }}</a></li>
+                    {% endfor %}
                 </ul>
             </div>
-            
-            <!-- Support -->
-            <div>
-                <h4 class="font-black mb-4" style="color: var(--brand-secondary);">الدعم</h4>
-                <ul class="space-y-2 text-sm text-slate-400">
-                    <li><a href="#" class="hover:text-white transition-colors">سياسة الخصوصية</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">شروط الاستخدام</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">سياسة الإرجاع</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">الأسئلة الشائعة</a></li>
-                </ul>
-            </div>
-            
-            <!-- Contact -->
-            <div>
-                <h4 class="font-black mb-4" style="color: var(--brand-secondary);">تواصل معنا</h4>
-                <ul class="space-y-3 text-sm text-slate-400">
-                    <li class="flex items-center gap-2">
-                        <span class="material-symbols-outlined text-sm">phone</span>
-                        <span>{{ store.phone | default('+966 50 000 0000') }}</span>
+
+            {# Buyer Guarantee #}
+            <div class="text-right">
+                <h4 class="text-lg font-bold mb-8 text-white border-b w-fit pb-1" style="border-color: var(--brand-secondary);">{{ 'ضمان المشتري' | trans }}</h4>
+                <ul class="space-y-4 text-sm text-slate-400">
+                    <li>
+                        <a href="{{ store.urls.track_order ?? '#' }}" class="hover:text-white transition-colors" onmouseover="this.style.color='var(--brand-secondary)'" onmouseout="this.style.color=''">
+                            {{ 'تتبع الشحنة' | trans }}
+                        </a>
                     </li>
-                    <li class="flex items-center gap-2">
-                        <span class="material-symbols-outlined text-sm">mail</span>
-                        <span>{{ store.email | default('info@salla.sa') }}</span>
+                    <li>
+                        <a href="{{ store.urls.shipping ?? '#' }}" class="hover:text-white transition-colors" onmouseover="this.style.color='var(--brand-secondary)'" onmouseout="this.style.color=''">
+                            {{ 'الشحن والتوصيل' | trans }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ store.urls.return_policy ?? '#' }}" class="hover:text-white transition-colors flex items-center gap-2 justify-end" onmouseover="this.style.color='var(--brand-secondary)'" onmouseout="this.style.color=''">
+                            {{ 'ضمان لمدة سنتين' | trans }}
+                            <span class="material-symbols-outlined text-[18px]" style="color: var(--brand-secondary);">verified_user</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ store.urls.return_policy ?? '#' }}" class="hover:text-white transition-colors flex items-center gap-2 justify-end" onmouseover="this.style.color='var(--brand-secondary)'" onmouseout="this.style.color=''">
+                            {{ 'سياسة الاسترجاع' | trans }}
+                            <span class="material-symbols-outlined text-[18px]" style="color: var(--brand-secondary);">published_with_changes</span>
+                        </a>
                     </li>
                 </ul>
             </div>
+
+            {# Newsletter #}
+            <div class="text-right">
+                <h4 class="text-lg font-bold mb-8 text-white border-b w-fit pb-1" style="border-color: var(--brand-secondary);">{{ 'النشرة البريدية' | trans }}</h4>
+                <p class="text-slate-400 text-sm mb-6">{{ 'انضم لأكثر من ٥٠,٠٠٠ مشترك للحصول على عروض حصرية.' | trans }}</p>
+                <salla-newsletter>
+                    <form class="flex flex-col gap-3">
+                        <input
+                            class="rounded-xl text-sm px-4 py-3 text-white text-right placeholder:text-slate-400 focus:outline-none focus:ring-1"
+                            style="background-color: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); focus-ring-color: var(--brand-secondary);"
+                            placeholder="{{ 'أدخل بريدك الإلكتروني' | trans }}"
+                            type="email"
+                            name="email"
+                            required
+                        />
+                        <button type="submit" class="text-white font-black py-3 rounded-xl hover:brightness-110 transition-all shadow-lg" style="background-color: var(--brand-secondary);">
+                            {{ 'اشترك الآن' | trans }}
+                        </button>
+                    </form>
+                </salla-newsletter>
+            </div>
+
         </div>
-        
-        <!-- Bottom -->
-        <div class="border-t" style="border-color: rgba(255, 255, 255, 0.1);">
-            <div class="pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-400">
-                <p>&copy; 2026 {{ store.name }}. جميع الحقوق محفوظة.</p>
-                <div class="flex gap-4 mt-4 md:mt-0">
-                    <a href="#" class="hover:text-white transition-colors">Facebook</a>
-                    <a href="#" class="hover:text-white transition-colors">Instagram</a>
-                    <a href="#" class="hover:text-white transition-colors">Twitter</a>
-                </div>
+
+        {# Bottom Bar #}
+        <div class="border-t pt-10 flex flex-col md:flex-row justify-between items-center gap-8" style="border-color: rgba(255,255,255,0.05);">
+            <p class="text-[12px] text-slate-500 font-medium">
+                &copy; {{ "now"|date("Y") }} {{ store.name }}. {{ 'جميع الحقوق محفوظة.' | trans }}
+            </p>
+            <div class="flex items-center gap-6 opacity-40 grayscale hover:grayscale-0 transition-all cursor-pointer">
+                <div class="h-8 w-12 bg-slate-300 rounded"></div>
+                <div class="h-8 w-12 bg-slate-300 rounded"></div>
+                <div class="h-8 w-12 bg-slate-300 rounded"></div>
+                <div class="h-8 w-12 bg-slate-300 rounded"></div>
             </div>
         </div>
     </div>

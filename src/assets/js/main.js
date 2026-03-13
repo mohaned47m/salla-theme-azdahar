@@ -1,157 +1,246 @@
 /**
- * Azdahar Theme - Main JavaScript
- * Theme for Salla e-commerce platform
+ * ازدهار Theme - Main JavaScript
+ * Salla E-commerce Theme
+ * Version: 1.0.0
  */
 
-(function() {
+(function () {
     'use strict';
 
-    // Initialize theme
+    // ============================================================
+    // Initialization
+    // ============================================================
     function init() {
-        initializeEventListeners();
-        initializeAnimations();
-        initializeCart();
+        initScrollAnimations();
+        initMobileMenu();
+        initFlashCountdown();
+        initTestimonialsScroll();
+        initFAQAccordion();
+        initStickyHeader();
     }
 
-    // Event listeners
-    function initializeEventListeners() {
-        // Mobile menu toggle
-        const menuBtn = document.querySelector('[aria-label="menu"]');
-        if (menuBtn) {
-            menuBtn.addEventListener('click', toggleMobileMenu);
-        }
+    // ============================================================
+    // Scroll Animations
+    // ============================================================
+    function initScrollAnimations() {
+        if (!('IntersectionObserver' in window)) return;
 
-        // Search functionality
-        const searchInput = document.querySelector('input[placeholder*="ابحث"]');
-        if (searchInput) {
-            searchInput.addEventListener('input', handleSearch);
-        }
-
-        // Add to cart buttons
-        const addToCartBtns = document.querySelectorAll('button:has(.material-symbols-outlined:contains("shopping_cart"))');
-        addToCartBtns.forEach(btn => {
-            btn.addEventListener('click', handleAddToCart);
-        });
-
-        // Category links
-        const categoryLinks = document.querySelectorAll('[data-category]');
-        categoryLinks.forEach(link => {
-            link.addEventListener('click', handleCategoryClick);
-        });
-    }
-
-    // Animations
-    function initializeAnimations() {
-        // Fade in elements on scroll
-        const observerOptions = {
+        var options = {
             threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
+            rootMargin: '0px 0px -50px 0px'
         };
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in');
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
                     observer.unobserve(entry.target);
                 }
             });
-        }, observerOptions);
+        }, options);
 
-        document.querySelectorAll('section').forEach(section => {
+        var sections = document.querySelectorAll('section');
+        sections.forEach(function (section) {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(section);
         });
+    }
 
-        // Parallax effect on hero section
-        const heroSection = document.querySelector('section:first-of-type');
-        if (heroSection) {
-            window.addEventListener('scroll', () => {
-                const scrollY = window.scrollY;
-                heroSection.style.backgroundPosition = `center ${scrollY * 0.5}px`;
+    // ============================================================
+    // Mobile Menu
+    // ============================================================
+    function initMobileMenu() {
+        var menuBtn = document.querySelector('[aria-label]');
+        var mobileMenu = document.getElementById('mobile-menu');
+
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', function () {
+                mobileMenu.classList.toggle('hidden');
+                document.body.style.overflow = mobileMenu.classList.contains('hidden') ? '' : 'hidden';
             });
         }
+
+        // Close on outside click
+        document.addEventListener('click', function (e) {
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+                    mobileMenu.classList.add('hidden');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
     }
 
-    // Cart functionality
-    function initializeCart() {
-        // Get cart from localStorage or initialize
-        let cart = JSON.parse(localStorage.getItem('cart')) || {
-            items: [],
-            total: 0
-        };
+    // ============================================================
+    // Flash Sales Countdown
+    // ============================================================
+    function initFlashCountdown() {
+        var hoursEl = document.getElementById('flash-hours');
+        var minutesEl = document.getElementById('flash-minutes');
+        var secondsEl = document.getElementById('flash-seconds');
 
-        window.cart = cart;
-    }
+        if (!hoursEl || !minutesEl || !secondsEl) return;
 
-    // Handle add to cart
-    function handleAddToCart(e) {
-        e.preventDefault();
-        
-        const productCard = e.target.closest('[data-product]');
-        if (!productCard) return;
+        // Set end time to 12 hours from now
+        var endTime = new Date();
+        endTime.setHours(endTime.getHours() + 12);
+        endTime.setMinutes(endTime.getMinutes() + 45);
+        endTime.setSeconds(endTime.getSeconds() + 8);
 
-        const product = {
-            id: productCard.dataset.product,
-            name: productCard.querySelector('h5').textContent,
-            price: parseFloat(productCard.dataset.price),
-            image: productCard.querySelector('img').src
-        };
-
-        window.cart.items.push(product);
-        window.cart.total += product.price;
-        localStorage.setItem('cart', JSON.stringify(window.cart));
-
-        // Show notification
-        showNotification(`تم إضافة ${product.name} إلى السلة`);
-        updateCartCount();
-    }
-
-    // Handle search
-    function handleSearch(e) {
-        const query = e.target.value.toLowerCase();
-        // Implement search logic here
-        console.log('Searching for:', query);
-    }
-
-    // Handle category click
-    function handleCategoryClick(e) {
-        e.preventDefault();
-        const category = e.target.dataset.category;
-        // Implement category filter here
-        console.log('Filtering by category:', category);
-    }
-
-    // Toggle mobile menu
-    function toggleMobileMenu() {
-        const menu = document.querySelector('[data-mobile-menu]');
-        if (menu) {
-            menu.classList.toggle('hidden');
+        function pad(n) {
+            return String(n).padStart(2, '0');
         }
+
+        function update() {
+            var now = new Date();
+            var diff = endTime - now;
+
+            if (diff <= 0) {
+                hoursEl.textContent = '00';
+                minutesEl.textContent = '00';
+                secondsEl.textContent = '00';
+                return;
+            }
+
+            hoursEl.textContent = pad(Math.floor(diff / 3600000));
+            minutesEl.textContent = pad(Math.floor((diff % 3600000) / 60000));
+            secondsEl.textContent = pad(Math.floor((diff % 60000) / 1000));
+        }
+
+        update();
+        setInterval(update, 1000);
     }
 
-    // Show notification
-    function showNotification(message) {
-        const notification = document.createElement('div');
-        notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
-        notification.textContent = message;
-        document.body.appendChild(notification);
+    // ============================================================
+    // Testimonials Scroll
+    // ============================================================
+    function initTestimonialsScroll() {
+        window.scrollTestimonials = function (direction) {
+            var container = document.getElementById('testimonials-container');
+            if (container) {
+                container.scrollBy({ left: direction * 420, behavior: 'smooth' });
+            }
+        };
+    }
 
-        setTimeout(() => {
-            notification.remove();
+    // ============================================================
+    // FAQ Accordion
+    // ============================================================
+    function initFAQAccordion() {
+        var details = document.querySelectorAll('details');
+        details.forEach(function (detail) {
+            detail.addEventListener('toggle', function () {
+                var icon = this.querySelector('.expand-icon');
+                if (icon) {
+                    icon.style.transform = this.open ? 'rotate(180deg)' : '';
+                    icon.style.transition = 'transform 0.3s ease';
+                }
+            });
+        });
+    }
+
+    // ============================================================
+    // Sticky Header Shadow
+    // ============================================================
+    function initStickyHeader() {
+        var header = document.querySelector('header');
+        if (!header) return;
+
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 10) {
+                header.style.boxShadow = '0 8px 32px rgba(47, 40, 36, 0.25)';
+            } else {
+                header.style.boxShadow = '0 4px 20px rgba(47, 40, 36, 0.2)';
+            }
+        });
+    }
+
+    // ============================================================
+    // Salla Events Integration
+    // ============================================================
+    document.addEventListener('salla:cart.updated', function (e) {
+        var cartCount = document.querySelector('.cart-count');
+        if (cartCount && e.detail) {
+            cartCount.textContent = e.detail.count || 0;
+        }
+    });
+
+    document.addEventListener('salla:product.added', function (e) {
+        showToast('تم إضافة المنتج إلى السلة بنجاح ✓', 'success');
+    });
+
+    // ============================================================
+    // Toast Notification
+    // ============================================================
+    function showToast(message, type) {
+        var toast = document.createElement('div');
+        toast.style.cssText = [
+            'position: fixed',
+            'bottom: 2rem',
+            'right: 2rem',
+            'z-index: 9999',
+            'padding: 1rem 1.5rem',
+            'border-radius: 0.75rem',
+            'font-family: Tajawal, sans-serif',
+            'font-weight: 700',
+            'font-size: 0.875rem',
+            'color: white',
+            'box-shadow: 0 10px 25px rgba(0,0,0,0.15)',
+            'transform: translateY(100px)',
+            'transition: transform 0.3s ease',
+            'background-color: ' + (type === 'success' ? '#16a34a' : '#87602C')
+        ].join(';');
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        requestAnimationFrame(function () {
+            toast.style.transform = 'translateY(0)';
+        });
+
+        setTimeout(function () {
+            toast.style.transform = 'translateY(100px)';
+            setTimeout(function () { toast.remove(); }, 300);
         }, 3000);
     }
 
-    // Update cart count
-    function updateCartCount() {
-        const cartCount = document.querySelector('[data-cart-count]');
-        if (cartCount) {
-            cartCount.textContent = window.cart.items.length;
-        }
+    // ============================================================
+    // Product Image Zoom on Hover
+    // ============================================================
+    function initProductImageZoom() {
+        var productImages = document.querySelectorAll('.product-image');
+        productImages.forEach(function (img) {
+            img.addEventListener('mouseenter', function () {
+                this.style.transform = 'scale(1.05)';
+            });
+            img.addEventListener('mouseleave', function () {
+                this.style.transform = 'scale(1)';
+            });
+        });
     }
 
-    // Initialize when DOM is ready
+    // ============================================================
+    // Smooth Scroll for Anchor Links
+    // ============================================================
+    document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+        anchor.addEventListener('click', function (e) {
+            var target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    // ============================================================
+    // Initialize
+    // ============================================================
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
         init();
     }
+
 })();

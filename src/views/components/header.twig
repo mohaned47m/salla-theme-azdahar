@@ -1,43 +1,154 @@
-<header class="sticky top-0 z-50 bg-brand-dark text-white px-4 md:px-10 lg:px-40 py-4 shadow-xl" style="background-color: var(--brand-dark);">
+{# Header Component - رأس الصفحة #}
+<header class="sticky top-0 z-50 text-white px-4 md:px-10 lg:px-40 py-4 shadow-xl" style="background-color: var(--brand-dark);">
     <div class="max-w-[1440px] mx-auto flex items-center justify-between gap-8">
-        <!-- Logo -->
+
+        {# Logo #}
         <div class="flex items-center gap-3 order-last lg:order-none">
-            <div class="size-10" style="color: var(--brand-secondary);">
-                <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                    <path clip-rule="evenodd" d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z" fill="currentColor" fill-rule="evenodd"></path>
-                </svg>
-            </div>
-            <div class="flex flex-col">
-                <h1 class="text-xl font-black leading-none tracking-tight">{{ store.name }}</h1>
-                <span class="text-[10px] uppercase tracking-[0.2em]" style="color: var(--brand-secondary);">الهوية الأصلية</span>
-            </div>
+            {% if store.logo %}
+                <a href="{{ store.url }}" class="flex items-center gap-3">
+                    <img src="{{ store.logo }}" alt="{{ store.name }}" class="h-10 w-auto object-contain">
+                </a>
+            {% else %}
+                <a href="{{ store.url }}" class="flex items-center gap-3">
+                    <div class="size-10" style="color: var(--brand-secondary);">
+                        <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <path clip-rule="evenodd" d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z" fill="currentColor" fill-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <div class="flex flex-col">
+                        <h1 class="text-xl font-black leading-none tracking-tight">{{ store.name }}</h1>
+                        <span class="text-[10px] uppercase tracking-[0.2em]" style="color: var(--brand-secondary);">{{ store.tagline ?? 'الهوية الأصلية' }}</span>
+                    </div>
+                </a>
+            {% endif %}
         </div>
-        
-        <!-- Search Bar -->
+
+        {# Search Bar #}
         <div class="flex-1 max-w-2xl hidden lg:block">
+            <salla-search>
+                <div class="relative">
+                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+                        <span class="material-symbols-outlined">search</span>
+                    </div>
+                    <input
+                        class="w-full bg-white/10 border border-white/10 rounded-lg py-2.5 pr-12 pl-4 text-sm focus:ring-1 focus:border-brand-secondary transition-all placeholder:text-slate-400 text-white"
+                        placeholder="{{ 'ابحث عن منتجاتنا...' | trans }}"
+                        type="search"
+                        name="q"
+                    />
+                </div>
+            </salla-search>
+        </div>
+
+        {# Right Menu - Account & Cart #}
+        <div class="flex items-center gap-2 md:gap-5 order-first lg:order-none">
+
+            {# Mobile Menu Toggle #}
+            <button
+                class="p-2.5 bg-white/5 rounded-lg text-white md:hidden"
+                onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
+                aria-label="{{ 'القائمة' | trans }}"
+            >
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+
+            {# Navigation - Desktop #}
+            <nav class="hidden lg:flex items-center gap-6">
+                {% for item in menus.header.items %}
+                    {% if item.children %}
+                        <div class="relative group">
+                            <a href="{{ item.url }}" class="text-sm font-bold text-white/80 hover:text-white transition-colors flex items-center gap-1">
+                                {{ item.name }}
+                                <span class="material-symbols-outlined text-sm">expand_more</span>
+                            </a>
+                            <div class="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-xl py-2 hidden group-hover:block z-50">
+                                {% for child in item.children %}
+                                    <a href="{{ child.url }}" class="block px-4 py-2 text-sm text-brand-dark hover:bg-slate-50 hover:text-brand-secondary transition-colors">
+                                        {{ child.name }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <a href="{{ item.url }}" class="text-sm font-bold text-white/80 hover:text-white transition-colors">
+                            {{ item.name }}
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </nav>
+
+            {# Account #}
+            <div class="hidden md:flex flex-col items-start ml-2">
+                {% if customer %}
+                    <span class="text-[10px] text-slate-400">{{ 'مرحباً' | trans }}</span>
+                    <a href="{{ store.urls.account }}" class="text-sm font-bold hover:text-brand-secondary transition-colors">{{ customer.first_name }}</a>
+                {% else %}
+                    <span class="text-[10px] text-slate-400">{{ 'مرحباً بك' | trans }}</span>
+                    <a href="{{ store.urls.login }}" class="text-sm font-bold hover:text-brand-secondary transition-colors">{{ 'تسجيل الدخول' | trans }}</a>
+                {% endif %}
+            </div>
+
+            {# Cart #}
+            <salla-cart-summary>
+                <a href="{{ store.urls.cart }}" class="relative p-2.5 rounded-lg text-white hover:brightness-110 transition-all" style="background-color: var(--brand-secondary);">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                    <span class="cart-count absolute -top-1 -left-1 bg-white text-brand-dark text-[10px] font-bold h-5 w-5 rounded-full flex items-center justify-center border-2" style="border-color: var(--brand-dark);">
+                        {{ cart.items_count | default(0) }}
+                    </span>
+                </a>
+            </salla-cart-summary>
+
+        </div>
+    </div>
+</header>
+
+{# Mobile Menu #}
+<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-40 bg-brand-dark text-white">
+    <div class="flex flex-col h-full p-6">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-xl font-black">{{ store.name }}</h2>
+            <button onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="p-2 bg-white/10 rounded-lg">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        {# Mobile Search #}
+        <salla-search class="mb-6">
             <div class="relative">
                 <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
                     <span class="material-symbols-outlined">search</span>
                 </div>
-                <input class="w-full bg-white/10 border-white/10 rounded-lg py-2.5 pr-12 pl-4 text-sm focus:ring-1 focus:border-brand-secondary transition-all placeholder:text-slate-400 text-white" 
-                       placeholder="ابحث عن معدات الصيد والرحلات..." 
-                       type="text"/>
+                <input
+                    class="w-full bg-white/10 border border-white/10 rounded-lg py-3 pr-12 pl-4 text-sm placeholder:text-slate-400 text-white"
+                    placeholder="{{ 'ابحث...' | trans }}"
+                    type="search"
+                    name="q"
+                />
             </div>
-        </div>
-        
-        <!-- Right Menu -->
-        <div class="flex items-center gap-2 md:gap-5 order-first lg:order-none">
-            <button class="p-2.5 bg-white/5 rounded-lg text-white md:hidden">
-                <span class="material-symbols-outlined">menu</span>
-            </button>
-            <div class="hidden md:flex flex-col items-start ml-2">
-                <span class="text-[10px] text-slate-400">مرحباً بك</span>
-                <span class="text-sm font-bold">تسجيل الدخول</span>
-            </div>
-            <button class="relative p-2.5 rounded-lg text-white hover:brightness-110 transition-all" style="background-color: var(--brand-secondary);">
-                <span class="material-symbols-outlined">shopping_cart</span>
-                <span class="absolute -top-1 -left-1 bg-white text-brand-dark text-[10px] font-bold h-5 w-5 rounded-full flex items-center justify-center border-2" style="border-color: var(--brand-dark);">{{ cart.items_count | default(0) }}</span>
-            </button>
+        </salla-search>
+
+        {# Mobile Navigation #}
+        <nav class="flex flex-col gap-2 flex-1 overflow-y-auto">
+            {% for item in menus.header.items %}
+                <a href="{{ item.url }}" class="py-3 px-4 text-lg font-bold text-white/80 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
+                    {{ item.name }}
+                </a>
+            {% endfor %}
+        </nav>
+
+        {# Mobile Account #}
+        <div class="mt-6 pt-6 border-t border-white/10">
+            {% if customer %}
+                <a href="{{ store.urls.account }}" class="flex items-center gap-3 py-3 px-4 bg-white/5 rounded-xl">
+                    <span class="material-symbols-outlined" style="color: var(--brand-secondary);">account_circle</span>
+                    <span class="font-bold">{{ customer.name }}</span>
+                </a>
+            {% else %}
+                <a href="{{ store.urls.login }}" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-white transition-all" style="background-color: var(--brand-secondary);">
+                    <span class="material-symbols-outlined">login</span>
+                    {{ 'تسجيل الدخول' | trans }}
+                </a>
+            {% endif %}
         </div>
     </div>
-</header>
+</div>
