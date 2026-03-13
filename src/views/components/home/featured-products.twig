@@ -1,0 +1,125 @@
+{#
+| Variable                       | Type     | Description                                                    |
+|--------------------------------|----------|----------------------------------------------------------------|
+| component.title                | string   | Section title                                                  |
+| component.products             | array    | List of product objects from Salla                             |
+| component.display_all_url      | string   | URL for "View All" button                                      |
+| position                       | int      | Sorting number starting from zero                              |
+#}
+<section class="s-block s-block--featured-products azdahar-products py-16 bg-white" id="featured-products-{{ position }}">
+    <div class="container mx-auto px-6">
+        {# Section Header #}
+        <div class="flex items-center justify-between mb-12">
+            <div>
+                <h2 class="text-3xl md:text-4xl font-bold" style="color: #2F2824;">
+                    {{ component.title | default('المنتجات المميزة') }}
+                </h2>
+                <div class="w-16 h-1 mt-3 rounded-full" style="background: linear-gradient(90deg, #87602C, #C8963E);"></div>
+            </div>
+            {% if component.display_all_url %}
+            <a href="{{ component.display_all_url }}"
+               class="flex items-center gap-2 font-bold transition-colors duration-300"
+               style="color: #87602C;">
+                {{ 'عرض الكل' | trans }}
+                <i class="sicon-arrow-left text-sm"></i>
+            </a>
+            {% endif %}
+        </div>
+
+        {# Products Grid #}
+        {% if component.products is defined and component.products|length > 0 %}
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for product in component.products %}
+            <div class="azdahar-product-card group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100">
+                {# Product Image #}
+                <div class="relative overflow-hidden aspect-square">
+                    <a href="{{ product.url }}">
+                        <img src="{{ product.thumbnail.url | default(store.url ~ '/images/placeholder.png') }}"
+                             alt="{{ product.name }}"
+                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                             loading="lazy">
+                    </a>
+
+                    {# Badges #}
+                    <div class="absolute top-3 start-3 flex flex-col gap-1">
+                        {% if product.is_new %}
+                        <span class="px-2 py-1 text-xs font-bold text-white rounded-full"
+                              style="background-color: #87602C;">
+                            {{ 'جديد' | trans }}
+                        </span>
+                        {% endif %}
+                        {% if product.sale_price %}
+                        <span class="px-2 py-1 text-xs font-bold text-white rounded-full bg-red-500">
+                            {{ 'خصم' | trans }}
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    {# Quick Actions #}
+                    <div class="absolute top-3 end-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <salla-button
+                            shape="icon"
+                            size="sm"
+                            class="azdahar-wishlist-btn"
+                            onclick="salla.wishlist.toggle({{ product.id }})">
+                            <i class="sicon-heart"></i>
+                        </salla-button>
+                    </div>
+                </div>
+
+                {# Product Info #}
+                <div class="p-4">
+                    <a href="{{ product.url }}" class="block">
+                        <h3 class="font-semibold text-sm mb-2 line-clamp-2 hover:text-amber-700 transition-colors"
+                            style="color: #2F2824;">
+                            {{ product.name }}
+                        </h3>
+                    </a>
+
+                    {# Rating #}
+                    {% if product.rating is defined and product.rating > 0 %}
+                    <div class="flex items-center gap-1 mb-2">
+                        <salla-rating-stars rating="{{ product.rating }}"></salla-rating-stars>
+                        <span class="text-xs text-gray-400">({{ product.reviews_count | default(0) }})</span>
+                    </div>
+                    {% endif %}
+
+                    {# Price #}
+                    <div class="flex items-center justify-between mt-3">
+                        <div>
+                            {% if product.sale_price %}
+                            <span class="font-bold text-lg" style="color: #87602C;">
+                                {{ product.sale_price | money }}
+                            </span>
+                            <span class="text-sm text-gray-400 line-through ms-1">
+                                {{ product.price | money }}
+                            </span>
+                            {% else %}
+                            <span class="font-bold text-lg" style="color: #87602C;">
+                                {{ product.price | money }}
+                            </span>
+                            {% endif %}
+                        </div>
+
+                        {# Add to Cart #}
+                        {% if product.is_available %}
+                        <salla-add-product-button
+                            product-id="{{ product.id }}"
+                            class="azdahar-add-to-cart">
+                        </salla-add-product-button>
+                        {% else %}
+                        <span class="text-xs text-red-400 font-medium">{{ 'نفذ المخزون' | trans }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-16 text-gray-400">
+            <i class="sicon-bag text-6xl mb-4 block"></i>
+            <p class="text-lg">{{ 'لا توجد منتجات بعد' | trans }}</p>
+        </div>
+        {% endif %}
+    </div>
+</section>

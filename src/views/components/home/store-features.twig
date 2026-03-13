@@ -1,0 +1,64 @@
+{#
+| Variable                       | Type     | Description                                                    |
+|--------------------------------|----------|----------------------------------------------------------------|
+| component.features             | array    | List of features with icon, title, description                 |
+| position                       | int      | Sorting number starting from zero                              |
+#}
+<section class="s-block s-block--store-features azdahar-features py-12 bg-white" id="store-features-{{ position }}">
+    <div class="container mx-auto px-6">
+        {% if component.features is defined and component.features|length > 0 %}
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {% for feature in component.features %}
+            <div class="azdahar-feature-card text-center p-6 rounded-xl border border-gray-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                <div class="azdahar-feature-card__icon w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full"
+                     style="background: linear-gradient(135deg, #2F2824, #87602C);">
+                    {% if feature.icon %}
+                    <i class="{{ feature.icon }} text-2xl text-white"></i>
+                    {% else %}
+                    <i class="sicon-star text-2xl text-white"></i>
+                    {% endif %}
+                </div>
+                <h3 class="font-bold text-lg mb-2" style="color: #2F2824;">
+                    {{ feature.title }}
+                </h3>
+                {% if feature.description %}
+                <p class="text-sm text-gray-500">{{ feature.description }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        {# Default features #}
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="azdahar-feature-card text-center p-6 rounded-xl border border-gray-100">
+                <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full" style="background: linear-gradient(135deg, #2F2824, #87602C);">
+                    <i class="sicon-truck text-2xl text-white"></i>
+                </div>
+                <h3 class="font-bold text-lg mb-2" style="color: #2F2824;">{{ 'شحن مجاني' | trans }}</h3>
+                <p class="text-sm text-gray-500">{{ 'للطلبات فوق 200 ريال' | trans }}</p>
+            </div>
+            <div class="azdahar-feature-card text-center p-6 rounded-xl border border-gray-100">
+                <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full" style="background: linear-gradient(135deg, #2F2824, #87602C);">
+                    <i class="sicon-shield-check text-2xl text-white"></i>
+                </div>
+                <h3 class="font-bold text-lg mb-2" style="color: #2F2824;">{{ 'ضمان الجودة' | trans }}</h3>
+                <p class="text-sm text-gray-500">{{ 'منتجات أصلية 100%' | trans }}</p>
+            </div>
+            <div class="azdahar-feature-card text-center p-6 rounded-xl border border-gray-100">
+                <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full" style="background: linear-gradient(135deg, #2F2824, #87602C);">
+                    <i class="sicon-refresh text-2xl text-white"></i>
+                </div>
+                <h3 class="font-bold text-lg mb-2" style="color: #2F2824;">{{ 'إرجاع سهل' | trans }}</h3>
+                <p class="text-sm text-gray-500">{{ 'خلال 14 يوم' | trans }}</p>
+            </div>
+            <div class="azdahar-feature-card text-center p-6 rounded-xl border border-gray-100">
+                <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full" style="background: linear-gradient(135deg, #2F2824, #87602C);">
+                    <i class="sicon-headphones text-2xl text-white"></i>
+                </div>
+                <h3 class="font-bold text-lg mb-2" style="color: #2F2824;">{{ 'دعم 24/7' | trans }}</h3>
+                <p class="text-sm text-gray-500">{{ 'نحن هنا دائماً' | trans }}</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>

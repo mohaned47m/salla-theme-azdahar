@@ -5,7 +5,7 @@
     },
     "description": {
         "ar": "ثيم احترافي وحديث لمتاجر معدات الصيد والرحلات البرية، يتميز بتصميم فاخر وتجربة تسوق متقدمة",
-        "en": "A professional and modern theme for hunting and outdoor gear stores, featuring a luxurious design and advanced shopping experience"
+        "en": "A professional and modern theme for hunting and outdoor gear stores"
     },
     "repository": "https://github.com/mohaned47m/salla-theme-azdahar",
     "support_url": "https://salla.sa",
@@ -59,5 +59,461 @@
             "value": "images/img_placeholder.png"
         }
     ],
-    "components": []
+    "components": [
+        {
+            "key": "azdahar-hero-slider",
+            "title": {
+                "ar": "شرائح البطل الرئيسية",
+                "en": "Hero Slider"
+            },
+            "icon": "sicon-image",
+            "path": "home.hero-slider",
+            "fields": [
+                {
+                    "type": "array",
+                    "id": "slides",
+                    "label": {
+                        "ar": "الشرائح",
+                        "en": "Slides"
+                    },
+                    "maxLength": 5,
+                    "minLength": 1,
+                    "fields": [
+                        {
+                            "type": "string",
+                            "id": "image",
+                            "label": {
+                                "ar": "صورة الشريحة",
+                                "en": "Slide Image"
+                            },
+                            "format": "image",
+                            "required": true,
+                            "value": "https://cdn.salla.sa/form-builder/D7bG3pgSit43TheOejBOZV7LIfG1y1Cj0hWLmgIh.jpg",
+                            "settings": {
+                                "width": 1920,
+                                "height": 700
+                            }
+                        },
+                        {
+                            "type": "string",
+                            "id": "title",
+                            "label": {
+                                "ar": "العنوان",
+                                "en": "Title"
+                            },
+                            "format": "text",
+                            "multilanguage": true,
+                            "required": false,
+                            "value": null,
+                            "placeholder": "أضف عنوان الشريحة...",
+                            "maxLength": "80"
+                        },
+                        {
+                            "type": "string",
+                            "id": "description",
+                            "label": {
+                                "ar": "الوصف",
+                                "en": "Description"
+                            },
+                            "format": "textarea",
+                            "multilanguage": true,
+                            "required": false,
+                            "value": null,
+                            "placeholder": "أضف وصف الشريحة...",
+                            "maxLength": "200"
+                        },
+                        {
+                            "type": "string",
+                            "id": "button_text",
+                            "label": {
+                                "ar": "نص الزر",
+                                "en": "Button Text"
+                            },
+                            "format": "text",
+                            "multilanguage": true,
+                            "required": false,
+                            "value": null,
+                            "placeholder": "تسوق الآن"
+                        },
+                        {
+                            "type": "string",
+                            "id": "button_url",
+                            "label": {
+                                "ar": "رابط الزر",
+                                "en": "Button URL"
+                            },
+                            "format": "text",
+                            "required": false,
+                            "value": null,
+                            "placeholder": "https://..."
+                        }
+                    ],
+                    "value": [
+                        {
+                            "image": "https://cdn.salla.sa/form-builder/D7bG3pgSit43TheOejBOZV7LIfG1y1Cj0hWLmgIh.jpg",
+                            "title": {
+                                "ar": "معدات الصيد الاحترافية",
+                                "en": "Professional Hunting Gear"
+                            },
+                            "description": {
+                                "ar": "اكتشف أفضل معدات الصيد والرحلات بجودة عالمية",
+                                "en": "Discover the best hunting and outdoor equipment"
+                            },
+                            "button_text": {
+                                "ar": "تسوق الآن",
+                                "en": "Shop Now"
+                            },
+                            "button_url": "/shop"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "azdahar-store-features",
+            "title": {
+                "ar": "مميزات المتجر",
+                "en": "Store Features"
+            },
+            "icon": "sicon-star",
+            "path": "home.store-features",
+            "fields": [
+                {
+                    "type": "array",
+                    "id": "features",
+                    "label": {
+                        "ar": "المميزات",
+                        "en": "Features"
+                    },
+                    "maxLength": 6,
+                    "minLength": 2,
+                    "fields": [
+                        {
+                            "type": "string",
+                            "id": "icon",
+                            "label": {
+                                "ar": "أيقونة",
+                                "en": "Icon"
+                            },
+                            "format": "text",
+                            "required": false,
+                            "value": null,
+                            "placeholder": "sicon-truck"
+                        },
+                        {
+                            "type": "string",
+                            "id": "title",
+                            "label": {
+                                "ar": "العنوان",
+                                "en": "Title"
+                            },
+                            "format": "text",
+                            "multilanguage": true,
+                            "required": true,
+                            "value": null,
+                            "placeholder": "شحن مجاني"
+                        },
+                        {
+                            "type": "string",
+                            "id": "description",
+                            "label": {
+                                "ar": "الوصف",
+                                "en": "Description"
+                            },
+                            "format": "text",
+                            "multilanguage": true,
+                            "required": false,
+                            "value": null,
+                            "placeholder": "على جميع الطلبات فوق 200 ريال"
+                        }
+                    ],
+                    "value": [
+                        {
+                            "icon": "sicon-truck",
+                            "title": {
+                                "ar": "شحن مجاني",
+                                "en": "Free Shipping"
+                            },
+                            "description": {
+                                "ar": "للطلبات فوق 200 ريال",
+                                "en": "On orders over 200 SAR"
+                            }
+                        },
+                        {
+                            "icon": "sicon-shield-check",
+                            "title": {
+                                "ar": "ضمان الجودة",
+                                "en": "Quality Guarantee"
+                            },
+                            "description": {
+                                "ar": "منتجات أصلية 100%",
+                                "en": "100% Original Products"
+                            }
+                        },
+                        {
+                            "icon": "sicon-refresh",
+                            "title": {
+                                "ar": "إرجاع سهل",
+                                "en": "Easy Returns"
+                            },
+                            "description": {
+                                "ar": "خلال 14 يوم",
+                                "en": "Within 14 days"
+                            }
+                        },
+                        {
+                            "icon": "sicon-headphones",
+                            "title": {
+                                "ar": "دعم 24/7",
+                                "en": "24/7 Support"
+                            },
+                            "description": {
+                                "ar": "نحن هنا دائماً",
+                                "en": "We're always here"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "azdahar-categories-grid",
+            "title": {
+                "ar": "شبكة التصنيفات",
+                "en": "Categories Grid"
+            },
+            "icon": "sicon-grid",
+            "path": "home.categories-grid",
+            "fields": [
+                {
+                    "type": "string",
+                    "id": "title",
+                    "label": {
+                        "ar": "عنوان القسم",
+                        "en": "Section Title"
+                    },
+                    "format": "text",
+                    "multilanguage": true,
+                    "required": false,
+                    "value": {
+                        "ar": "تسوق حسب الفئة",
+                        "en": "Shop by Category"
+                    },
+                    "maxLength": "60"
+                },
+                {
+                    "type": "items",
+                    "id": "categories",
+                    "label": {
+                        "ar": "التصنيفات",
+                        "en": "Categories"
+                    },
+                    "format": "dropdown-list",
+                    "source": "categories",
+                    "searchable": true,
+                    "multichoice": true,
+                    "maxLength": 8,
+                    "minLength": 2,
+                    "value": [],
+                    "selected": []
+                }
+            ]
+        },
+        {
+            "key": "azdahar-featured-products",
+            "title": {
+                "ar": "المنتجات المميزة",
+                "en": "Featured Products"
+            },
+            "icon": "sicon-bag",
+            "path": "home.featured-products",
+            "fields": [
+                {
+                    "type": "string",
+                    "id": "title",
+                    "label": {
+                        "ar": "عنوان القسم",
+                        "en": "Section Title"
+                    },
+                    "format": "text",
+                    "multilanguage": true,
+                    "required": false,
+                    "value": {
+                        "ar": "المنتجات المميزة",
+                        "en": "Featured Products"
+                    },
+                    "maxLength": "60"
+                },
+                {
+                    "type": "items",
+                    "id": "products",
+                    "label": {
+                        "ar": "المنتجات",
+                        "en": "Products"
+                    },
+                    "format": "dropdown-list",
+                    "source": "products",
+                    "searchable": true,
+                    "multichoice": true,
+                    "maxLength": 12,
+                    "minLength": 2,
+                    "value": [],
+                    "selected": []
+                },
+                {
+                    "type": "items",
+                    "id": "display_all_url",
+                    "label": {
+                        "ar": "رابط عرض الكل",
+                        "en": "View All Link"
+                    },
+                    "format": "variable-list",
+                    "source": "custom",
+                    "sources": [
+                        {
+                            "label": "تصنيف",
+                            "key": "categories",
+                            "value": "categories"
+                        },
+                        {
+                            "label": "رابط خارجي",
+                            "key": "custom",
+                            "value": "custom"
+                        }
+                    ],
+                    "searchable": true,
+                    "required": false,
+                    "value": []
+                }
+            ]
+        },
+        {
+            "key": "azdahar-promo-banner",
+            "title": {
+                "ar": "بانر ترويجي",
+                "en": "Promo Banner"
+            },
+            "icon": "sicon-image",
+            "path": "home.promo-banner",
+            "fields": [
+                {
+                    "type": "string",
+                    "id": "image",
+                    "label": {
+                        "ar": "صورة البانر",
+                        "en": "Banner Image"
+                    },
+                    "format": "image",
+                    "required": true,
+                    "value": "https://cdn.salla.sa/form-builder/D7bG3pgSit43TheOejBOZV7LIfG1y1Cj0hWLmgIh.jpg",
+                    "settings": {
+                        "width": 1920,
+                        "height": 400
+                    }
+                },
+                {
+                    "type": "string",
+                    "id": "title",
+                    "label": {
+                        "ar": "العنوان",
+                        "en": "Title"
+                    },
+                    "format": "text",
+                    "multilanguage": true,
+                    "required": false,
+                    "value": {
+                        "ar": "معدات فاخرة للصياد المحترف",
+                        "en": "Premium Gear for the Professional Hunter"
+                    },
+                    "maxLength": "80"
+                },
+                {
+                    "type": "string",
+                    "id": "description",
+                    "label": {
+                        "ar": "الوصف",
+                        "en": "Description"
+                    },
+                    "format": "textarea",
+                    "multilanguage": true,
+                    "required": false,
+                    "value": {
+                        "ar": "اكتشف مجموعتنا الحصرية من المعدات الاحترافية",
+                        "en": "Discover our exclusive collection"
+                    },
+                    "maxLength": "200"
+                },
+                {
+                    "type": "string",
+                    "id": "button_text",
+                    "label": {
+                        "ar": "نص الزر",
+                        "en": "Button Text"
+                    },
+                    "format": "text",
+                    "multilanguage": true,
+                    "required": false,
+                    "value": {
+                        "ar": "تسوق الآن",
+                        "en": "Shop Now"
+                    }
+                },
+                {
+                    "type": "string",
+                    "id": "button_url",
+                    "label": {
+                        "ar": "رابط الزر",
+                        "en": "Button URL"
+                    },
+                    "format": "text",
+                    "required": false,
+                    "value": null,
+                    "placeholder": "https://..."
+                }
+            ]
+        },
+        {
+            "key": "azdahar-flash-sales",
+            "title": {
+                "ar": "عروض الفلاش",
+                "en": "Flash Sales"
+            },
+            "icon": "sicon-lightning",
+            "path": "home.flash-sales",
+            "fields": [
+                {
+                    "type": "string",
+                    "id": "title",
+                    "label": {
+                        "ar": "عنوان القسم",
+                        "en": "Section Title"
+                    },
+                    "format": "text",
+                    "multilanguage": true,
+                    "required": false,
+                    "value": {
+                        "ar": "⚡ عروض الفلاش الحصرية",
+                        "en": "⚡ Exclusive Flash Sales"
+                    },
+                    "maxLength": "60"
+                },
+                {
+                    "type": "items",
+                    "id": "products",
+                    "label": {
+                        "ar": "منتجات العرض",
+                        "en": "Sale Products"
+                    },
+                    "format": "dropdown-list",
+                    "source": "products",
+                    "searchable": true,
+                    "multichoice": true,
+                    "maxLength": 8,
+                    "minLength": 2,
+                    "value": [],
+                    "selected": []
+                }
+            ]
+        }
+    ]
 }
