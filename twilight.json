@@ -3,7 +3,12 @@
         "ar": "ازدهار",
         "en": "Azdahar"
     },
+    "description": {
+        "ar": "ثيم احترافي وحديث لمتاجر معدات الصيد والرحلات البرية، يتميز بتصميم فاخر وتجربة تسوق متقدمة",
+        "en": "A professional and modern theme for hunting and outdoor gear stores, featuring a luxurious design and advanced shopping experience"
+    },
     "repository": "https://github.com/mohaned47m/salla-theme-azdahar",
+    "support_url": "https://salla.sa",
     "author_email": "mohanedkasem3301@gmail.com",
     "features": [
         "mega-menu",
@@ -53,5 +58,6 @@
             "format": "hidden",
             "value": "images/img_placeholder.png"
         }
-    ]
+    ],
+    "components": []
 }
