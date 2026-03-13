@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="{{ user.language.code }}" dir="{{ user.language.dir }}">
+<!-- بسم الله الرحمن الرحيم -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{ theme.settings.set('placeholder', 'images/placeholder.png') }}
+
+    {% block head_scripts %}{% endblock %}
+
+    {% hook 'head:start' %}
+    {% hook head %}
+
+    {% block styles %}{% endblock %}
+
+    {# Google Fonts - Tajawal #}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+    {# Theme CSS #}
+    <link rel="stylesheet" href="{{ 'styles/main.css' | asset }}">
+
+    <style>
+        :root {
+            --brand-dark: #2F2824;
+            --brand-secondary: #87602C;
+            --pure-white: #FFFFFF;
+            --light-bg: #fcf9f6;
+            {% if theme.font is defined and theme.font %}
+            --font-main: '{{ theme.font.name }}', 'Tajawal', sans-serif;
+            {% else %}
+            --font-main: 'Tajawal', sans-serif;
+            {% endif %}
+            {% if theme.color is defined and theme.color %}
+            --color-primary: {{ theme.color.primary }};
+            {% endif %}
+        }
+        body { font-family: var(--font-main); }
+    </style>
+
+    {% hook 'head:end' %}
+</head>
+<body id="app" class="azdahar-theme overflow-x-hidden" dir="rtl">
+<noscript>
+    لتشغيل هذا الموقع بشكل كامل يجب تفعيل JavaScript في المتصفح.
+</noscript>
+
+<div class="app-inner flex flex-col min-h-full">
+    {% hook 'body:start' %}
+
+    {# Header #}
+    {% component 'header.header' %}
+
+    {# Main Content #}
+    <main id="main-content" role="main">
+        {% block content %}{% endblock %}
+    </main>
+
+    {# Footer #}
+    {% component 'footer.footer' %}
+</div>
+
+{% hook 'body:end' %}
+
+{# Salla Components #}
+<salla-offer-modal></salla-offer-modal>
+<salla-search></salla-search>
+{% if user.type == 'guest' %}
+    <salla-login-modal></salla-login-modal>
+{% endif %}
+{% if store.scope %}
+    <salla-scopes selection="{{ store.scope.display_as == 'popup' ? 'mandatory' : 'optional' }}"></salla-scopes>
+{% endif %}
+
+{# Theme JS #}
+<script defer src="{{ 'js/main.js' | asset }}"></script>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>

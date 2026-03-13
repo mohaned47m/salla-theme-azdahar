@@ -1,0 +1,125 @@
+{#
+| Variable         | Type    | Description                     |
+|------------------|---------|---------------------------------|
+| cart             | object  |                                 |
+| cart.items_count | int     |                                 |
+| cart.total       | string  | Formatted total ex: "١٠٠ ر.س"   |
+#}
+
+{# Top Bar #}
+<div class="w-full py-2 px-4 md:px-10 lg:px-40 flex items-center justify-between text-white text-xs font-bold" style="background-color: var(--brand-dark);">
+    <div class="flex items-center gap-4">
+        {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
+            <button type="button" onclick="salla.event.dispatch('localization::open')" class="flex items-center gap-1 hover:text-brand-secondary transition-colors">
+                <span class="material-symbols-outlined text-sm">language</span>
+                <span>{{ user.language.name }}</span>
+                <span class="mx-1">|</span>
+                <span>{{ currency.symbol }}</span>
+            </button>
+            <salla-localization-modal></salla-localization-modal>
+        {% endif %}
+        {% if store.scope %}
+            <button class="flex items-center gap-1 hover:text-brand-secondary transition-colors"
+                    onclick="salla.event.dispatch('scopes::open', {'mode': 'default'})">
+                <span class="material-symbols-outlined text-sm">location_on</span>
+                {{ store.scope.name }}
+            </button>
+        {% endif %}
+    </div>
+    <div class="flex items-center gap-4">
+        <span class="flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">local_shipping</span>
+            {{ 'شحن سريع لجميع المناطق' | trans }}
+        </span>
+        <span class="hidden md:flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">support_agent</span>
+            {{ 'دعم متخصص' | trans }}
+        </span>
+    </div>
+</div>
+
+{# Main Header #}
+<header class="sticky top-0 z-50 bg-white" style="box-shadow: 0 4px 20px rgba(47,40,36,0.2);">
+    <div class="px-4 md:px-10 lg:px-40 py-4 flex items-center justify-between gap-4">
+
+        {# Mobile Menu Button #}
+        <button class="lg:hidden flex items-center justify-center size-10 rounded-lg hover:bg-slate-100 transition-colors"
+                aria-label="Open-menu"
+                onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+            <span class="material-symbols-outlined" style="color: var(--brand-dark);">menu</span>
+        </button>
+
+        {# Logo #}
+        <a href="{{ store.url }}" class="flex-shrink-0">
+            {% if store.logo %}
+                <img fetchpriority="high" width="140" height="50" loading="eager"
+                     src="{{ store.logo | cdn(175) }}"
+                     alt="{{ store.name }} logo"
+                     class="h-10 w-auto object-contain">
+            {% else %}
+                <span class="text-xl font-black" style="color: var(--brand-dark);">{{ store.name }}</span>
+            {% endif %}
+            {% if is_page('index') %}
+                <h1 class="sr-only">{{ store.name }}</h1>
+            {% else %}
+                <h2 class="sr-only">{{ store.name }}</h2>
+            {% endif %}
+        </a>
+
+        {# Desktop Navigation #}
+        <nav class="hidden lg:flex items-center gap-8">
+            <salla-menu source="main"></salla-menu>
+        </nav>
+
+        {# Search - Desktop #}
+        <div class="hidden md:flex flex-1 max-w-md">
+            <salla-search inline oval height="40"></salla-search>
+        </div>
+
+        {# Actions #}
+        <div class="flex items-center gap-3">
+            {# Search - Mobile #}
+            <button class="md:hidden size-10 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors"
+                    onclick="salla.event.dispatch('search::open')">
+                <span class="material-symbols-outlined" style="color: var(--brand-dark);">search</span>
+            </button>
+
+            {# User #}
+            {% if user.type == 'user' %}
+                <salla-user-menu avatar-only show-header></salla-user-menu>
+            {% else %}
+                <button class="size-10 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors"
+                        aria-label="user-icon"
+                        onclick="salla.event.dispatch('login::open')">
+                    <span class="material-symbols-outlined" style="color: var(--brand-dark);">person</span>
+                </button>
+            {% endif %}
+
+            {# Wishlist #}
+            <a href="{{ store.urls.wishlist ?? '#' }}"
+               class="size-10 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors">
+                <span class="material-symbols-outlined" style="color: var(--brand-dark);">favorite_border</span>
+            </a>
+
+            {# Cart #}
+            <salla-cart-summary>
+                <div class="relative flex items-center justify-center size-10 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined" style="color: var(--brand-dark);">shopping_bag</span>
+                    {% if cart.items_count > 0 %}
+                        <span class="absolute -top-1 -left-1 size-5 text-[10px] font-black text-white rounded-full flex items-center justify-center" style="background-color: var(--brand-secondary);">
+                            {{ cart.items_count }}
+                        </span>
+                    {% endif %}
+                </div>
+            </salla-cart-summary>
+        </div>
+    </div>
+
+    {# Mobile Menu #}
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-slate-100 px-4 py-4">
+        <salla-menu source="main" mobile></salla-menu>
+        <div class="mt-4 pt-4 border-t border-slate-100">
+            <salla-search inline oval height="40"></salla-search>
+        </div>
+    </div>
+</header>
