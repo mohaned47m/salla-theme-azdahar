@@ -1,44 +1,57 @@
 {
-  "name": "ازدهار",
-  "description": "ثيم احترافي وحديث لمتاجر معدات الصيد والرحلات البرية. يتميز بتصميم فاخر وتجربة تسوق متقدمة.",
-  "version": "1.0.0",
-  "author": "mohaned kasem",
-  "email": "mohanedkasem3301@gmail.com",
-  "homepage": "https://salla.sa",
-  "license": "MIT",
-  "salla_cli_version": ">=2.0.0",
-  "settings": {
-    "colors": {
-      "brand_dark": "#2F2824",
-      "brand_secondary": "#87602C",
-      "pure_white": "#FFFFFF",
-      "light_bg": "#fcf9f6"
+    "name": {
+        "ar": "ازدهار",
+        "en": "Azdahar"
     },
-    "typography": {
-      "font_family": "Tajawal",
-      "font_weights": ["400", "500", "700", "800", "900"]
-    }
-  },
-  "sections": [
-    {
-      "name": "hero",
-      "label": "قسم البطل",
-      "settings": []
-    },
-    {
-      "name": "features",
-      "label": "الميزات الرئيسية",
-      "settings": []
-    },
-    {
-      "name": "categories",
-      "label": "الفئات",
-      "settings": []
-    },
-    {
-      "name": "products",
-      "label": "المنتجات",
-      "settings": []
-    }
-  ]
+    "repository": "https://github.com/mohaned47m/salla-theme-azdahar",
+    "author_email": "mohanedkasem3301@gmail.com",
+    "features": [
+        "mega-menu",
+        "fonts",
+        "color",
+        "breadcrumb",
+        "unite-cards-height",
+        "component-featured-products",
+        "component-fixed-banner",
+        "component-fixed-products",
+        "component-products-slider",
+        "component-photos-slider",
+        "component-parallax-background",
+        "component-testimonials",
+        "component-square-photos",
+        "component-store-features",
+        "component-youtube",
+        "menu-images",
+        "filters"
+    ],
+    "settings": [
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "label": "تثبيت القائمة الرئيسية أعلى الصفحة",
+            "description": "تثبت القائمة عند التمرير لأسفل",
+            "id": "header_is_sticky",
+            "format": "switch",
+            "required": false,
+            "value": true,
+            "selected": true
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "label": "الشريط العلوي الداكن",
+            "description": "تفعيل الشريط العلوي بخلفية داكنة",
+            "id": "topnav_is_dark",
+            "format": "switch",
+            "required": false,
+            "value": false,
+            "selected": false
+        },
+        {
+            "type": "string",
+            "id": "placeholder",
+            "format": "hidden",
+            "value": "images/img_placeholder.png"
+        }
+    ]
 }
