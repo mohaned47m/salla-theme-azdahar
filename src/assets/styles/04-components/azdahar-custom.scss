@@ -1,0 +1,323 @@
+/* ===================================
+   ثيم ازدهار - تخصيصات التصميم
+   Azdahar Theme Custom Styles
+   =================================== */
+
+/* ---- الهيدر والشريط العلوي ---- */
+.top-navbar {
+  background-color: var(--color-brand-dark) !important;
+  color: #fff !important;
+  
+  .topnav-link-item {
+    color: #e0d5c8;
+    border-color: rgba(255,255,255,0.15);
+    
+    &:hover {
+      color: #fff;
+      opacity: 1;
+    }
+  }
+  
+  .s-search-input {
+    background: rgba(255,255,255,0.1) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
+    
+    &::placeholder {
+      color: rgba(255,255,255,0.6);
+    }
+  }
+}
+
+/* الشريط الرئيسي للتنقل */
+.main-nav-container {
+  background-color: var(--color-brand-gold) !important;
+  
+  .store-logo {
+    filter: brightness(0) invert(1);
+  }
+  
+  .s-mega-menu,
+  .s-main-menu {
+    color: #fff;
+    
+    a {
+      color: #fff;
+      
+      &:hover {
+        color: rgba(255,255,255,0.8);
+      }
+    }
+  }
+  
+  .btn--circle-gray {
+    background: rgba(255,255,255,0.15) !important;
+    color: #fff !important;
+    
+    &:hover {
+      background: rgba(255,255,255,0.25) !important;
+    }
+  }
+}
+
+/* ---- قسم البطل (Hero Slider) ---- */
+.s-block--hero-slider {
+  .swiper-slide {
+    background-color: var(--color-brand-dark);
+    min-height: 500px;
+    
+    @media (min-width: 1024px) {
+      min-height: 600px;
+    }
+  }
+  
+  .home-slider__content {
+    h2 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      
+      @media (min-width: 1024px) {
+        font-size: 3.5rem;
+      }
+    }
+    
+    p {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.9);
+    }
+  }
+  
+  /* زر CTA في السلايدر */
+  .slider-cta-btn {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.875rem 2.5rem;
+    background-color: var(--color-brand-gold);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    
+    &:hover {
+      background-color: var(--color-primary-d);
+    }
+  }
+}
+
+/* ---- قسم مميزات المتجر ---- */
+.s-block--features {
+  padding: 3rem 0;
+  background-color: var(--color-brand-dark);
+  
+  .s-block--features__item {
+    text-align: center;
+    padding: 1.5rem;
+    color: #fff;
+    
+    .feature-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(135, 96, 44, 0.3);
+      border: 2px solid var(--color-brand-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      
+      i {
+        font-size: 1.75rem;
+        color: var(--color-brand-gold);
+      }
+    }
+    
+    h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    
+    p {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.7);
+    }
+  }
+}
+
+/* ---- قسم المنتجات المميزة ---- */
+.s-block--featured-products,
+.s-block--latest-products {
+  padding: 3rem 0;
+  
+  .s-block__title {
+    h2 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--color-brand-dark);
+      
+      &::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 3px;
+        background-color: var(--color-brand-gold);
+        margin-top: 0.5rem;
+      }
+    }
+  }
+}
+
+/* ---- بطاقات المنتجات ---- */
+.s-product-card {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  }
+  
+  .s-product-card__info {
+    padding: 1rem;
+  }
+  
+  .s-product-card__name {
+    font-weight: 600;
+    color: var(--color-brand-dark);
+  }
+  
+  .s-product-card__price {
+    color: var(--color-brand-gold);
+    font-weight: 700;
+  }
+  
+  .btn-add-to-cart,
+  .s-product-card__add-btn {
+    background-color: var(--color-brand-gold) !important;
+    color: #fff !important;
+    
+    &:hover {
+      background-color: var(--color-primary-d) !important;
+    }
+  }
+}
+
+/* ---- البانر الثابت ---- */
+.s-block--fixed-banner {
+  .banner--fixed {
+    border-radius: 12px;
+    overflow: hidden;
+    
+    img {
+      transition: transform 0.5s ease;
+    }
+    
+    &:hover img {
+      transform: scale(1.03);
+    }
+  }
+}
+
+/* ---- عروض الفلاش ---- */
+.s-block--flash-sale {
+  background: linear-gradient(135deg, var(--color-brand-dark) 0%, #3d3028 100%);
+  padding: 2rem 0;
+  
+  .s-block__title h2 {
+    color: #fff;
+    
+    &::after {
+      background-color: var(--color-brand-gold);
+    }
+  }
+  
+  .flash-sale-timer {
+    background: var(--color-brand-gold);
+    color: #fff;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 700;
+    font-size: 1.25rem;
+  }
+}
+
+/* ---- الفوتر ---- */
+.store-footer {
+  background-color: var(--color-brand-dark) !important;
+  color: rgba(255,255,255,0.8);
+  
+  .footer-title {
+    color: var(--color-brand-gold);
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  a {
+    color: rgba(255,255,255,0.7);
+    
+    &:hover {
+      color: var(--color-brand-gold);
+    }
+  }
+  
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 1.5rem;
+    color: rgba(255,255,255,0.5);
+  }
+}
+
+/* ---- أزرار عامة ---- */
+.btn-primary,
+.s-btn-primary,
+[class*="btn--primary"] {
+  background-color: var(--color-brand-gold) !important;
+  color: #fff !important;
+  
+  &:hover {
+    background-color: var(--color-primary-d) !important;
+  }
+}
+
+/* ---- شريط الإشعارات ---- */
+.store-announcement-bar {
+  background-color: var(--color-brand-gold);
+  color: #fff;
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* ---- تحسينات عامة ---- */
+body {
+  font-family: 'Tajawal', 'DINNextLTArabic', sans-serif;
+}
+
+.container {
+  max-width: 1280px;
+}
+
+/* تأثيرات الحركة */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.s-block {
+  animation: fadeInUp 0.5s ease forwards;
+}

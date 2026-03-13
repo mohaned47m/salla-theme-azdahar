@@ -1,0 +1,67 @@
+{#
+| Variable                       | Type     | Description                                                    |
+|--------------------------------|----------|----------------------------------------------------------------|
+| component.slides               | array    | List of slides with image, title, description, button_text/url |
+| position                       | int      | Sorting number starting from zero                              |
+#}
+<section class="s-block s-block--hero-slider azdahar-hero" id="hero-slider-{{ position }}">
+    {% if component.slides is defined and component.slides|length > 0 %}
+    <salla-slider
+        id="main-slider-{{ position }}"
+        auto-play
+        static-when-single
+        slider-config='{"lazy":"false","speed":800}'
+        {{ component.slides|length > 1 ? '' : 'show-controls="false"' }}
+        type="fullwidth">
+        <div slot="items">
+            {% for slide in component.slides %}
+            <div class="swiper-slide w-full relative overflow-hidden"
+                 style="min-height: 600px;">
+                {# Background Image #}
+                <div class="absolute inset-0 bg-cover bg-center bg-no-repeat overlay-bg"
+                     style="background-image: url('{{ slide.image }}');"></div>
+
+                {# Content #}
+                <div class="relative z-10 flex items-center justify-center h-full min-h-[600px]">
+                    <div class="container mx-auto px-6 text-center text-white">
+                        {% if slide.title %}
+                        <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight"
+                            data-swiper-parallax="-500">
+                            {{ slide.title }}
+                        </h1>
+                        {% endif %}
+
+                        {% if slide.description %}
+                        <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto opacity-90"
+                           data-swiper-parallax="-300">
+                            {{ slide.description }}
+                        </p>
+                        {% endif %}
+
+                        {% if slide.button_text %}
+                        <a href="{{ slide.button_url | default('#') }}"
+                           class="azdahar-btn azdahar-btn--primary inline-block px-10 py-4 text-lg font-bold rounded-full transition-all duration-300 hover:scale-105"
+                           data-swiper-parallax="-200">
+                            {{ slide.button_text }}
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </salla-slider>
+    {% else %}
+    {# Fallback placeholder #}
+    <div class="azdahar-hero__placeholder flex items-center justify-center text-white text-center"
+         style="min-height: 600px; background: linear-gradient(135deg, #2F2824 0%, #87602C 100%);">
+        <div class="container mx-auto px-6">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">{{ store.name }}</h1>
+            <p class="text-xl mb-8 opacity-90">{{ store.description }}</p>
+            <a href="{{ store.url }}/shop" class="azdahar-btn azdahar-btn--primary inline-block px-10 py-4 text-lg font-bold rounded-full">
+                {{ 'تسوق الآن' | trans }}
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</section>

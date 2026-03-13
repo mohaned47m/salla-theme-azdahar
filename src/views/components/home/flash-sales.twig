@@ -1,0 +1,148 @@
+{#
+| Variable                       | Type     | Description                                                    |
+|--------------------------------|----------|----------------------------------------------------------------|
+| component.title                | string   | Section title                                                  |
+| component.products             | array    | List of sale product objects from Salla                        |
+| position                       | int      | Sorting number starting from zero                              |
+#}
+<section class="s-block s-block--flash-sales azdahar-flash-sales py-16" id="flash-sales-{{ position }}"
+         style="background: linear-gradient(135deg, #2F2824 0%, #1a1512 100%);">
+    <div class="container mx-auto px-6">
+        {# Section Header #}
+        <div class="flex items-center justify-between mb-12">
+            <div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white">
+                    {{ component.title | default('⚡ عروض الفلاش الحصرية') }}
+                </h2>
+                <div class="w-16 h-1 mt-3 rounded-full" style="background: linear-gradient(90deg, #C8963E, #87602C);"></div>
+            </div>
+
+            {# Countdown Timer #}
+            <div class="hidden md:flex items-center gap-3 text-white">
+                <span class="text-sm opacity-70">{{ 'ينتهي خلال' | trans }}:</span>
+                <div class="flex items-center gap-1">
+                    <div class="flash-timer__unit text-center">
+                        <div class="w-12 h-12 flex items-center justify-center rounded-lg font-bold text-xl"
+                             style="background: rgba(200,150,62,0.2); border: 1px solid rgba(200,150,62,0.4);"
+                             id="flash-hours-{{ position }}">00</div>
+                        <span class="text-xs opacity-60 mt-1 block">{{ 'ساعة' | trans }}</span>
+                    </div>
+                    <span class="font-bold text-xl" style="color: #C8963E;">:</span>
+                    <div class="flash-timer__unit text-center">
+                        <div class="w-12 h-12 flex items-center justify-center rounded-lg font-bold text-xl"
+                             style="background: rgba(200,150,62,0.2); border: 1px solid rgba(200,150,62,0.4);"
+                             id="flash-mins-{{ position }}">00</div>
+                        <span class="text-xs opacity-60 mt-1 block">{{ 'دقيقة' | trans }}</span>
+                    </div>
+                    <span class="font-bold text-xl" style="color: #C8963E;">:</span>
+                    <div class="flash-timer__unit text-center">
+                        <div class="w-12 h-12 flex items-center justify-center rounded-lg font-bold text-xl"
+                             style="background: rgba(200,150,62,0.2); border: 1px solid rgba(200,150,62,0.4);"
+                             id="flash-secs-{{ position }}">00</div>
+                        <span class="text-xs opacity-60 mt-1 block">{{ 'ثانية' | trans }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Flash Products Slider #}
+        {% if component.products is defined and component.products|length > 0 %}
+        <salla-slider
+            id="flash-slider-{{ position }}"
+            slides-per-view="2"
+            slides-per-view-md="3"
+            slides-per-view-lg="4"
+            space-between="24"
+            type="cards">
+            <div slot="items">
+                {% for product in component.products %}
+                <div class="swiper-slide">
+                    <div class="azdahar-flash-card group bg-white rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300">
+                        {# Product Image #}
+                        <div class="relative overflow-hidden aspect-square">
+                            <a href="{{ product.url }}">
+                                <img src="{{ product.thumbnail.url | default('') }}"
+                                     alt="{{ product.name }}"
+                                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                     loading="lazy">
+                            </a>
+
+                            {# Discount Badge #}
+                            {% if product.sale_price and product.price %}
+                            {% set discount = ((product.price - product.sale_price) / product.price * 100) | round %}
+                            <div class="absolute top-3 start-3">
+                                <span class="px-2 py-1 text-xs font-bold text-white rounded-full bg-red-500">
+                                    -{{ discount }}%
+                                </span>
+                            </div>
+                            {% endif %}
+
+                            {# Flash Badge #}
+                            <div class="absolute top-3 end-3">
+                                <span class="w-8 h-8 flex items-center justify-center rounded-full text-white text-sm"
+                                      style="background-color: #C8963E;">
+                                    ⚡
+                                </span>
+                            </div>
+                        </div>
+
+                        {# Product Info #}
+                        <div class="p-4">
+                            <a href="{{ product.url }}" class="block">
+                                <h3 class="font-semibold text-sm mb-2 line-clamp-2" style="color: #2F2824;">
+                                    {{ product.name }}
+                                </h3>
+                            </a>
+
+                            {# Price #}
+                            <div class="flex items-center justify-between mt-2">
+                                <div>
+                                    {% if product.sale_price %}
+                                    <span class="font-bold text-base" style="color: #C8963E;">
+                                        {{ product.sale_price | money }}
+                                    </span>
+                                    <span class="text-xs text-gray-400 line-through ms-1">
+                                        {{ product.price | money }}
+                                    </span>
+                                    {% else %}
+                                    <span class="font-bold text-base" style="color: #C8963E;">
+                                        {{ product.price | money }}
+                                    </span>
+                                    {% endif %}
+                                </div>
+
+                                {% if product.is_available %}
+                                <salla-add-product-button
+                                    product-id="{{ product.id }}"
+                                    class="azdahar-add-to-cart--sm">
+                                </salla-add-product-button>
+                                {% endif %}
+                            </div>
+
+                            {# Stock Progress Bar #}
+                            {% if product.quantity is defined and product.quantity < 20 %}
+                            <div class="mt-3">
+                                <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                    <span>{{ 'المتبقي' | trans }}: {{ product.quantity }}</span>
+                                    <span>{{ 'سارع بالطلب!' | trans }}</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                    <div class="h-1.5 rounded-full transition-all duration-300"
+                                         style="width: {{ [product.quantity * 5, 100] | min }}%; background: linear-gradient(90deg, #C8963E, #87602C);"></div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </salla-slider>
+        {% else %}
+        <div class="text-center py-12 text-white opacity-60">
+            <i class="sicon-lightning text-5xl mb-4 block"></i>
+            <p>{{ 'لا توجد عروض حالياً' | trans }}</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
