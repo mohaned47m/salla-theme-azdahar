@@ -424,8 +424,8 @@
           "id": "show_cats",
           "format": "switch",
           "required": false,
-          "value": false,
-          "selected": false
+          "value": true,
+          "selected": true
         },
         {
           "id": "categories",
