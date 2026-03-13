@@ -10,43 +10,179 @@
 | component.links[].url              | string   |                                                                              |
 | position                           | int      | Sorting number start from zero                                               |
 #}
-<section class="s-block s-block--categories {{ component.merge_with_top_component and position ?'merge-with-top-component' : '' }} {{ not component.title and component.merge_with_top_component ? 'merged-has-no-title' : '' }}">
+<section class="s-block s-block--categories-grid {{ component.merge_with_top_component and position ? 'merge-with-top-component' : '' }}">
     <div class="container">
-      <salla-slider  
-        type="carousel"
-        {% if(component.title) or (component.merge_with_top_component) %}
-            block-title="{{ component.title }}"
+        {% if component.title %}
+        <div class="s-block__head">
+            <h2 class="s-block__title">{{ component.title }}</h2>
+            <p class="s-block__subtitle">{{ component.subtitle }}</p>
+        </div>
         {% endif %}
-        controls-outer
-        show-controls="{{ component.show_controls ? 'true' : 'false'}}" 
-        id="main-links-{{ position }}">
-          <div slot="items">
-              {% if component.show_cats %}
+
+        <div class="categories-grid">
+            {% if component.show_cats %}
                 {% for cat in component.categories %}
-                    <div class="swiper-slide slide--one-sixth">
-                        <a href="{{ cat.url }}" class="slide--cat-entry">
+                    <a href="{{ cat.url }}" class="category-card">
+                        <div class="category-card__image-wrap">
                             {% if cat.image %}
-                              <img src="{{ cat.image ? cat.image : 'images/placeholder.png' | asset }}" class="w-16 h-16 object-cover rounded-full mb-2.5 {{ cat.image ? '' : 'has-placeholder'}}" width="64" height="64" alt="{{ menu.title }}"/>
+                                <img 
+                                    src="{{ cat.image }}" 
+                                    alt="{{ cat.name }}" 
+                                    class="category-card__image"
+                                    loading="lazy"
+                                />
                             {% else %}
-                              <i class="{{ cat.icon }}"></i>
+                                <div class="category-card__placeholder">
+                                    <i class="{{ cat.icon }}"></i>
+                                </div>
                             {% endif %}
-                            <h2>{{ cat.name }}</h2>
-                        </a>
-                    </div>
+                        </div>
+                        <div class="category-card__overlay">
+                            <h3 class="category-card__name">{{ cat.name }}</h3>
+                        </div>
+                    </a>
                 {% endfor %}
-              {% else %}
+            {% else %}
                 {% for link in component.links %}
-                  {% if link.title %}
-                    <div class="swiper-slide slide--one-sixth">
-                        <a href="{{ link.url }}" class="slide--cat-entry">
-                            <i class="{{ link.icon }}"></i>
-                            <h2>{{ link.title }}</h2>
+                    {% if link.title %}
+                        <a href="{{ link.url }}" class="category-card">
+                            <div class="category-card__image-wrap">
+                                {% if link.image %}
+                                    <img 
+                                        src="{{ link.image }}" 
+                                        alt="{{ link.title }}" 
+                                        class="category-card__image"
+                                        loading="lazy"
+                                    />
+                                {% else %}
+                                    <div class="category-card__placeholder">
+                                        <i class="{{ link.icon }}"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="category-card__overlay">
+                                <h3 class="category-card__name">{{ link.title }}</h3>
+                            </div>
                         </a>
-                    </div>
-                  {% endif %}
+                    {% endif %}
                 {% endfor %}
-              {% endif %}
-          </div>
-      </salla-slider>
+            {% endif %}
+        </div>
     </div>
-</section> 
+</section>
+
+<style>
+/* ===== قسم التصنيفات - تصميم ازدهار (Stitch Style) ===== */
+.s-block--categories-grid {
+    padding: 48px 0;
+    background-color: #fff;
+    direction: rtl;
+}
+
+.s-block--categories-grid .s-block__head {
+    text-align: right;
+    margin-bottom: 28px;
+}
+
+.s-block--categories-grid .s-block__title {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #2F2824;
+    margin-bottom: 6px;
+}
+
+.s-block--categories-grid .s-block__subtitle {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 0.95rem;
+    color: #6b7280;
+}
+
+/* شبكة التصنيفات - 4 بطاقات في صف */
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+@media (max-width: 1024px) {
+    .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+}
+
+/* بطاقة التصنيف */
+.category-card {
+    position: relative;
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    text-decoration: none;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #2F2824;
+}
+
+.category-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+
+.category-card__image-wrap {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.category-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.category-card:hover .category-card__image {
+    transform: scale(1.06);
+}
+
+.category-card__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #2F2824, #87602C);
+    font-size: 3rem;
+    color: rgba(255,255,255,0.5);
+}
+
+/* طبقة التدرج والعنوان */
+.category-card__overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px 16px 16px;
+    background: linear-gradient(to top, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.30) 60%, transparent 100%);
+    text-align: center;
+}
+
+.category-card__name {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    letter-spacing: 0.02em;
+}
+</style>
