@@ -1,0 +1,44 @@
+{
+  "name": "ازدهار",
+  "description": "ثيم احترافي وحديث لمتاجر معدات الصيد والرحلات البرية. يتميز بتصميم فاخر وتجربة تسوق متقدمة.",
+  "version": "1.0.0",
+  "author": "mohaned kasem",
+  "email": "mohanedkasem3301@gmail.com",
+  "homepage": "https://salla.sa",
+  "license": "MIT",
+  "salla_cli_version": ">=2.0.0",
+  "settings": {
+    "colors": {
+      "brand_dark": "#2F2824",
+      "brand_secondary": "#87602C",
+      "pure_white": "#FFFFFF",
+      "light_bg": "#fcf9f6"
+    },
+    "typography": {
+      "font_family": "Tajawal",
+      "font_weights": ["400", "500", "700", "800", "900"]
+    }
+  },
+  "sections": [
+    {
+      "name": "hero",
+      "label": "قسم البطل",
+      "settings": []
+    },
+    {
+      "name": "features",
+      "label": "الميزات الرئيسية",
+      "settings": []
+    },
+    {
+      "name": "categories",
+      "label": "الفئات",
+      "settings": []
+    },
+    {
+      "name": "products",
+      "label": "المنتجات",
+      "settings": []
+    }
+  ]
+}

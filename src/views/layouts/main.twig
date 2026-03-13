@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ store.name }} - معدات الصيد والرحلات الاحترافية{% endblock %}</title>
+    <meta name="description" content="{% block description %}{{ store.description }}{% endblock %}">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ asset('styles/main.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="text-brand-dark antialiased" style="direction: rtl;">
+    <!-- Top Bar -->
+    {% include 'components/top-bar.twig' %}
+    
+    <!-- Header -->
+    {% include 'components/header.twig' %}
+    
+    <!-- Main Content -->
+    <main class="max-w-[1440px] mx-auto bg-white">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    {% include 'components/footer.twig' %}
+    
+    <!-- Scripts -->
+    <script src="{{ asset('js/main.js') }}"></script>
+    {% block extra_footer %}{% endblock %}
+</body>
+</html>
