@@ -1,0 +1,111 @@
+{#
+| Variable        | Type   | Description              |
+|-----------------|--------|--------------------------|
+| component.title | string | Section title            |
+| position        | int    | Sort order               |
+#}
+<section class="az-features s-block" id="az-features-{{ position }}" aria-label="قسم: مميزات المتجر — ثيم: ازدهار">
+  <style>
+    .az-features {
+      background: #2F2824;
+      padding: 3rem 0;
+      direction: rtl;
+    }
+    .az-features__grid {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    @media(min-width:768px) {
+      .az-features__grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    .az-feature-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.2rem 1.5rem;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(200,150,62,0.15);
+      transition: background 0.3s, border-color 0.3s, transform 0.3s;
+    }
+    .az-feature-card:hover {
+      background: rgba(200,150,62,0.1);
+      border-color: rgba(200,150,62,0.4);
+      transform: translateY(-4px);
+    }
+    .az-feature-card__icon {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: rgba(135,96,44,0.2);
+      border: 2px solid rgba(200,150,62,0.4);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.3s;
+    }
+    .az-feature-card:hover .az-feature-card__icon {
+      background: rgba(200,150,62,0.25);
+    }
+    .az-feature-card__icon i {
+      font-size: 1.4rem;
+      color: #C8963E;
+    }
+    .az-feature-card__title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 0 0.2rem;
+    }
+    .az-feature-card__text {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.55);
+      margin: 0;
+    }
+    .az-section-label {
+      display: block;
+      text-align: center;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 1rem 0 0;
+      font-family: monospace;
+    }
+  </style>
+
+  <div class="az-features__grid">
+    <div class="az-feature-card">
+      <div class="az-feature-card__icon"><i class="sicon-truck-fast"></i></div>
+      <div>
+        <p class="az-feature-card__title">شحن مجاني</p>
+        <p class="az-feature-card__text">على الطلبات فوق 200 ريال</p>
+      </div>
+    </div>
+    <div class="az-feature-card">
+      <div class="az-feature-card__icon"><i class="sicon-shield-check"></i></div>
+      <div>
+        <p class="az-feature-card__title">منتجات أصلية 100%</p>
+        <p class="az-feature-card__text">مضمونة الجودة والأصالة</p>
+      </div>
+    </div>
+    <div class="az-feature-card">
+      <div class="az-feature-card__icon"><i class="sicon-refresh-circle"></i></div>
+      <div>
+        <p class="az-feature-card__title">إرجاع مجاني</p>
+        <p class="az-feature-card__text">خلال 14 يوماً من الاستلام</p>
+      </div>
+    </div>
+    <div class="az-feature-card">
+      <div class="az-feature-card__icon"><i class="sicon-headphones"></i></div>
+      <div>
+        <p class="az-feature-card__title">دعم 24/7</p>
+        <p class="az-feature-card__text">فريق جاهز لمساعدتك دائماً</p>
+      </div>
+    </div>
+  </div>
+
+  <span class="az-section-label">قسم: مميزات المتجر — ثيم: ازدهار</span>
+</section>

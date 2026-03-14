@@ -1,0 +1,260 @@
+{#
+| Variable               | Type    | Description                        |
+|------------------------|---------|------------------------------------|
+| component.title        | string  | Hero headline                      |
+| component.subtitle     | string  | Hero subtext                       |
+| component.image        | string  | Background image URL               |
+| component.button_text  | string  | CTA button label                   |
+| component.button_url   | string  | CTA button link                    |
+| position               | int     | Sort order                         |
+#}
+<section class="az-hero s-block" id="az-hero-{{ position }}" aria-label="قسم: البانر الرئيسي — ثيم: ازدهار">
+  <style>
+    /* ── البانر الرئيسي — ازدهار ── */
+    .az-hero {
+      position: relative;
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background-color: #1a1512;
+      direction: rtl;
+    }
+    .az-hero__bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      animation: azHeroZoom 12s ease-in-out infinite alternate;
+      transform-origin: center;
+    }
+    @keyframes azHeroZoom {
+      from { transform: scale(1); }
+      to   { transform: scale(1.08); }
+    }
+    .az-hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(26,21,18,0.92) 0%, rgba(26,21,18,0.55) 55%, rgba(26,21,18,0.2) 100%);
+    }
+    .az-hero__content {
+      position: relative;
+      z-index: 2;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      width: 100%;
+    }
+    .az-hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(135,96,44,0.25);
+      border: 1px solid rgba(200,150,62,0.5);
+      color: #e8c88a;
+      padding: 0.4rem 1.2rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      animation: azFadeInDown 0.8s ease both;
+    }
+    .az-hero__badge::before {
+      content: '';
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #C8963E;
+      animation: azPulse 1.5s ease infinite;
+    }
+    @keyframes azPulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:0.5; transform:scale(1.4); }
+    }
+    .az-hero__title {
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 1.2rem;
+      animation: azFadeInRight 0.9s ease 0.2s both;
+    }
+    .az-hero__title span {
+      background: linear-gradient(90deg, #C8963E, #e8c88a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .az-hero__subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: rgba(255,255,255,0.8);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      animation: azFadeInRight 0.9s ease 0.4s both;
+    }
+    .az-hero__actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      animation: azFadeInUp 0.9s ease 0.6s both;
+    }
+    .az-hero__btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #C8963E, #87602C);
+      color: #fff;
+      padding: 0.9rem 2.2rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 20px rgba(200,150,62,0.4);
+    }
+    .az-hero__btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(200,150,62,0.6);
+      color: #fff;
+    }
+    .az-hero__btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      border: 1.5px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 0.9rem 2.2rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.3s, border-color 0.3s, transform 0.3s;
+      backdrop-filter: blur(4px);
+    }
+    .az-hero__btn-secondary:hover {
+      background: rgba(255,255,255,0.2);
+      border-color: rgba(255,255,255,0.5);
+      transform: translateY(-3px);
+      color: #fff;
+    }
+    .az-hero__stats {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+      animation: azFadeInUp 0.9s ease 0.8s both;
+    }
+    .az-hero__stat { text-align: center; }
+    .az-hero__stat-num {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #C8963E;
+      display: block;
+      line-height: 1;
+    }
+    .az-hero__stat-label {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.6);
+      margin-top: 0.25rem;
+    }
+    .az-hero__scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.75rem;
+      animation: azBounce 2s ease infinite;
+    }
+    .az-hero__scroll-hint i { font-size: 1.2rem; }
+    @keyframes azBounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(8px); }
+    }
+    /* section label */
+    .az-section-label {
+      display: block;
+      text-align: center;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.3rem 0 0;
+      font-family: monospace;
+    }
+    @keyframes azFadeInDown  { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:none} }
+    @keyframes azFadeInRight { from{opacity:0;transform:translateX(30px)}  to{opacity:1;transform:none} }
+    @keyframes azFadeInUp    { from{opacity:0;transform:translateY(20px)}  to{opacity:1;transform:none} }
+  </style>
+
+  {# خلفية الصورة #}
+  <div class="az-hero__bg"
+       style="background-image: url('{{ component.image ?: "https://cdn.salla.sa/ZrBEO/MopzhoqpTkDObcKc8Q8n77AuydanfsGXdZO7iinH.jpg" }}');">
+  </div>
+  <div class="az-hero__overlay"></div>
+
+  <div class="az-hero__content">
+    {# شارة #}
+    <span class="az-hero__badge">
+      {{ store.name ?: 'متجرنا' }} — مجموعة جديدة
+    </span>
+
+    {# العنوان #}
+    <h1 class="az-hero__title">
+      {{ component.title ?: 'اكتشف أفضل' }}<br>
+      <span>{{ 'المنتجات المختارة' }}</span>
+    </h1>
+
+    {# النص التعريفي #}
+    <p class="az-hero__subtitle">
+      {{ component.subtitle ?: 'تسوق من أرقى المنتجات المختارة بعناية لتناسب أذواقكم وتلبي احتياجاتكم.' }}
+    </p>
+
+    {# أزرار CTA #}
+    <div class="az-hero__actions">
+      <a href="{{ component.button_url ?: store.url }}" class="az-hero__btn-primary">
+        <i class="sicon-shopping-bag"></i>
+        {{ component.button_text ?: 'تسوق الآن' }}
+      </a>
+      <a href="{{ store.url }}/categories" class="az-hero__btn-secondary">
+        <i class="sicon-layout-grid-rearrange"></i>
+        تصفح التصنيفات
+      </a>
+    </div>
+
+    {# إحصائيات #}
+    <div class="az-hero__stats">
+      <div class="az-hero__stat">
+        <span class="az-hero__stat-num">+500</span>
+        <span class="az-hero__stat-label">منتج متاح</span>
+      </div>
+      <div class="az-hero__stat">
+        <span class="az-hero__stat-num">+10K</span>
+        <span class="az-hero__stat-label">عميل سعيد</span>
+      </div>
+      <div class="az-hero__stat">
+        <span class="az-hero__stat-num">4.9★</span>
+        <span class="az-hero__stat-label">تقييم المتجر</span>
+      </div>
+      <div class="az-hero__stat">
+        <span class="az-hero__stat-num">24/7</span>
+        <span class="az-hero__stat-label">دعم فوري</span>
+      </div>
+    </div>
+  </div>
+
+  {# مؤشر التمرير #}
+  <div class="az-hero__scroll-hint">
+    <span>تمرر للأسفل</span>
+    <i class="sicon-arrow-down"></i>
+  </div>
+
+  <span class="az-section-label">قسم: البانر الرئيسي — ثيم: ازدهار</span>
+</section>

@@ -1,0 +1,170 @@
+{#
+| Variable               | Type    | Description                         |
+|------------------------|---------|-------------------------------------|
+| component.title        | string  | CTA headline                        |
+| component.subtitle     | string  | CTA subtext                         |
+| component.button_url   | string  | Primary button link                 |
+| component.button_text  | string  | Primary button label                |
+| position               | int     | Sort order                          |
+#}
+<section class="az-cta s-block" id="az-cta-{{ position }}" aria-label="قسم: الدعوة للعمل — ثيم: ازدهار">
+  <style>
+    .az-cta {
+      background: #2F2824;
+      padding: 6rem 0;
+      direction: rtl;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+    /* توهج خلفي */
+    .az-cta::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,150,62,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .az-cta__inner {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    .az-cta__eyebrow {
+      display: inline-block;
+      background: rgba(200,150,62,0.15);
+      border: 1px solid rgba(200,150,62,0.3);
+      color: #C8963E;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.35rem 1.2rem;
+      border-radius: 50px;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.1em;
+    }
+    .az-cta__title {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 900;
+      color: #fff;
+      margin: 0 0 1rem;
+      line-height: 1.2;
+    }
+    .az-cta__title span {
+      background: linear-gradient(90deg, #C8963E, #e8c88a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .az-cta__sub {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.7);
+      margin: 0 0 2.5rem;
+      line-height: 1.6;
+    }
+    .az-cta__actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .az-cta__btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #C8963E, #87602C);
+      color: #fff;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 20px rgba(200,150,62,0.4);
+    }
+    .az-cta__btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(200,150,62,0.6);
+      color: #fff;
+    }
+    .az-cta__btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      border: 2px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: border-color 0.3s, background 0.3s, transform 0.3s;
+    }
+    .az-cta__btn-secondary:hover {
+      border-color: rgba(255,255,255,0.6);
+      background: rgba(255,255,255,0.08);
+      transform: translateY(-3px);
+      color: #fff;
+    }
+    /* Trust badges */
+    .az-cta__trust {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+    }
+    .az-cta__trust-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.82rem;
+    }
+    .az-cta__trust-item i { color: #C8963E; font-size: 1rem; }
+    .az-section-label {
+      display: block;
+      text-align: center;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 2rem 0 0;
+      font-family: monospace;
+    }
+  </style>
+
+  <div class="az-cta__inner">
+    <span class="az-cta__eyebrow">ابدأ رحلة التسوق</span>
+    <h2 class="az-cta__title">
+      {{ component.title ?: 'ابدأ تسوقك' }}<br>
+      <span>{{ 'اليوم' }}</span>
+    </h2>
+    <p class="az-cta__sub">
+      {{ component.subtitle ?: 'انضم إلى أكثر من 10,000 عميل راضٍ واستمتع بتجربة تسوق استثنائية.' }}
+    </p>
+    <div class="az-cta__actions">
+      <a href="{{ component.button_url ?: store.url }}" class="az-cta__btn-primary">
+        <i class="sicon-shopping-bag"></i>
+        {{ component.button_text ?: 'تسوق الآن' }}
+      </a>
+      <a href="{{ store.url }}/categories" class="az-cta__btn-secondary">
+        <i class="sicon-layout-grid-rearrange"></i>
+        تصفح التصنيفات
+      </a>
+    </div>
+    <div class="az-cta__trust">
+      <span class="az-cta__trust-item"><i class="sicon-shield-check"></i> منتجات أصلية</span>
+      <span class="az-cta__trust-item"><i class="sicon-truck-fast"></i> شحن سريع</span>
+      <span class="az-cta__trust-item"><i class="sicon-refresh-circle"></i> إرجاع مجاني</span>
+      <span class="az-cta__trust-item"><i class="sicon-headphones"></i> دعم 24/7</span>
+    </div>
+  </div>
+
+  <span class="az-section-label">قسم: الدعوة للعمل — ثيم: ازدهار</span>
+</section>

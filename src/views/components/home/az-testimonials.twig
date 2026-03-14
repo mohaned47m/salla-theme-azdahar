@@ -1,0 +1,112 @@
+{#
+| Variable                      | Type    | Description                         |
+|-------------------------------|---------|-------------------------------------|
+| component.title               | string  | Section title                       |
+| component.subtitle            | string  | Section subtitle                    |
+| component.hide_customer_info  | bool    | Hide customer name/avatar           |
+| position                      | int     | Sort order                          |
+#}
+<section class="az-testimonials s-block" id="az-testimonials-{{ position }}" aria-label="قسم: آراء العملاء — ثيم: ازدهار">
+  <style>
+    .az-testimonials {
+      background: #fff;
+      padding: 5rem 0 4rem;
+      direction: rtl;
+    }
+    .az-testimonials__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    .az-testimonials__head {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .az-testimonials__head h2 {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 900;
+      color: #2F2824;
+      margin: 0 0 0.5rem;
+    }
+    .az-testimonials__head .az-divider {
+      width: 50px; height: 4px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #C8963E, #87602C);
+      margin: 0.8rem auto;
+    }
+    .az-testimonials__head p {
+      font-size: 0.95rem;
+      color: #64748b;
+      margin: 0;
+    }
+    /* Stats bar */
+    .az-testimonials__stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+    .az-testimonials__stat { text-align: center; }
+    .az-testimonials__stat-num {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #C8963E;
+      display: block;
+    }
+    .az-testimonials__stat-label {
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+    /* Salla reviews component */
+    .az-testimonials .s-block--testimonials {
+      margin: 0;
+      padding: 0;
+    }
+    .az-section-label {
+      display: block;
+      text-align: center;
+      font-size: 0.7rem;
+      color: #cbd5e1;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 2rem 0 0;
+      font-family: monospace;
+    }
+  </style>
+
+  <div class="az-testimonials__inner">
+    <div class="az-testimonials__head">
+      <h2>{{ component.title ?: 'آراء العملاء' }}</h2>
+      <div class="az-divider"></div>
+      <p>{{ component.subtitle ?: 'تجارب حقيقية من عملاء حقيقيين' }}</p>
+    </div>
+
+    <div class="az-testimonials__stats">
+      <div class="az-testimonials__stat">
+        <span class="az-testimonials__stat-num">4.9★</span>
+        <span class="az-testimonials__stat-label">متوسط التقييم</span>
+      </div>
+      <div class="az-testimonials__stat">
+        <span class="az-testimonials__stat-num">+10K</span>
+        <span class="az-testimonials__stat-label">عميل راضٍ</span>
+      </div>
+      <div class="az-testimonials__stat">
+        <span class="az-testimonials__stat-num">98%</span>
+        <span class="az-testimonials__stat-label">نسبة الرضا</span>
+      </div>
+    </div>
+
+    {# مكون آراء سلة الرسمي #}
+    <section class="s-block--testimonials container overflow-hidden">
+      <salla-reviews
+        limit="6"
+        sort="latest"
+        {{ component.hide_customer_info ? 'hide-customer-info' : '' }}
+        type="store">
+      </salla-reviews>
+    </section>
+  </div>
+
+  <span class="az-section-label">قسم: آراء العملاء — ثيم: ازدهار</span>
+</section>

@@ -1,0 +1,145 @@
+{#
+| Variable           | Type    | Description              |
+|--------------------|---------|--------------------------|
+| component.title    | string  | Section title            |
+| component.subtitle | string  | Section subtitle         |
+| position           | int     | Sort order               |
+#}
+<section class="az-faq s-block" id="az-faq-{{ position }}" aria-label="قسم: الأسئلة الشائعة — ثيم: ازدهار">
+  <style>
+    .az-faq {
+      background: #fafaf9;
+      padding: 5rem 0 4rem;
+      direction: rtl;
+    }
+    .az-faq__inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    .az-faq__head {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .az-faq__head h2 {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 900;
+      color: #2F2824;
+      margin: 0 0 0.5rem;
+    }
+    .az-faq__head .az-divider {
+      width: 50px; height: 4px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #C8963E, #87602C);
+      margin: 0.8rem auto;
+    }
+    .az-faq__head p {
+      font-size: 0.95rem;
+      color: #64748b;
+      margin: 0;
+    }
+    /* Accordion */
+    .az-faq__list { display: flex; flex-direction: column; gap: 0.8rem; }
+    .az-faq__item {
+      background: #fff;
+      border: 1px solid #f1ece6;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .az-faq__item.open {
+      border-color: rgba(200,150,62,0.4);
+      box-shadow: 0 4px 16px rgba(200,150,62,0.08);
+    }
+    .az-faq__q {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 1.5rem;
+      cursor: pointer;
+      gap: 1rem;
+      user-select: none;
+    }
+    .az-faq__q-text {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #2F2824;
+      flex: 1;
+    }
+    .az-faq__q-icon {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: #f8f5f1;
+      border: 1px solid #e8ddd4;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .az-faq__item.open .az-faq__q-icon {
+      background: #C8963E;
+      border-color: #C8963E;
+      transform: rotate(45deg);
+    }
+    .az-faq__q-icon i {
+      font-size: 1rem;
+      color: #C8963E;
+      transition: color 0.3s;
+    }
+    .az-faq__item.open .az-faq__q-icon i { color: #fff; }
+    .az-faq__a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+    }
+    .az-faq__item.open .az-faq__a { max-height: 400px; }
+    .az-faq__a-inner {
+      padding: 0 1.5rem 1.4rem;
+      font-size: 0.93rem;
+      color: #64748b;
+      line-height: 1.7;
+      border-top: 1px solid #f1ece6;
+      padding-top: 1rem;
+    }
+    .az-section-label {
+      display: block;
+      text-align: center;
+      font-size: 0.7rem;
+      color: #cbd5e1;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 2rem 0 0;
+      font-family: monospace;
+    }
+  </style>
+
+  <div class="az-faq__inner">
+    <div class="az-faq__head">
+      <h2>{{ component.title ?: 'الأسئلة الشائعة' }}</h2>
+      <div class="az-divider"></div>
+      <p>{{ component.subtitle ?: 'إجابات على أكثر الأسئلة شيوعاً' }}</p>
+    </div>
+
+    <div class="az-faq__list">
+      {% set faqs = [
+        {q: 'كيف يمكنني تتبع طلبي؟', a: 'يمكنك تتبع طلبك من خلال صفحة "طلباتي" في حسابك، أو عبر رابط التتبع المرسل إلى بريدك الإلكتروني بعد تأكيد الطلب.'},
+        {q: 'ما هي سياسة الإرجاع والاستبدال؟', a: 'نقبل الإرجاع والاستبدال خلال 14 يوماً من تاريخ الاستلام، بشرط أن يكون المنتج في حالته الأصلية وغير مستخدم.'},
+        {q: 'هل الشحن مجاني؟', a: 'نعم، الشحن مجاني على جميع الطلبات التي تتجاوز 200 ريال سعودي. للطلبات الأقل، تُطبق رسوم شحن بسيطة.'},
+        {q: 'ما هي طرق الدفع المتاحة؟', a: 'نقبل جميع بطاقات الائتمان والخصم، ومدى، وأبل باي، وتابي، وتمارا، والدفع عند الاستلام.'},
+        {q: 'كيف أتواصل مع خدمة العملاء؟', a: 'يمكنك التواصل معنا عبر الواتساب، أو البريد الإلكتروني، أو الدردشة المباشرة على الموقع. فريقنا متاح 24/7 لمساعدتك.'}
+      ] %}
+      {% for item in faqs %}
+        <div class="az-faq__item" onclick="this.classList.toggle('open')">
+          <div class="az-faq__q">
+            <span class="az-faq__q-text">{{ item.q }}</span>
+            <span class="az-faq__q-icon"><i class="sicon-plus"></i></span>
+          </div>
+          <div class="az-faq__a">
+            <div class="az-faq__a-inner">{{ item.a }}</div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <span class="az-section-label">قسم: الأسئلة الشائعة — ثيم: ازدهار</span>
+</section>

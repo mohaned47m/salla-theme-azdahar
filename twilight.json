@@ -242,8 +242,8 @@
     {
       "key": "186b3f4f-25cf-4d3c-abca-cef7eed6f0ab",
       "title": {
-        "en": "Enhances Animated Images",
-        "ar": "صور متحركة (محسنة)"
+        "en": "Enhances Animated Images — Azdahar",
+        "ar": "صور متحركة (محسنة) — ازدهار"
       },
       "icon": "sicon-image-carousel",
       "path": "home.enhanced-slider",
@@ -342,8 +342,8 @@
     {
       "key": "2b1b130b-5b37-422a-9683-e0fd367460c0",
       "title": {
-        "en": "Quick Links",
-        "ar": "روابط سريعة"
+        "en": "Quick Links — Azdahar",
+        "ar": "روابط سريعة — ازدهار"
       },
       "icon": "sicon-layout-grid-rearrange",
       "path": "home.main-links",
@@ -596,8 +596,8 @@
     {
       "key": "9a758d20-2ce4-4782-91fe-c04466464588",
       "title": {
-        "en": "Animated products with a background",
-        "ar": "منتجات متحركة مع خلفية"
+        "en": "Animated products with a background — Azdahar",
+        "ar": "منتجات متحركة مع خلفية — ازدهار"
       },
       "icon": "sicon-list-play",
       "path": "home.slider-products-with-header",
@@ -738,8 +738,8 @@
     {
       "key": "b89edc4a-ce0b-468f-8323-2da48147bb32",
       "title": {
-        "en": "Enhanced square images",
-        "ar": "صور مربعة (محسنة)"
+        "en": "Enhanced square images — Azdahar",
+        "ar": "صور مربعة (محسنة) — ازدهار"
       },
       "icon": "sicon-image",
       "path": "home.enhanced-square-banners",
@@ -913,8 +913,8 @@
     {
       "key": "25f6cf26-a53f-4954-9b32-739b311b32c7",
       "title": {
-        "en": "Brands",
-        "ar": "الماركات التجارية"
+        "en": "Brands — Azdahar",
+        "ar": "الماركات التجارية — ازدهار"
       },
       "icon": "sicon-award-ribbon",
       "path": "home.brands",
@@ -961,8 +961,8 @@
     {
       "key": "541cc423-90c7-4230-8a33-a0342cfde4ad",
       "title": {
-        "en": "Custom testimonials",
-        "ar": "آراء عملاء مخصصة"
+        "en": "Custom testimonials — Azdahar",
+        "ar": "آراء عملاء مخصصة — ازدهار"
       },
       "icon": "sicon-chat-bubbles",
       "path": "home.custom-testimonials",
@@ -1070,6 +1070,435 @@
           "required": false,
           "minLength": 1,
           "maxLength": 30
+        }
+      ]
+    },
+    {
+      "key": "98f401d3-d254-4dd9-8866-78e84245137e",
+      "title": {
+        "en": "Hero Banner — Azdahar",
+        "ar": "البانر الرئيسي — ازدهار"
+      },
+      "icon": "sicon-image",
+      "path": "home.az-hero",
+      "fields": [
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "العنوان الرئيسي",
+          "multilanguage": true,
+          "id": "title",
+          "value": "اكتشف أفضل المنتجات",
+          "required": false,
+          "format": "text",
+          "placeholder": "أدخل العنوان...",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-typography",
+          "label": "النص التعريفي",
+          "multilanguage": true,
+          "id": "subtitle",
+          "value": "تسوق من أرقى المنتجات المختارة بعناية",
+          "required": false,
+          "format": "textarea",
+          "placeholder": "أدخل النص...",
+          "minLength": 0,
+          "maxLength": 255
+        },
+        {
+          "type": "string",
+          "icon": "sicon-image",
+          "label": "صورة الخلفية",
+          "id": "image",
+          "value": "",
+          "required": false,
+          "format": "image"
+        },
+        {
+          "type": "string",
+          "icon": "sicon-link",
+          "label": "رابط زر التسوق",
+          "id": "button_url",
+          "value": "",
+          "required": false,
+          "format": "text"
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "نص زر التسوق",
+          "multilanguage": true,
+          "id": "button_text",
+          "value": "تسوق الآن",
+          "required": false,
+          "format": "text"
+        }
+      ]
+    },
+    {
+      "key": "8ce84300-4f60-45aa-a410-f5e9ebea7a68",
+      "title": {
+        "en": "Store Features — Azdahar",
+        "ar": "مميزات المتجر — ازدهار"
+      },
+      "icon": "sicon-store",
+      "path": "home.az-store-features",
+      "fields": [
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "العنوان",
+          "multilanguage": true,
+          "id": "title",
+          "value": "لماذا تتسوق معنا؟",
+          "required": false,
+          "format": "text",
+          "minLength": 0,
+          "maxLength": 100
+        }
+      ]
+    },
+    {
+      "key": "3c4f85ea-91c7-42c6-a9f0-cb2e98bf2dc3",
+      "title": {
+        "en": "Categories Grid — Azdahar",
+        "ar": "شبكة التصنيفات — ازدهار"
+      },
+      "icon": "sicon-layout-grid-rearrange",
+      "path": "home.az-categories",
+      "fields": [
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "العنوان",
+          "multilanguage": true,
+          "id": "title",
+          "value": "التصنيفات الرئيسية",
+          "required": false,
+          "format": "text",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-typography",
+          "label": "النص التعريفي",
+          "multilanguage": true,
+          "id": "subtitle",
+          "value": "اكتشف مجموعتنا المتنوعة",
+          "required": false,
+          "format": "textarea",
+          "minLength": 0,
+          "maxLength": 255
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "label": "عرض زر عرض الكل",
+          "id": "show_view_all",
+          "format": "switch",
+          "required": false,
+          "value": true,
+          "selected": true
+        }
+      ]
+    },
+    {
+      "key": "b57fe1b8-33f6-4f87-b60b-7e2e4928d208",
+      "title": {
+        "en": "Featured Products — Azdahar",
+        "ar": "المنتجات المميزة — ازدهار"
+      },
+      "icon": "sicon-tag",
+      "path": "home.az-featured-products",
+      "fields": [
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "العنوان",
+          "multilanguage": true,
+          "id": "title",
+          "value": "المنتجات المميزة",
+          "required": false,
+          "format": "text",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-typography",
+          "label": "النص التعريفي",
+          "multilanguage": true,
+          "id": "subtitle",
+          "value": "منتجات مختارة بعناية لتناسب أذواقكم",
+          "required": false,
+          "format": "textarea",
+          "minLength": 0,
+          "maxLength": 255
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "label": "عرض زر إضافة للسلة",
+          "id": "show_add_to_cart",
+          "format": "switch",
+          "required": false,
+          "value": true,
+          "selected": true
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "label": "عرض زر المفضلة",
+          "id": "show_wishlist",
+          "format": "switch",
+          "required": false,
+          "value": true,
+          "selected": true
+        }
+      ]
+    },
+    {
+      "key": "4067f0ab-4a76-437e-a455-f5d8e35e5eee",
+      "title": {
+        "en": "Flash Sales — Azdahar",
+        "ar": "عروض الفلاش — ازدهار"
+      },
+      "icon": "sicon-lightning",
+      "path": "home.az-flash-sales",
+      "fields": [
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "العنوان",
+          "multilanguage": true,
+          "id": "title",
+          "value": "⚡ عروض الفلاش الحصرية",
+          "required": false,
+          "format": "text",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-typography",
+          "label": "النص التعريفي",
+          "multilanguage": true,
+          "id": "subtitle",
+          "value": "عروض محدودة الوقت — لا تفوّتها!",
+          "required": false,
+          "format": "textarea",
+          "minLength": 0,
+          "maxLength": 255
+        },
+        {
+          "type": "number",
+          "icon": "sicon-clock",
+          "label": "مدة العداد (بالساعات)",
+          "id": "countdown_hours",
+          "value": 12,
+          "required": false,
+          "format": "number"
+        }
+      ]
+    },
+    {
+      "key": "171b4ec2-ce51-4ce6-8651-937e3eecfb91",
+      "title": {
+        "en": "Promo Banner — Azdahar",
+        "ar": "البانر الترويجي — ازدهار"
+      },
+      "icon": "sicon-gift",
+      "path": "home.az-promo-banner",
+      "fields": [
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "العنوان",
+          "multilanguage": true,
+          "id": "title",
+          "value": "خصم 20% على أول طلب",
+          "required": false,
+          "format": "text",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-typography",
+          "label": "النص التعريفي",
+          "multilanguage": true,
+          "id": "description",
+          "value": "سجّل الآن واحصل على خصم حصري على أول طلب لك.",
+          "required": false,
+          "format": "textarea",
+          "minLength": 0,
+          "maxLength": 255
+        },
+        {
+          "type": "string",
+          "icon": "sicon-tag",
+          "label": "كود الخصم",
+          "id": "coupon_code",
+          "value": "AZDAHAR20",
+          "required": false,
+          "format": "text"
+        },
+        {
+          "type": "string",
+          "icon": "sicon-link",
+          "label": "رابط زر التسوق",
+          "id": "button_url",
+          "value": "",
+          "required": false,
+          "format": "text"
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "نص الزر",
+          "multilanguage": true,
+          "id": "button_text",
+          "value": "تسوق الآن",
+          "required": false,
+          "format": "text"
+        }
+      ]
+    },
+    {
+      "key": "999f706e-21f1-4818-9673-9f4eed79e60b",
+      "title": {
+        "en": "Testimonials — Azdahar",
+        "ar": "آراء العملاء — ازدهار"
+      },
+      "icon": "sicon-star",
+      "path": "home.az-testimonials",
+      "fields": [
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "العنوان",
+          "multilanguage": true,
+          "id": "title",
+          "value": "آراء العملاء",
+          "required": false,
+          "format": "text",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-typography",
+          "label": "النص التعريفي",
+          "multilanguage": true,
+          "id": "subtitle",
+          "value": "تجارب حقيقية من عملاء حقيقيين",
+          "required": false,
+          "format": "textarea",
+          "minLength": 0,
+          "maxLength": 255
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "label": "إخفاء معلومات العميل",
+          "id": "hide_customer_info",
+          "format": "switch",
+          "required": false,
+          "value": false,
+          "selected": false
+        }
+      ]
+    },
+    {
+      "key": "b3b67c82-2689-44c6-bc9a-67610d4a5d31",
+      "title": {
+        "en": "FAQ — Azdahar",
+        "ar": "الأسئلة الشائعة — ازدهار"
+      },
+      "icon": "sicon-help-circle",
+      "path": "home.az-faq",
+      "fields": [
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "العنوان",
+          "multilanguage": true,
+          "id": "title",
+          "value": "الأسئلة الشائعة",
+          "required": false,
+          "format": "text",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-typography",
+          "label": "النص التعريفي",
+          "multilanguage": true,
+          "id": "subtitle",
+          "value": "إجابات على أكثر الأسئلة شيوعاً",
+          "required": false,
+          "format": "textarea",
+          "minLength": 0,
+          "maxLength": 255
+        }
+      ]
+    },
+    {
+      "key": "26574da5-e783-4570-ba61-861c350c6dc5",
+      "title": {
+        "en": "CTA Section — Azdahar",
+        "ar": "قسم الدعوة للعمل — ازدهار"
+      },
+      "icon": "sicon-cursor",
+      "path": "home.az-cta",
+      "fields": [
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "العنوان",
+          "multilanguage": true,
+          "id": "title",
+          "value": "ابدأ تسوقك اليوم",
+          "required": false,
+          "format": "text",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-typography",
+          "label": "النص التعريفي",
+          "multilanguage": true,
+          "id": "subtitle",
+          "value": "انضم إلى أكثر من 10,000 عميل راضٍ",
+          "required": false,
+          "format": "textarea",
+          "minLength": 0,
+          "maxLength": 255
+        },
+        {
+          "type": "string",
+          "icon": "sicon-link",
+          "label": "رابط الزر الرئيسي",
+          "id": "button_url",
+          "value": "",
+          "required": false,
+          "format": "text"
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "نص الزر الرئيسي",
+          "multilanguage": true,
+          "id": "button_text",
+          "value": "تسوق الآن",
+          "required": false,
+          "format": "text"
         }
       ]
     }

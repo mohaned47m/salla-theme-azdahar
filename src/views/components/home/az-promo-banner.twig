@@ -1,0 +1,215 @@
+{#
+| Variable                  | Type    | Description                         |
+|---------------------------|---------|-------------------------------------|
+| component.title           | string  | Banner headline                     |
+| component.description     | string  | Banner description                  |
+| component.coupon_code     | string  | Discount coupon code                |
+| component.button_url      | string  | CTA button link                     |
+| component.button_text     | string  | CTA button label                    |
+| position                  | int     | Sort order                          |
+#}
+<section class="az-promo s-block" id="az-promo-{{ position }}" aria-label="قسم: البانر الترويجي — ثيم: ازدهار">
+  <style>
+    .az-promo {
+      background: linear-gradient(135deg, #C8963E 0%, #87602C 60%, #5c3d1a 100%);
+      padding: 5rem 0;
+      direction: rtl;
+      position: relative;
+      overflow: hidden;
+    }
+    /* دوائر خلفية متحركة */
+    .az-promo::before,
+    .az-promo::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      animation: azFloat 8s ease-in-out infinite;
+    }
+    .az-promo::before {
+      width: 400px; height: 400px;
+      top: -150px; left: -100px;
+      animation-delay: 0s;
+    }
+    .az-promo::after {
+      width: 300px; height: 300px;
+      bottom: -100px; right: -80px;
+      animation-delay: -4s;
+    }
+    @keyframes azFloat {
+      0%,100% { transform: translateY(0) scale(1); }
+      50%      { transform: translateY(-20px) scale(1.05); }
+    }
+    .az-promo__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .az-promo__text { flex: 1; min-width: 260px; }
+    .az-promo__eyebrow {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      margin-bottom: 1rem;
+      letter-spacing: 0.08em;
+    }
+    .az-promo__title {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 900;
+      color: #fff;
+      margin: 0 0 0.8rem;
+      line-height: 1.2;
+    }
+    .az-promo__desc {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.85);
+      margin: 0 0 1.5rem;
+      line-height: 1.6;
+    }
+    .az-promo__actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .az-promo__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #fff;
+      color: #87602C;
+      padding: 0.85rem 2rem;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    .az-promo__btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      color: #87602C;
+    }
+    /* كود الخصم */
+    .az-promo__coupon {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.15);
+      border: 2px dashed rgba(255,255,255,0.5);
+      border-radius: 12px;
+      padding: 0.7rem 1.2rem;
+      cursor: pointer;
+      transition: background 0.3s;
+      user-select: none;
+    }
+    .az-promo__coupon:hover { background: rgba(255,255,255,0.25); }
+    .az-promo__coupon-label {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.7);
+    }
+    .az-promo__coupon-code {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.1em;
+      font-family: monospace;
+    }
+    .az-promo__coupon-icon { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+    /* Right visual */
+    .az-promo__visual {
+      flex-shrink: 0;
+      text-align: center;
+    }
+    .az-promo__badge-big {
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      border: 3px solid rgba(255,255,255,0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: azSpin 20s linear infinite;
+    }
+    @keyframes azSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    .az-promo__badge-big .inner {
+      animation: azSpinReverse 20s linear infinite;
+      text-align: center;
+    }
+    @keyframes azSpinReverse {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(-360deg); }
+    }
+    .az-promo__badge-big .pct {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+    }
+    .az-promo__badge-big .off {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.8);
+      font-weight: 700;
+    }
+    .az-section-label {
+      display: block;
+      text-align: center;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 2rem 0 0;
+      font-family: monospace;
+    }
+  </style>
+
+  <div class="az-promo__inner">
+    <div class="az-promo__text">
+      <span class="az-promo__eyebrow">عرض حصري لفترة محدودة</span>
+      <h2 class="az-promo__title">{{ component.title ?: 'خصم 20% على أول طلب' }}</h2>
+      <p class="az-promo__desc">{{ component.description ?: 'سجّل الآن واحصل على خصم حصري على أول طلب لك.' }}</p>
+      <div class="az-promo__actions">
+        <a href="{{ component.button_url ?: store.url }}" class="az-promo__btn">
+          <i class="sicon-shopping-bag"></i>
+          {{ component.button_text ?: 'تسوق الآن' }}
+        </a>
+        {% if component.coupon_code %}
+          <div class="az-promo__coupon" onclick="navigator.clipboard.writeText('{{ component.coupon_code }}').then(function(){alert('تم نسخ الكود: {{ component.coupon_code }}')})">
+            <div>
+              <div class="az-promo__coupon-label">كود الخصم</div>
+              <div class="az-promo__coupon-code">{{ component.coupon_code }}</div>
+            </div>
+            <i class="sicon-copy az-promo__coupon-icon"></i>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="az-promo__visual">
+      <div class="az-promo__badge-big">
+        <div class="inner">
+          <div class="pct">20%</div>
+          <div class="off">خصم</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <span class="az-section-label">قسم: البانر الترويجي — ثيم: ازدهار</span>
+</section>

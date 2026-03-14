@@ -1,0 +1,263 @@
+{#
+| Variable                    | Type    | Description                         |
+|-----------------------------|---------|-------------------------------------|
+| component.title             | string  | Section title                       |
+| component.subtitle          | string  | Section subtitle                    |
+| component.countdown_hours   | number  | Countdown duration in hours         |
+| component.products          | array   | Sale products from Salla            |
+| position                    | int     | Sort order                          |
+#}
+<section class="az-flash s-block" id="az-flash-{{ position }}" aria-label="قسم: عروض الفلاش — ثيم: ازدهار">
+  <style>
+    .az-flash {
+      background: linear-gradient(135deg, #2F2824 0%, #1a1512 100%);
+      padding: 5rem 0 4rem;
+      direction: rtl;
+    }
+    .az-flash__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    .az-flash__head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .az-flash__head-left h2 {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 900;
+      color: #fff;
+      margin: 0 0 0.4rem;
+    }
+    .az-flash__head-left p {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.6);
+      margin: 0;
+    }
+    /* Countdown */
+    .az-countdown {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .az-countdown__unit {
+      text-align: center;
+      background: rgba(200,150,62,0.15);
+      border: 1px solid rgba(200,150,62,0.3);
+      border-radius: 10px;
+      padding: 0.5rem 0.8rem;
+      min-width: 56px;
+    }
+    .az-countdown__num {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #C8963E;
+      display: block;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+    .az-countdown__label {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.5);
+      margin-top: 0.2rem;
+    }
+    .az-countdown__sep {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #C8963E;
+      margin-bottom: 0.8rem;
+    }
+    /* Products */
+    .az-flash__grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+    }
+    @media(min-width:640px)  { .az-flash__grid { grid-template-columns: repeat(3, 1fr); } }
+    @media(min-width:1024px) { .az-flash__grid { grid-template-columns: repeat(4, 1fr); } }
+
+    .az-flash-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(200,150,62,0.15);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
+    }
+    .az-flash-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(200,150,62,0.4);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+    }
+    .az-flash-card__img-wrap {
+      aspect-ratio: 1;
+      overflow: hidden;
+      background: rgba(255,255,255,0.04);
+      position: relative;
+    }
+    .az-flash-card__img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .az-flash-card:hover .az-flash-card__img { transform: scale(1.06); }
+    .az-flash-card__discount {
+      position: absolute;
+      top: 0.7rem; right: 0.7rem;
+      background: #ef4444;
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+    }
+    .az-flash-card__body { padding: 1rem; }
+    .az-flash-card__name {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 0 0.5rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .az-flash-card__prices {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .az-flash-card__price {
+      font-size: 1rem;
+      font-weight: 900;
+      color: #C8963E;
+    }
+    .az-flash-card__old {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.4);
+      text-decoration: line-through;
+    }
+    .az-flash-card__btn {
+      display: block;
+      width: 100%;
+      margin-top: 0.8rem;
+      background: linear-gradient(135deg, #C8963E, #87602C);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.6rem;
+      font-size: 0.83rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+    .az-flash-card__btn:hover { opacity: 0.88; color: #fff; }
+    .az-flash-empty {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 3rem;
+      color: rgba(255,255,255,0.4);
+    }
+    .az-section-label {
+      display: block;
+      text-align: center;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 2rem 0 0;
+      font-family: monospace;
+    }
+  </style>
+
+  <div class="az-flash__inner">
+    <div class="az-flash__head">
+      <div class="az-flash__head-left">
+        <h2>{{ component.title ?: '⚡ عروض الفلاش الحصرية' }}</h2>
+        <p>{{ component.subtitle ?: 'عروض محدودة الوقت — لا تفوّتها!' }}</p>
+      </div>
+      {# عداد تنازلي #}
+      <div class="az-countdown" id="az-countdown-{{ position }}">
+        <div class="az-countdown__unit">
+          <span class="az-countdown__num" id="az-h-{{ position }}">00</span>
+          <div class="az-countdown__label">ساعة</div>
+        </div>
+        <span class="az-countdown__sep">:</span>
+        <div class="az-countdown__unit">
+          <span class="az-countdown__num" id="az-m-{{ position }}">00</span>
+          <div class="az-countdown__label">دقيقة</div>
+        </div>
+        <span class="az-countdown__sep">:</span>
+        <div class="az-countdown__unit">
+          <span class="az-countdown__num" id="az-s-{{ position }}">00</span>
+          <div class="az-countdown__label">ثانية</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="az-flash__grid">
+      {% if component.products is defined and component.products|length > 0 %}
+        {% for product in component.products %}
+          <div class="az-flash-card">
+            <div class="az-flash-card__img-wrap">
+              {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="az-flash-card__img" loading="lazy">
+              {% endif %}
+              {% if product.is_on_sale %}
+                <span class="az-flash-card__discount">خصم</span>
+              {% endif %}
+            </div>
+            <div class="az-flash-card__body">
+              <h3 class="az-flash-card__name">{{ product.name }}</h3>
+              <div class="az-flash-card__prices">
+                <span class="az-flash-card__price">{{ product.price.formatted }}</span>
+                {% if product.regular_price %}
+                  <span class="az-flash-card__old">{{ product.regular_price.formatted }}</span>
+                {% endif %}
+              </div>
+              <a href="{{ product.url }}" class="az-flash-card__btn">
+                <i class="sicon-shopping-bag"></i> اشتري الآن
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="az-flash-empty">
+          <i class="sicon-lightning" style="font-size:3rem;display:block;margin-bottom:1rem;opacity:0.3;"></i>
+          <p>لا توجد عروض فلاش حالياً</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <span class="az-section-label">قسم: عروض الفلاش — ثيم: ازدهار</span>
+
+  <script>
+    (function() {
+      var hours = {{ component.countdown_hours ?: 12 }};
+      var end = new Date().getTime() + hours * 3600 * 1000;
+      var pos = '{{ position }}';
+      function tick() {
+        var now = new Date().getTime();
+        var diff = Math.max(0, end - now);
+        var h = Math.floor(diff / 3600000);
+        var m = Math.floor((diff % 3600000) / 60000);
+        var s = Math.floor((diff % 60000) / 1000);
+        var pad = function(n){ return n < 10 ? '0'+n : n; };
+        var eh = document.getElementById('az-h-'+pos);
+        var em = document.getElementById('az-m-'+pos);
+        var es = document.getElementById('az-s-'+pos);
+        if(eh) eh.textContent = pad(h);
+        if(em) em.textContent = pad(m);
+        if(es) es.textContent = pad(s);
+        if(diff > 0) setTimeout(tick, 1000);
+      }
+      tick();
+    })();
+  </script>
+</section>
