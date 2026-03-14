@@ -1,1030 +1,442 @@
-{#
-| Variable   | Type   | Description        |
-|------------|--------|--------------------|
-| page       | object |                    |
-| page.title | string | *could be html     |
-| page.slug  | string | ex: "cat.show"     |
-#}
 {% extends "layouts.master" %}
 
 {% block styles %}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
-
 <style>
-/* ================================================================
-   ثيم ازدهار — تصميم احترافي كامل مع أنيميشن
-   ================================================================ */
+/* ============================================================
+   ثيم ازدهار — الصفحة الرئيسية — نسخة CRO محسّنة
+   ============================================================ */
 
-/* ---------- متغيرات الألوان ---------- */
+/* ── متغيرات ── */
 :root {
-  --az-dark:      #2F2824;
-  --az-gold:      #87602C;
-  --az-gold-lt:   #a8783a;
-  --az-cream:     #fcf9f6;
-  --az-white:     #ffffff;
-  --az-gray:      #6b7280;
-  --az-gray-lt:   #f1f5f9;
-  --az-shadow:    0 4px 24px rgba(47,40,36,.10);
-  --az-shadow-lg: 0 12px 48px rgba(47,40,36,.18);
-  --az-radius:    1.25rem;
-  --az-radius-lg: 1.75rem;
-  --az-transition: .35s cubic-bezier(.4,0,.2,1);
+  --az-primary:      #2563eb;
+  --az-primary-dk:   #1d4ed8;
+  --az-primary-lt:   #eff6ff;
+  --az-accent:       #f59e0b;
+  --az-accent-dk:    #d97706;
+  --az-success:      #10b981;
+  --az-danger:       #ef4444;
+  --az-text:         #1e293b;
+  --az-muted:        #64748b;
+  --az-border:       #e2e8f0;
+  --az-bg:           #f8fafc;
+  --az-white:        #ffffff;
+  --az-r:            12px;
+  --az-r-lg:         20px;
+  --az-shadow:       0 4px 24px rgba(0,0,0,.08);
+  --az-shadow-hv:    0 8px 40px rgba(0,0,0,.14);
+  --az-tr:           all .3s cubic-bezier(.4,0,.2,1);
+  --az-py:           80px;
 }
 
-/* ---------- ريست عام ---------- */
+/* ── ريست ── */
 .az-page *, .az-page *::before, .az-page *::after { box-sizing: border-box; }
-.az-page { font-family: 'Tajawal', sans-serif; direction: rtl; overflow-x: hidden; }
+.az-page { font-family: 'Tajawal', sans-serif; color: var(--az-text); background: var(--az-bg); overflow-x: hidden; }
 .az-page a { text-decoration: none; color: inherit; }
 .az-page img { display: block; max-width: 100%; }
 
-/* ---------- أنيميشن الظهور عند التمرير ---------- */
-@keyframes az-fadeUp {
-  from { opacity: 0; transform: translateY(40px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* ── تسمية الأقسام ── */
+.az-label {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 10px 0; font-size: .68rem; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--az-muted); opacity: .45;
+  user-select: none; pointer-events: none;
 }
-@keyframes az-fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-@keyframes az-scaleIn {
-  from { opacity: 0; transform: scale(.92); }
-  to   { opacity: 1; transform: scale(1); }
-}
-@keyframes az-slideRight {
-  from { opacity: 0; transform: translateX(60px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-@keyframes az-pulse {
-  0%, 100% { transform: scale(1); }
-  50%       { transform: scale(1.06); }
-}
-@keyframes az-shimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position:  200% center; }
-}
-@keyframes az-float {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-10px); }
+.az-label::before, .az-label::after {
+  content: ''; flex: 1; max-width: 80px; height: 1px; background: var(--az-border);
 }
 
-.az-reveal {
-  opacity: 0;
-  transform: translateY(36px);
-  transition: opacity .7s ease, transform .7s ease;
-}
-.az-reveal.az-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.az-reveal-delay-1 { transition-delay: .1s; }
-.az-reveal-delay-2 { transition-delay: .2s; }
-.az-reveal-delay-3 { transition-delay: .3s; }
-.az-reveal-delay-4 { transition-delay: .4s; }
+/* ── Scroll Reveal ── */
+.az-r { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
+.az-r.on { opacity: 1; transform: none; }
+.az-r.d1 { transition-delay: .1s; } .az-r.d2 { transition-delay: .2s; }
+.az-r.d3 { transition-delay: .3s; } .az-r.d4 { transition-delay: .4s; }
 
-/* ---------- مساحات القسم ---------- */
-.az-section {
-  padding: 5rem 1.25rem;
-}
-@media (min-width: 768px)  { .az-section { padding: 5rem 3rem; } }
-@media (min-width: 1280px) { .az-section { padding: 5rem 8rem; } }
+/* ── Container & Section ── */
+.az-con { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.az-sec { padding: var(--az-py) 0; }
+.az-sec--white { background: var(--az-white); }
+.az-sec--gray  { background: var(--az-bg); }
+.az-sec--dark  { background: #0f172a; }
 
-/* ---------- رأس القسم ---------- */
-.az-section-head {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 3rem;
+/* ── Section Head ── */
+.az-head { text-align: center; margin-bottom: 48px; }
+.az-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: .78rem; font-weight: 800; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--az-primary); margin-bottom: 12px;
 }
-.az-section-eyebrow {
-  display: flex;
-  align-items: center;
-  gap: .6rem;
-  margin-bottom: .75rem;
-}
-.az-section-eyebrow__line {
-  width: 2.5rem; height: 2px;
-  background: var(--az-gold);
-  border-radius: 2px;
-}
-.az-section-eyebrow__text {
-  font-size: .72rem;
-  font-weight: 800;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--az-gold);
-}
-.az-section-title {
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
-  font-weight: 900;
-  color: var(--az-dark);
-  line-height: 1.2;
-  margin: 0 0 .4rem;
-}
-.az-section-subtitle {
-  font-size: .95rem;
-  color: var(--az-gray);
-  margin: 0;
-}
-.az-view-all {
-  display: inline-flex;
-  align-items: center;
-  gap: .4rem;
-  font-size: .875rem;
-  font-weight: 700;
-  color: var(--az-gold);
-  white-space: nowrap;
-  padding: .5rem 1.25rem;
-  border: 1.5px solid rgba(135,96,44,.3);
-  border-radius: 9999px;
-  transition: var(--az-transition);
-}
-.az-view-all:hover {
-  background: var(--az-gold);
-  color: #fff;
-  border-color: var(--az-gold);
-}
+.az-eyebrow::before, .az-eyebrow::after { content: ''; width: 24px; height: 2px; background: currentColor; border-radius: 2px; }
+.az-h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900; color: var(--az-text); margin: 0 0 12px; line-height: 1.3; }
+.az-sub { font-size: .97rem; color: var(--az-muted); max-width: 520px; margin: 0 auto; line-height: 1.7; }
 
-/* ================================================================
-   1. HERO SECTION
-   ================================================================ */
-.az-hero {
-  padding: 1.25rem;
-}
-@media (min-width: 768px)  { .az-hero { padding: 2rem 3rem; } }
-@media (min-width: 1280px) { .az-hero { padding: 2rem 8rem; } }
-
-.az-hero__wrap {
-  position: relative;
-  min-height: 620px;
-  border-radius: var(--az-radius-lg);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  padding: 3rem 2rem;
-}
-@media (min-width: 768px) { .az-hero__wrap { padding: 4rem 5rem; min-height: 680px; } }
-
-/* طبقة الخلفية */
-.az-hero__bg {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  transform: scale(1.04);
-  transition: transform 8s ease;
-  will-change: transform;
-}
-.az-hero__wrap:hover .az-hero__bg { transform: scale(1.08); }
-
-/* طبقة التدرج */
-.az-hero__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    270deg,
-    rgba(47,40,36,.95) 0%,
-    rgba(47,40,36,.65) 45%,
-    rgba(47,40,36,.15) 100%
-  );
-}
-
-/* حبوب الضوء الزخرفية */
-.az-hero__glow {
-  position: absolute;
-  width: 500px; height: 500px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(135,96,44,.25) 0%, transparent 70%);
-  top: -100px; left: -100px;
-  pointer-events: none;
-  animation: az-float 6s ease-in-out infinite;
-}
-
-.az-hero__content {
-  position: relative;
-  z-index: 10;
-  max-width: 38rem;
-  animation: az-slideRight .9s ease both;
-}
-
-.az-hero__eyebrow {
-  display: flex;
-  align-items: center;
-  gap: .75rem;
-  margin-bottom: 1.75rem;
-}
-.az-hero__eyebrow-line {
-  width: 3rem; height: 2px;
-  background: var(--az-gold);
-  border-radius: 2px;
-}
-.az-hero__eyebrow-text {
-  font-size: .72rem;
-  font-weight: 800;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--az-gold);
-}
-
-.az-hero__title {
-  font-size: clamp(2.8rem, 6vw, 5.5rem);
-  font-weight: 900;
-  color: #fff;
-  line-height: 1.15;
-  margin: 0 0 1.5rem;
-}
-.az-hero__title-highlight {
-  color: var(--az-gold);
-  position: relative;
-  display: inline-block;
-}
-/* خط تحت الكلمة المميزة */
-.az-hero__title-highlight::after {
-  content: '';
-  position: absolute;
-  bottom: 4px; right: 0; left: 0;
-  height: 3px;
-  background: var(--az-gold);
-  border-radius: 2px;
-  opacity: .5;
-}
-
-.az-hero__desc {
-  font-size: 1.1rem;
-  color: rgba(255,255,255,.8);
-  line-height: 1.85;
-  margin: 0 0 2.5rem;
-  max-width: 30rem;
-}
-
-.az-hero__btns {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-/* أزرار عامة */
+/* ── Buttons ── */
 .az-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: .5rem;
-  font-family: 'Tajawal', sans-serif;
-  font-weight: 800;
-  border-radius: .875rem;
-  padding: 1rem 2.25rem;
-  font-size: 1rem;
-  cursor: pointer;
-  border: none;
-  transition: var(--az-transition);
-  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 28px; border-radius: 50px; font-size: .95rem;
+  font-weight: 700; font-family: inherit; cursor: pointer;
+  border: 2px solid transparent; transition: var(--az-tr); white-space: nowrap;
 }
-.az-btn--primary {
-  background: var(--az-gold);
-  color: #fff;
-  box-shadow: 0 4px 20px rgba(135,96,44,.4);
-}
-.az-btn--primary:hover {
-  background: var(--az-gold-lt);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 28px rgba(135,96,44,.5);
-}
-.az-btn--outline {
-  background: rgba(255,255,255,.12);
-  color: #fff;
-  border: 1.5px solid rgba(255,255,255,.4);
-  backdrop-filter: blur(8px);
-}
-.az-btn--outline:hover {
-  background: rgba(255,255,255,.22);
-  transform: translateY(-3px);
-}
-.az-btn--dark {
-  background: var(--az-dark);
-  color: #fff;
-}
-.az-btn--dark:hover {
-  background: #3d3430;
-  transform: translateY(-2px);
-}
+.az-btn .ms { font-size: 1.1rem; }
+.az-btn--blue   { background: var(--az-primary); color: #fff; border-color: var(--az-primary); }
+.az-btn--blue:hover   { background: var(--az-primary-dk); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,99,235,.35); }
+.az-btn--amber  { background: var(--az-accent); color: #fff; border-color: var(--az-accent); }
+.az-btn--amber:hover  { background: var(--az-accent-dk); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,.35); }
+.az-btn--ghost  { background: transparent; color: var(--az-primary); border-color: var(--az-primary); }
+.az-btn--ghost:hover  { background: var(--az-primary); color: #fff; transform: translateY(-2px); }
+.az-btn--white  { background: #fff; color: var(--az-primary); }
+.az-btn--white:hover  { background: var(--az-primary-lt); transform: translateY(-2px); }
+.az-btn--wghost { background: transparent; color: #fff; border-color: rgba(255,255,255,.5); }
+.az-btn--wghost:hover { background: rgba(255,255,255,.1); transform: translateY(-2px); }
 
-/* إحصائيات الهيرو */
+/* ============================================================
+   1. ANNOUNCEMENT BAR
+   ============================================================ */
+.az-topbar {
+  background: var(--az-primary); color: #fff;
+  padding: 10px 24px; text-align: center;
+  font-size: .87rem; font-weight: 600; position: relative;
+}
+.az-topbar__inner { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.az-topbar__badge { background: var(--az-accent); padding: 2px 10px; border-radius: 50px; font-size: .72rem; font-weight: 800; }
+.az-topbar a { color: #fff; text-decoration: underline; opacity: .85; }
+.az-topbar a:hover { opacity: 1; }
+.az-topbar__x { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); background: none; border: none; color: rgba(255,255,255,.7); cursor: pointer; display: flex; align-items: center; }
+.az-topbar__x:hover { color: #fff; }
+
+/* ============================================================
+   2. HERO
+   ============================================================ */
+.az-hero {
+  position: relative; min-height: 90vh;
+  display: flex; align-items: center; overflow: hidden;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 60%, #0f172a 100%);
+}
+.az-hero__bg {
+  position: absolute; inset: 0;
+  background: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600&q=80') center/cover;
+  opacity: .22; transform: scale(1.08); transition: transform 9s ease;
+}
+.az-hero__bg.loaded { transform: scale(1); }
+.az-hero__ov { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(15,23,42,.88) 0%, rgba(30,58,95,.55) 100%); }
+.az-hero__con { position: relative; z-index: 2; max-width: 640px; }
+.az-hero__badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(245,158,11,.15); border: 1px solid rgba(245,158,11,.4);
+  color: var(--az-accent); padding: 6px 16px; border-radius: 50px;
+  font-size: .82rem; font-weight: 700; margin-bottom: 24px;
+  animation: pulse-badge 3s ease infinite;
+}
+@keyframes pulse-badge { 0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.3)} 50%{box-shadow:0 0 0 8px rgba(245,158,11,0)} }
+.az-hero__h1 {
+  font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 900; color: #fff;
+  line-height: 1.15; margin: 0 0 20px;
+  animation: slideup .8s ease both;
+}
+.az-hero__h1 span { color: var(--az-accent); }
+.az-hero__p {
+  font-size: 1.08rem; color: rgba(255,255,255,.75); line-height: 1.75;
+  margin: 0 0 36px; animation: slideup .8s .15s ease both;
+}
+.az-hero__btns { display: flex; gap: 14px; flex-wrap: wrap; animation: slideup .8s .3s ease both; }
 .az-hero__stats {
-  display: flex;
-  gap: 2.5rem;
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid rgba(255,255,255,.15);
+  display: flex; gap: 32px; margin-top: 48px;
+  padding-top: 32px; border-top: 1px solid rgba(255,255,255,.12);
+  animation: slideup .8s .45s ease both;
 }
-.az-hero__stat-num {
-  font-size: 1.8rem;
-  font-weight: 900;
-  color: var(--az-gold);
-  line-height: 1;
+.az-hero__stat-n { font-size: 1.9rem; font-weight: 900; color: #fff; line-height: 1; }
+.az-hero__stat-l { font-size: .76rem; color: rgba(255,255,255,.5); margin-top: 4px; }
+.az-hero__div { width: 1px; background: rgba(255,255,255,.15); }
+.az-hero__scroll {
+  position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  color: rgba(255,255,255,.35); font-size: .7rem; letter-spacing: .08em;
+  animation: bounce 2s ease infinite;
 }
-.az-hero__stat-label {
-  font-size: .8rem;
-  color: rgba(255,255,255,.65);
-  margin-top: .25rem;
-}
+.az-hero__scroll-dot { width: 5px; height: 5px; background: rgba(255,255,255,.35); border-radius: 50%; }
+@keyframes slideup { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:none} }
+@keyframes bounce   { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
 
-/* ================================================================
-   2. FEATURES BAR
-   ================================================================ */
-.az-features {
-  background: var(--az-cream);
-  padding: 0 1.25rem;
+/* ============================================================
+   3. TRUST BAR
+   ============================================================ */
+.az-trust { background: #fff; border-bottom: 1px solid var(--az-border); }
+.az-trust__grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+.az-trust__item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 24px 20px; border-left: 1px solid var(--az-border);
+  transition: var(--az-tr);
 }
-@media (min-width: 768px)  { .az-features { padding: 0 3rem; } }
-@media (min-width: 1280px) { .az-features { padding: 0 8rem; } }
+.az-trust__item:last-child { border-left: none; }
+.az-trust__item:hover { background: var(--az-primary-lt); }
+.az-trust__icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  background: var(--az-primary-lt); color: var(--az-primary);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: var(--az-tr);
+}
+.az-trust__item:hover .az-trust__icon { background: var(--az-primary); color: #fff; }
+.az-trust__t strong { display: block; font-size: .9rem; font-weight: 700; }
+.az-trust__t span   { font-size: .77rem; color: var(--az-muted); }
 
-.az-features__inner {
-  background: var(--az-white);
-  border-radius: var(--az-radius-lg);
-  box-shadow: var(--az-shadow);
-  padding: 2.5rem 2rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0;
-  transform: translateY(-3rem);
-  position: relative;
-  z-index: 20;
+/* ============================================================
+   4. CATEGORIES
+   ============================================================ */
+.az-cats__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.az-cat {
+  position: relative; border-radius: var(--az-r-lg);
+  overflow: hidden; aspect-ratio: 3/4;
+  box-shadow: var(--az-shadow); cursor: pointer; display: block;
+  transition: var(--az-tr);
 }
-@media (min-width: 640px)  { .az-features__inner { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1024px) { .az-features__inner { grid-template-columns: repeat(4, 1fr); } }
+.az-cat:hover { transform: translateY(-6px); box-shadow: var(--az-shadow-hv); }
+.az-cat__img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+.az-cat:hover .az-cat__img { transform: scale(1.07); }
+.az-cat__ov {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.78) 0%, rgba(0,0,0,.08) 60%, transparent 100%);
+  transition: var(--az-tr);
+}
+.az-cat:hover .az-cat__ov { background: linear-gradient(to top, rgba(0,0,0,.88) 0%, rgba(0,0,0,.2) 60%, transparent 100%); }
+.az-cat__body { position: absolute; bottom: 0; left: 0; right: 0; padding: 22px 18px; }
+.az-cat__name { font-size: 1.08rem; font-weight: 800; color: #fff; margin: 0 0 5px; }
+.az-cat__count { font-size: .78rem; color: rgba(255,255,255,.6); }
+.az-cat__cta {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #fff; color: var(--az-primary);
+  padding: 6px 14px; border-radius: 50px; font-size: .78rem; font-weight: 700;
+  margin-top: 10px; opacity: 0; transform: translateY(8px); transition: var(--az-tr);
+}
+.az-cat:hover .az-cat__cta { opacity: 1; transform: none; }
+.az-cat--wide { grid-column: span 2; aspect-ratio: 16/9; }
 
-.az-feature-item {
-  display: flex;
-  align-items: center;
-  gap: 1.1rem;
-  padding: 1.25rem 1.5rem;
-  transition: var(--az-transition);
-  border-radius: 1rem;
-  cursor: default;
+/* ============================================================
+   5. FEATURED PRODUCTS
+   ============================================================ */
+.az-prods__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.az-prod {
+  background: #fff; border-radius: var(--az-r);
+  border: 1px solid var(--az-border); overflow: hidden;
+  transition: var(--az-tr); position: relative;
 }
-.az-feature-item:hover { background: var(--az-cream); }
+.az-prod:hover { transform: translateY(-4px); box-shadow: var(--az-shadow-hv); border-color: transparent; }
+.az-prod__img-w { position: relative; aspect-ratio: 1; overflow: hidden; background: var(--az-bg); }
+.az-prod__img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+.az-prod:hover .az-prod__img { transform: scale(1.06); }
+.az-prod__badge {
+  position: absolute; top: 12px; right: 12px;
+  background: var(--az-danger); color: #fff;
+  padding: 3px 10px; border-radius: 50px; font-size: .7rem; font-weight: 800;
+}
+.az-prod__badge--new { background: var(--az-success); }
+.az-prod__wish {
+  position: absolute; top: 12px; left: 12px;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: #fff; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12); transition: var(--az-tr); opacity: 0;
+}
+.az-prod:hover .az-prod__wish { opacity: 1; }
+.az-prod__wish:hover { background: #fee2e2; color: var(--az-danger); }
+.az-prod__body { padding: 16px; }
+.az-prod__cat  { font-size: .7rem; color: var(--az-primary); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 5px; }
+.az-prod__name { font-size: .93rem; font-weight: 700; color: var(--az-text); margin: 0 0 10px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.az-prod__stars { color: var(--az-accent); font-size: .82rem; margin-bottom: 10px; }
+.az-prod__foot { display: flex; align-items: center; justify-content: space-between; }
+.az-prod__price { font-size: 1.08rem; font-weight: 800; color: var(--az-primary); }
+.az-prod__old   { font-size: .8rem; color: var(--az-muted); text-decoration: line-through; margin-left: 4px; }
+.az-prod__add {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--az-primary); color: #fff;
+  border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: var(--az-tr);
+}
+.az-prod__add:hover { background: var(--az-primary-dk); transform: scale(1.1); }
 
-/* فاصل رأسي بين العناصر */
-@media (min-width: 1024px) {
-  .az-feature-item:not(:last-child) {
-    border-left: 1px solid var(--az-gray-lt);
-  }
-}
-
-.az-feature-item__icon-wrap {
-  width: 3.25rem; height: 3.25rem;
-  border-radius: .875rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(135,96,44,.1);
-  flex-shrink: 0;
-  transition: var(--az-transition);
-}
-.az-feature-item:hover .az-feature-item__icon-wrap {
-  background: var(--az-gold);
-}
-.az-feature-item__icon {
-  font-size: 1.6rem;
-  color: var(--az-gold);
-  transition: var(--az-transition);
-}
-.az-feature-item:hover .az-feature-item__icon { color: #fff; }
-
-.az-feature-item__title {
-  font-weight: 800;
-  font-size: 1rem;
-  color: var(--az-dark);
-  margin-bottom: .2rem;
-}
-.az-feature-item__desc {
-  font-size: .8rem;
-  color: var(--az-gray);
-}
-
-/* ================================================================
-   3. CATEGORIES SECTION
-   ================================================================ */
-.az-categories { background: var(--az-cream); }
-
-.az-categories__grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
-@media (min-width: 768px) {
-  .az-categories__grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.25rem;
-  }
-}
-
-.az-cat-card {
-  position: relative;
-  aspect-ratio: 3/4;
-  overflow: hidden;
-  border-radius: var(--az-radius);
-  display: block;
-  cursor: pointer;
-  box-shadow: var(--az-shadow);
-}
-.az-cat-card__bg {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  transition: transform .7s cubic-bezier(.4,0,.2,1);
-}
-.az-cat-card:hover .az-cat-card__bg { transform: scale(1.1); }
-
-.az-cat-card__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(47,40,36,.88) 0%,
-    rgba(47,40,36,.35) 50%,
-    transparent 100%
-  );
-  transition: var(--az-transition);
-}
-.az-cat-card:hover .az-cat-card__overlay {
-  background: linear-gradient(
-    to top,
-    rgba(47,40,36,.95) 0%,
-    rgba(47,40,36,.5) 55%,
-    transparent 100%
-  );
-}
-
-.az-cat-card__info {
-  position: absolute;
-  bottom: 0; right: 0; left: 0;
-  padding: 1.5rem 1.25rem;
-  transform: translateY(4px);
-  transition: transform var(--az-transition);
-}
-.az-cat-card:hover .az-cat-card__info { transform: translateY(0); }
-
-.az-cat-card__name {
-  font-size: 1.15rem;
-  font-weight: 900;
-  color: #fff;
-  margin-bottom: .3rem;
-}
-.az-cat-card__count {
-  font-size: .78rem;
-  color: rgba(255,255,255,.7);
-  display: flex;
-  align-items: center;
-  gap: .3rem;
-}
-.az-cat-card__arrow {
-  position: absolute;
-  top: 1rem; left: 1rem;
-  width: 2.25rem; height: 2.25rem;
-  border-radius: 50%;
-  background: rgba(255,255,255,.15);
-  backdrop-filter: blur(6px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 1.1rem;
-  opacity: 0;
-  transform: scale(.7);
-  transition: var(--az-transition);
-}
-.az-cat-card:hover .az-cat-card__arrow {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* ================================================================
-   4. FLASH SALES
-   ================================================================ */
-.az-flash { background: var(--az-white); }
-
-.az-flash__head {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin-bottom: 2.5rem;
-}
-@media (min-width: 768px) {
-  .az-flash__head {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-}
-
-.az-flash__title-wrap {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-}
-.az-flash__icon-box {
-  width: 3.5rem; height: 3.5rem;
-  border-radius: 1rem;
-  background: linear-gradient(135deg, var(--az-gold), var(--az-gold-lt));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 1.75rem;
-  box-shadow: 0 6px 20px rgba(135,96,44,.35);
-  animation: az-pulse 2.5s ease-in-out infinite;
-  flex-shrink: 0;
-}
-
-/* عداد تنازلي */
-.az-countdown {
-  display: flex;
-  align-items: center;
-  gap: .75rem;
-  background: var(--az-cream);
-  padding: 1rem 1.5rem;
-  border-radius: 1rem;
-  border: 1px solid rgba(135,96,44,.12);
-}
-.az-countdown__label {
-  font-size: .7rem;
-  font-weight: 800;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--az-dark);
-  white-space: nowrap;
-}
-.az-countdown__digits {
-  display: flex;
-  align-items: center;
-  gap: .35rem;
-  direction: ltr;
-}
-.az-countdown__unit { display: flex; flex-direction: column; align-items: center; }
-.az-countdown__num {
-  width: 2.6rem; height: 2.6rem;
-  border-radius: .5rem;
-  background: var(--az-dark);
-  color: #fff;
-  font-weight: 900;
-  font-size: 1.05rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-variant-numeric: tabular-nums;
+/* ============================================================
+   6. FLASH SALES
+   ============================================================ */
+.az-flash { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%); }
+.az-flash__top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; flex-wrap: wrap; gap: 20px; }
+.az-flash__left { display: flex; align-items: center; gap: 14px; }
+.az-flash__fire { font-size: 2rem; animation: flicker 1.5s ease infinite; }
+@keyframes flicker { 0%,100%{opacity:1} 50%{opacity:.55} }
+.az-flash__h2 { font-size: 1.8rem; font-weight: 900; color: #fff; margin: 0; }
+.az-flash__sub { font-size: .85rem; color: rgba(255,255,255,.5); margin-top: 4px; }
+.az-cd { display: flex; align-items: center; gap: 8px; }
+.az-cd__u { text-align: center; }
+.az-cd__n {
+  display: flex; align-items: center; justify-content: center;
+  width: 56px; height: 56px; border-radius: 10px;
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15);
+  font-size: 1.6rem; font-weight: 900; color: #fff;
   transition: transform .15s ease;
 }
-.az-countdown__num.az-flip { transform: scaleY(0); }
-.az-countdown__sep {
-  font-weight: 900;
-  color: var(--az-dark);
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
+.az-cd__n.flip { transform: scaleY(0); }
+.az-cd__l { font-size: .66rem; color: rgba(255,255,255,.4); margin-top: 5px; }
+.az-cd__sep { font-size: 1.4rem; font-weight: 900; color: var(--az-accent); margin-bottom: 16px; animation: blink 1s ease infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.15} }
+.az-flash__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.az-fc {
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+  border-radius: var(--az-r); overflow: hidden; transition: var(--az-tr);
 }
-.az-countdown__unit-lbl {
-  font-size: .6rem;
-  font-weight: 700;
-  color: var(--az-gray);
-  margin-top: .3rem;
-}
+.az-fc:hover { background: rgba(255,255,255,.1); transform: translateY(-4px); }
+.az-fc__img-w { position: relative; aspect-ratio: 1; overflow: hidden; background: rgba(255,255,255,.04); }
+.az-fc__img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+.az-fc:hover .az-fc__img { transform: scale(1.06); }
+.az-fc__disc { position: absolute; top: 10px; right: 10px; background: var(--az-danger); color: #fff; padding: 3px 10px; border-radius: 50px; font-size: .7rem; font-weight: 800; }
+.az-fc__body { padding: 14px; }
+.az-fc__name { font-size: .88rem; font-weight: 700; color: #fff; margin: 0 0 8px; line-height: 1.4; }
+.az-fc__bar-w { height: 4px; background: rgba(255,255,255,.1); border-radius: 2px; margin-bottom: 6px; overflow: hidden; }
+.az-fc__bar { height: 100%; background: var(--az-accent); border-radius: 2px; width: 0; transition: width 1.5s ease; }
+.az-fc__stock { font-size: .7rem; color: rgba(255,255,255,.45); margin-bottom: 10px; }
+.az-fc__foot { display: flex; align-items: center; justify-content: space-between; }
+.az-fc__price { font-size: 1.02rem; font-weight: 800; color: var(--az-accent); }
+.az-fc__old   { font-size: .75rem; color: rgba(255,255,255,.3); text-decoration: line-through; display: block; }
+.az-fc__add { background: var(--az-accent); color: #fff; border: none; border-radius: 8px; padding: 7px 14px; font-size: .8rem; font-weight: 700; cursor: pointer; transition: var(--az-tr); font-family: inherit; }
+.az-fc__add:hover { background: var(--az-accent-dk); }
 
-/* شبكة المنتجات */
-.az-products-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-}
-@media (min-width: 640px)  { .az-products-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1024px) { .az-products-grid { grid-template-columns: repeat(4, 1fr); } }
-
-/* بطاقة المنتج */
-.az-product-card {
-  background: var(--az-white);
-  border-radius: var(--az-radius);
-  overflow: hidden;
-  box-shadow: var(--az-shadow);
-  border: 1.5px solid transparent;
-  transition: var(--az-transition);
-  display: flex;
-  flex-direction: column;
-}
-.az-product-card:hover {
-  border-color: rgba(135,96,44,.25);
-  box-shadow: var(--az-shadow-lg);
-  transform: translateY(-6px);
-}
-
-.az-product-card__img-wrap {
-  position: relative;
-  aspect-ratio: 1;
-  overflow: hidden;
-  background: var(--az-gray-lt);
-}
-.az-product-card__img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform .65s ease;
-}
-.az-product-card:hover .az-product-card__img { transform: scale(1.08); }
-
-.az-product-card__badge {
-  position: absolute;
-  top: .75rem; right: .75rem;
-  background: linear-gradient(135deg, var(--az-gold), var(--az-gold-lt));
-  color: #fff;
-  font-size: .65rem;
-  font-weight: 800;
-  padding: .3rem .8rem;
-  border-radius: 9999px;
-  letter-spacing: .05em;
-  box-shadow: 0 2px 8px rgba(135,96,44,.4);
-}
-.az-product-card__wishlist {
-  position: absolute;
-  top: .75rem; left: .75rem;
-  width: 2.25rem; height: 2.25rem;
-  border-radius: 50%;
-  background: rgba(255,255,255,.9);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--az-gray);
-  font-size: 1.1rem;
-  opacity: 0;
-  transform: scale(.7);
-  transition: var(--az-transition);
-  cursor: pointer;
-}
-.az-product-card:hover .az-product-card__wishlist {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.az-product-card__body {
-  padding: 1.25rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-.az-product-card__name {
-  font-weight: 800;
-  font-size: 1rem;
-  color: var(--az-dark);
-  margin-bottom: .5rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  line-height: 1.4;
-}
-.az-product-card__stars {
-  display: flex;
-  align-items: center;
-  gap: .15rem;
-  margin-bottom: .75rem;
-}
-.az-product-card__star { font-size: .9rem; color: var(--az-gold); }
-.az-product-card__reviews {
-  font-size: .75rem;
-  color: var(--az-gray);
-  margin-right: .35rem;
-}
-
-.az-product-card__price-row {
-  display: flex;
-  align-items: baseline;
-  gap: .5rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-}
-.az-product-card__price {
-  font-weight: 900;
-  font-size: 1.4rem;
-  color: var(--az-gold);
-}
-.az-product-card__old-price {
-  font-size: .85rem;
-  color: #9ca3af;
-  text-decoration: line-through;
-}
-
-.az-product-card__add {
-  width: 100%;
-  padding: .875rem;
-  background: var(--az-dark);
-  color: #fff;
-  font-family: 'Tajawal', sans-serif;
-  font-weight: 700;
-  font-size: .95rem;
-  border: none;
-  border-radius: .875rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: .5rem;
-  transition: var(--az-transition);
-  margin-top: auto;
-}
-.az-product-card__add:hover {
-  background: var(--az-gold);
-  box-shadow: 0 4px 16px rgba(135,96,44,.4);
-}
-
-/* ================================================================
-   5. PROMO BANNER
-   ================================================================ */
-.az-promo { background: var(--az-cream); }
-
-.az-promo__inner {
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--az-radius-lg);
-  background: linear-gradient(135deg, var(--az-dark) 0%, #3d3430 40%, #2F2824 100%);
-  padding: 4rem 3rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-  align-items: flex-start;
-}
-@media (min-width: 768px) {
-  .az-promo__inner {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-}
-
-/* دوائر زخرفية */
-.az-promo__circle {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-}
-.az-promo__circle--1 {
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(135,96,44,.2) 0%, transparent 70%);
-  top: -150px; left: -100px;
-  animation: az-float 7s ease-in-out infinite;
-}
-.az-promo__circle--2 {
-  width: 300px; height: 300px;
-  background: radial-gradient(circle, rgba(135,96,44,.12) 0%, transparent 70%);
-  bottom: -100px; right: -50px;
-  animation: az-float 9s ease-in-out infinite reverse;
-}
-
-.az-promo__content { position: relative; z-index: 2; }
-.az-promo__badge {
-  display: inline-flex;
-  align-items: center;
-  gap: .4rem;
-  background: rgba(135,96,44,.25);
-  border: 1px solid rgba(135,96,44,.4);
-  color: var(--az-gold);
-  font-size: .72rem;
-  font-weight: 800;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  padding: .4rem 1rem;
-  border-radius: 9999px;
-  margin-bottom: 1.25rem;
-}
-.az-promo__title {
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  font-weight: 900;
-  color: #fff;
-  line-height: 1.2;
-  margin: 0 0 1rem;
-}
-.az-promo__highlight { color: var(--az-gold); }
-.az-promo__desc {
-  font-size: 1rem;
-  color: rgba(255,255,255,.7);
-  line-height: 1.75;
-  max-width: 28rem;
-}
-.az-promo__actions {
-  position: relative;
-  z-index: 2;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: flex-start;
-}
-@media (min-width: 768px) { .az-promo__actions { align-items: flex-end; } }
-
+/* ============================================================
+   7. PROMO BANNER
+   ============================================================ */
+.az-promo { background: linear-gradient(135deg, var(--az-accent) 0%, #f97316 100%); position: relative; overflow: hidden; }
+.az-promo__c { position: absolute; border-radius: 50%; background: rgba(255,255,255,.08); animation: float 6s ease-in-out infinite; }
+.az-promo__c:nth-child(1) { width: 320px; height: 320px; top: -110px; right: -90px; }
+.az-promo__c:nth-child(2) { width: 200px; height: 200px; bottom: -60px; left: 8%; animation-delay: -2s; }
+.az-promo__c:nth-child(3) { width: 140px; height: 140px; top: 25%; left: 42%; animation-delay: -4s; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+.az-promo__inner { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+.az-promo__text { color: #fff; }
+.az-promo__ey { font-size: .8rem; font-weight: 700; opacity: .8; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 8px; }
+.az-promo__h2 { font-size: clamp(1.6rem, 3vw, 2.5rem); font-weight: 900; margin: 0 0 10px; line-height: 1.2; }
+.az-promo__p  { font-size: .97rem; opacity: .85; max-width: 420px; line-height: 1.65; }
 .az-promo__coupon {
-  display: flex;
-  align-items: center;
-  gap: .75rem;
-  background: rgba(255,255,255,.08);
-  border: 1.5px dashed rgba(135,96,44,.5);
-  border-radius: .875rem;
-  padding: .75rem 1.25rem;
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,.2); border: 2px dashed rgba(255,255,255,.5);
+  border-radius: 10px; padding: 12px 20px; margin-top: 20px; cursor: pointer;
+  transition: var(--az-tr); width: fit-content;
 }
-.az-promo__coupon-label {
-  font-size: .75rem;
-  color: rgba(255,255,255,.6);
-}
-.az-promo__coupon-code {
-  font-size: 1.1rem;
-  font-weight: 900;
-  color: var(--az-gold);
-  letter-spacing: .1em;
-}
+.az-promo__coupon:hover { background: rgba(255,255,255,.3); }
+.az-promo__cl { font-size: .76rem; color: rgba(255,255,255,.7); }
+.az-promo__cc { font-size: 1.1rem; font-weight: 900; color: #fff; letter-spacing: .12em; }
+.az-promo__ci { color: rgba(255,255,255,.8); }
+.az-promo__cta { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.az-promo__note { display: flex; align-items: center; gap: 6px; color: rgba(255,255,255,.75); font-size: .83rem; }
 
-/* ================================================================
-   6. TESTIMONIALS
-   ================================================================ */
-.az-testimonials { background: var(--az-gray-lt); }
+/* ============================================================
+   8. BRANDS
+   ============================================================ */
+.az-brands__wrap { overflow: hidden; position: relative; }
+.az-brands__wrap::before, .az-brands__wrap::after {
+  content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2;
+}
+.az-brands__wrap::before { left: 0; background: linear-gradient(to right, #fff, transparent); }
+.az-brands__wrap::after  { right: 0; background: linear-gradient(to left, #fff, transparent); }
+.az-brands__track { display: flex; gap: 24px; animation: scroll-brands 28s linear infinite; width: max-content; }
+.az-brands__track:hover { animation-play-state: paused; }
+@keyframes scroll-brands { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.az-brand {
+  flex-shrink: 0; width: 140px; height: 68px;
+  background: #fff; border: 1px solid var(--az-border);
+  border-radius: var(--az-r); display: flex; align-items: center; justify-content: center;
+  padding: 10px 18px; transition: var(--az-tr); filter: grayscale(1); opacity: .45;
+}
+.az-brand:hover { filter: none; opacity: 1; border-color: var(--az-primary); box-shadow: var(--az-shadow); }
+.az-brand span { font-size: .85rem; font-weight: 800; color: var(--az-muted); }
 
-.az-testimonials__grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.25rem;
+/* ============================================================
+   9. TESTIMONIALS
+   ============================================================ */
+.az-testi__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.az-testi {
+  background: #fff; border: 1px solid var(--az-border);
+  border-radius: var(--az-r-lg); padding: 28px;
+  transition: var(--az-tr); position: relative;
 }
-@media (min-width: 768px) { .az-testimonials__grid { grid-template-columns: repeat(3, 1fr); } }
+.az-testi:hover { transform: translateY(-6px); box-shadow: var(--az-shadow-hv); border-color: var(--az-primary); }
+.az-testi::before { content: '"'; position: absolute; top: 14px; left: 22px; font-size: 4rem; color: var(--az-primary); opacity: .1; font-family: Georgia, serif; line-height: 1; }
+.az-testi__stars { color: var(--az-accent); font-size: .95rem; margin-bottom: 14px; }
+.az-testi__text { font-size: .93rem; color: var(--az-muted); line-height: 1.75; margin-bottom: 20px; }
+.az-testi__author { display: flex; align-items: center; gap: 12px; }
+.az-testi__av { width: 44px; height: 44px; border-radius: 50%; background: var(--az-primary-lt); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; color: var(--az-primary); flex-shrink: 0; }
+.az-testi__name { font-size: .9rem; font-weight: 700; }
+.az-testi__role { font-size: .76rem; color: var(--az-muted); }
+.az-testi__ver  { display: flex; align-items: center; gap: 4px; font-size: .7rem; color: var(--az-success); margin-top: 2px; }
+.az-testi__ver .ms { font-size: .85rem; }
+.az-stats-row { display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; margin-top: 56px; }
+.az-stats-row__div { width: 1px; height: 40px; background: var(--az-border); }
+.az-stats-row__n { font-size: 2rem; font-weight: 900; color: var(--az-primary); line-height: 1; }
+.az-stats-row__l { font-size: .8rem; color: var(--az-muted); margin-top: 4px; }
 
-.az-testimonial-card {
-  background: var(--az-white);
-  border-radius: var(--az-radius);
-  padding: 2rem;
-  box-shadow: var(--az-shadow);
-  border: 1.5px solid transparent;
-  transition: var(--az-transition);
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-.az-testimonial-card:hover {
-  border-color: rgba(135,96,44,.2);
-  transform: translateY(-5px);
-  box-shadow: var(--az-shadow-lg);
-}
-
-.az-testimonial-card__quote {
-  font-size: 2.5rem;
-  color: var(--az-gold);
-  opacity: .3;
-  line-height: 1;
-  font-family: Georgia, serif;
-}
-.az-testimonial-card__stars {
-  display: flex;
-  gap: .2rem;
-}
-.az-testimonial-card__text {
-  font-size: .95rem;
-  color: #4b5563;
-  line-height: 1.8;
-  flex: 1;
-}
-.az-testimonial-card__author {
-  display: flex;
-  align-items: center;
-  gap: .875rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--az-gray-lt);
-}
-.az-testimonial-card__avatar {
-  width: 3rem; height: 3rem;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--az-dark), var(--az-gold));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-weight: 900;
-  font-size: 1.1rem;
-  flex-shrink: 0;
-}
-.az-testimonial-card__name {
-  font-weight: 800;
-  color: var(--az-dark);
-  font-size: .95rem;
-}
-.az-testimonial-card__role {
-  font-size: .78rem;
-  color: var(--az-gray);
-}
-
-/* ================================================================
-   7. FAQ
-   ================================================================ */
-.az-faq { background: var(--az-white); }
-.az-faq__inner { max-width: 52rem; margin: 0 auto; }
-
+/* ============================================================
+   10. FAQ
+   ============================================================ */
+.az-faq { max-width: 760px; margin: 0 auto; }
 .az-faq__item {
-  background: var(--az-cream);
-  border-radius: 1rem;
-  margin-bottom: .875rem;
-  border: 1.5px solid transparent;
-  overflow: hidden;
-  transition: var(--az-transition);
+  background: #fff; border: 1px solid var(--az-border);
+  border-radius: var(--az-r); margin-bottom: 12px; overflow: hidden; transition: var(--az-tr);
 }
-.az-faq__item[open] {
-  border-color: rgba(135,96,44,.2);
-  box-shadow: var(--az-shadow);
-}
+.az-faq__item:hover { border-color: var(--az-primary); }
+.az-faq__item[open] { border-color: var(--az-primary); box-shadow: 0 0 0 3px rgba(37,99,235,.08); }
 .az-faq__item summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.4rem 1.75rem;
-  cursor: pointer;
-  list-style: none;
-  gap: 1rem;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px; cursor: pointer; list-style: none;
+  font-size: .95rem; font-weight: 700; gap: 16px;
 }
 .az-faq__item summary::-webkit-details-marker { display: none; }
-.az-faq__question {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--az-dark);
-  flex: 1;
-  text-align: right;
-}
-.az-faq__icon {
-  width: 2rem; height: 2rem;
-  border-radius: 50%;
-  background: rgba(135,96,44,.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--az-gold);
-  font-size: 1.1rem;
-  flex-shrink: 0;
-  transition: transform .35s ease, background .35s ease;
-}
-.az-faq__item[open] .az-faq__icon {
-  transform: rotate(180deg);
-  background: var(--az-gold);
-  color: #fff;
-}
-.az-faq__answer {
-  padding: 0 1.75rem 1.5rem;
-  color: #4b5563;
-  line-height: 1.8;
-  font-size: .95rem;
-  text-align: right;
-}
+.az-faq__ico { color: var(--az-primary); transition: transform .3s ease; flex-shrink: 0; }
+.az-faq__item[open] .az-faq__ico { transform: rotate(180deg); }
+.az-faq__ans { padding: 0 24px 20px; font-size: .92rem; color: var(--az-muted); line-height: 1.75; }
 
-/* ================================================================
-   8. NEWSLETTER / CTA BOTTOM
-   ================================================================ */
+/* ============================================================
+   11. CTA BOTTOM
+   ============================================================ */
 .az-cta {
-  background: linear-gradient(135deg, var(--az-dark) 0%, #3d3430 100%);
-  padding: 5rem 1.25rem;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+  background: linear-gradient(135deg, var(--az-primary) 0%, var(--az-primary-dk) 100%);
+  position: relative; overflow: hidden; text-align: center;
 }
-@media (min-width: 768px)  { .az-cta { padding: 5rem 3rem; } }
-@media (min-width: 1280px) { .az-cta { padding: 5rem 8rem; } }
+.az-cta__pat {
+  position: absolute; inset: 0; opacity: .06;
+  background-image: radial-gradient(circle, #fff 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.az-cta__con { position: relative; z-index: 2; }
+.az-cta__h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 900; color: #fff; margin: 0 0 16px; }
+.az-cta__p  { font-size: 1.02rem; color: rgba(255,255,255,.75); max-width: 500px; margin: 0 auto 36px; line-height: 1.7; }
+.az-cta__btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.az-cta__trust { display: flex; align-items: center; justify-content: center; gap: 28px; margin-top: 32px; flex-wrap: wrap; }
+.az-cta__ti { display: flex; align-items: center; gap: 6px; color: rgba(255,255,255,.6); font-size: .82rem; }
+.az-cta__ti .ms { font-size: 1rem; color: var(--az-accent); }
 
-.az-cta__glow {
-  position: absolute;
-  width: 600px; height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(135,96,44,.18) 0%, transparent 70%);
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+  .az-cats__grid { grid-template-columns: repeat(2, 1fr); }
+  .az-cat--wide  { grid-column: span 2; }
+  .az-prods__grid { grid-template-columns: repeat(2, 1fr); }
+  .az-flash__grid { grid-template-columns: repeat(2, 1fr); }
+  .az-testi__grid { grid-template-columns: repeat(2, 1fr); }
 }
-.az-cta__content { position: relative; z-index: 2; max-width: 40rem; margin: 0 auto; }
-.az-cta__title {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 900;
-  color: #fff;
-  margin-bottom: 1rem;
+@media (max-width: 768px) {
+  :root { --az-py: 56px; }
+  .az-trust__grid { grid-template-columns: repeat(2, 1fr); }
+  .az-trust__item { border-left: none; border-bottom: 1px solid var(--az-border); }
+  .az-flash__top  { flex-direction: column; align-items: flex-start; }
+  .az-promo__inner { flex-direction: column; }
+  .az-testi__grid { grid-template-columns: 1fr; }
+  .az-hero__stats { gap: 20px; }
 }
-.az-cta__desc {
-  color: rgba(255,255,255,.7);
-  font-size: 1.05rem;
-  margin-bottom: 2.5rem;
-  line-height: 1.75;
-}
-.az-cta__btns {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-}
-
-/* ================================================================
-   MATERIAL ICONS
-   ================================================================ */
-.material-symbols-outlined {
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-  vertical-align: middle;
-  line-height: 1;
-  display: inline-block;
+@media (max-width: 480px) {
+  .az-trust__grid { grid-template-columns: 1fr; }
+  .az-cats__grid  { grid-template-columns: 1fr; }
+  .az-cat--wide   { grid-column: span 1; }
+  .az-prods__grid { grid-template-columns: 1fr; }
+  .az-flash__grid { grid-template-columns: 1fr; }
+  .az-hero__btns  { flex-direction: column; }
+  .az-cd__n { width: 44px; height: 44px; font-size: 1.3rem; }
 }
 </style>
 {% endblock %}
@@ -1033,503 +445,554 @@
 <div class="az-page">
 
 {# ============================================================
-   1. HERO
+   SECTION 1 — شريط الإعلانات
+   ============================================================ #}
+<div class="az-topbar" id="az-topbar">
+  <button class="az-topbar__x" onclick="document.getElementById('az-topbar').style.display='none'" aria-label="إغلاق">
+    <span class="ms material-symbols-outlined" style="font-size:1rem;">close</span>
+  </button>
+  <div class="az-topbar__inner">
+    <span class="az-topbar__badge">🔥 عرض</span>
+    <span>{{ 'شحن مجاني على جميع الطلبات فوق 200 ريال' | trans }}</span>
+    <a href="{{ store.urls.products }}">{{ 'تسوق الآن ←' | trans }}</a>
+  </div>
+</div>
+<div class="az-label">قسم: شريط الإعلانات — ثيم: ازدهار</div>
+
+{# ============================================================
+   SECTION 2 — الصورة الرئيسية (Hero)
    ============================================================ #}
 <section class="az-hero">
-  <div class="az-hero__wrap">
-    <div class="az-hero__bg"
-         style="background-image: url('{{ theme.settings.get('hero_image','https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1800&q=85') }}');">
-    </div>
-    <div class="az-hero__overlay"></div>
-    <div class="az-hero__glow"></div>
-
-    <div class="az-hero__content">
-      <div class="az-hero__eyebrow">
-        <span class="az-hero__eyebrow-line"></span>
-        <span class="az-hero__eyebrow-text">{{ theme.settings.get('hero_eyebrow','رواد معدات الصيد') }}</span>
+  <div class="az-hero__bg" id="az-hero-bg"></div>
+  <div class="az-hero__ov"></div>
+  <div class="az-con" style="width:100%;">
+    <div class="az-hero__con">
+      <div class="az-hero__badge">
+        <span class="ms material-symbols-outlined" style="font-size:.9rem;">local_fire_department</span>
+        {{ 'مجموعة جديدة لهذا الموسم' | trans }}
       </div>
-
-      <h1 class="az-hero__title">
-        {{ theme.settings.get('hero_title','رفيقك الأمثل في كل') }}
-        <span class="az-hero__title-highlight">{{ theme.settings.get('hero_highlight','مغامرة') }}</span>
+      <h1 class="az-hero__h1">
+        {{ store.name | default('اكتشف') }}<br>
+        <span>{{ 'أفضل المنتجات' | trans }}</span><br>
+        {{ 'بأسعار لا تُقاوم' | trans }}
       </h1>
-
-      <p class="az-hero__desc">
-        {{ theme.settings.get('hero_description','نعيد تعريف التميز في الصيد والرحلات البرية. اختبر الصحراء بمعدات فاخرة تم اختيارها بعناية من قبل خبراء.') }}
-      </p>
-
+      <p class="az-hero__p">{{ 'تسوق من أرقى المنتجات المختارة بعناية. جودة عالية، أسعار منافسة، وتوصيل سريع لباب منزلك.' | trans }}</p>
       <div class="az-hero__btns">
-        <a href="{{ store.urls.products }}" class="az-btn az-btn--primary">
+        <a href="{{ store.urls.products }}" class="az-btn az-btn--amber">
+          <span class="ms material-symbols-outlined">shopping_bag</span>
           {{ 'تسوق الآن' | trans }}
-          <span class="material-symbols-outlined">arrow_back</span>
         </a>
-        <a href="{{ store.urls.products }}" class="az-btn az-btn--outline">
-          {{ 'اكتشف المزيد' | trans }}
+        <a href="{{ store.urls.categories ?? '#' }}" class="az-btn az-btn--wghost">
+          {{ 'استعرض التصنيفات' | trans }}
         </a>
       </div>
-
       <div class="az-hero__stats">
         <div>
-          <div class="az-hero__stat-num">+٥٠٠٠</div>
-          <div class="az-hero__stat-label">{{ 'عميل سعيد' | trans }}</div>
+          <div class="az-hero__stat-n">+500</div>
+          <div class="az-hero__stat-l">{{ 'منتج متاح' | trans }}</div>
         </div>
+        <div class="az-hero__div"></div>
         <div>
-          <div class="az-hero__stat-num">+٢٠٠</div>
-          <div class="az-hero__stat-label">{{ 'منتج احترافي' | trans }}</div>
+          <div class="az-hero__stat-n">+10K</div>
+          <div class="az-hero__stat-l">{{ 'عميل راضٍ' | trans }}</div>
         </div>
+        <div class="az-hero__div"></div>
         <div>
-          <div class="az-hero__stat-num">١٠+</div>
-          <div class="az-hero__stat-label">{{ 'سنوات خبرة' | trans }}</div>
+          <div class="az-hero__stat-n">4.9★</div>
+          <div class="az-hero__stat-l">{{ 'تقييم المتجر' | trans }}</div>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="az-hero__scroll">
+    <span>{{ 'اكتشف المزيد' | trans }}</span>
+    <div class="az-hero__scroll-dot"></div>
+  </div>
+</section>
+<div class="az-label">قسم: الصورة الرئيسية — ثيم: ازدهار</div>
+
+{# ============================================================
+   SECTION 3 — مميزات المتجر (Trust Bar)
+   ============================================================ #}
+<div class="az-trust az-r">
+  <div class="az-con">
+    <div class="az-trust__grid">
+      <div class="az-trust__item">
+        <div class="az-trust__icon"><span class="ms material-symbols-outlined">local_shipping</span></div>
+        <div class="az-trust__t"><strong>{{ 'شحن مجاني' | trans }}</strong><span>{{ 'على الطلبات فوق 200 ريال' | trans }}</span></div>
+      </div>
+      <div class="az-trust__item">
+        <div class="az-trust__icon"><span class="ms material-symbols-outlined">verified_user</span></div>
+        <div class="az-trust__t"><strong>{{ 'منتجات أصلية 100%' | trans }}</strong><span>{{ 'ضمان الجودة والأصالة' | trans }}</span></div>
+      </div>
+      <div class="az-trust__item">
+        <div class="az-trust__icon"><span class="ms material-symbols-outlined">autorenew</span></div>
+        <div class="az-trust__t"><strong>{{ 'إرجاع مجاني' | trans }}</strong><span>{{ 'خلال 14 يوماً من الاستلام' | trans }}</span></div>
+      </div>
+      <div class="az-trust__item">
+        <div class="az-trust__icon"><span class="ms material-symbols-outlined">headset_mic</span></div>
+        <div class="az-trust__t"><strong>{{ 'دعم 24/7' | trans }}</strong><span>{{ 'فريق دعم متاح دائماً' | trans }}</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="az-label">قسم: مميزات المتجر — ثيم: ازدهار</div>
+
+{# ============================================================
+   SECTION 4 — التصنيفات
+   ============================================================ #}
+<section class="az-sec az-sec--gray">
+  <div class="az-con">
+    <div class="az-head az-r">
+      <div class="az-eyebrow">{{ 'تصفح حسب' | trans }}</div>
+      <h2 class="az-h2">{{ 'التصنيفات الرئيسية' | trans }}</h2>
+      <p class="az-sub">{{ 'اكتشف مجموعتنا المتنوعة من المنتجات المنظمة في تصنيفات سهلة التصفح' | trans }}</p>
+    </div>
+
+    {% if store.categories is defined and store.categories | length > 0 %}
+      <div class="az-cats__grid">
+        {% for cat in store.categories | slice(0, 6) %}
+          <a href="{{ cat.url }}" class="az-cat az-r d{{ loop.index <= 4 ? loop.index : 4 }} {% if loop.index == 1 %}az-cat--wide{% endif %}">
+            {% if cat.image %}
+              <img class="az-cat__img" src="{{ cat.image }}" alt="{{ cat.name }}" loading="lazy">
+            {% else %}
+              <div class="az-cat__img" style="background:linear-gradient(135deg,#2563eb,#7c3aed);width:100%;height:100%;"></div>
+            {% endif %}
+            <div class="az-cat__ov"></div>
+            <div class="az-cat__body">
+              <div class="az-cat__name">{{ cat.name }}</div>
+              {% if cat.products_count is defined %}<div class="az-cat__count">{{ cat.products_count }} {{ 'منتج' | trans }}</div>{% endif %}
+              <div class="az-cat__cta">{{ 'تسوق الآن' | trans }} <span class="ms material-symbols-outlined" style="font-size:.8rem;">arrow_back</span></div>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      {# Demo categories #}
+      <div class="az-cats__grid">
+        {% set dcats = [
+          {n:'الملابس والأزياء',   g:'#2563eb,#7c3aed', i:'checkroom'},
+          {n:'الإلكترونيات',       g:'#0f172a,#1e3a5f', i:'devices'},
+          {n:'المنزل والديكور',    g:'#059669,#0d9488', i:'home'},
+          {n:'الرياضة واللياقة',   g:'#dc2626,#ea580c', i:'fitness_center'},
+          {n:'الجمال والعناية',    g:'#be185d,#9333ea', i:'spa'},
+          {n:'الأطفال والألعاب',   g:'#d97706,#ca8a04', i:'toys'}
+        ] %}
+        {% for c in dcats %}
+          <a href="{{ store.urls.categories ?? '#' }}" class="az-cat az-r d{{ loop.index <= 4 ? loop.index : 4 }} {% if loop.index == 1 %}az-cat--wide{% endif %}">
+            <div class="az-cat__img" style="background:linear-gradient(135deg,#{{ c.g }});width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
+              <span class="ms material-symbols-outlined" style="font-size:3.5rem;color:rgba(255,255,255,.2);">{{ c.i }}</span>
+            </div>
+            <div class="az-cat__ov"></div>
+            <div class="az-cat__body">
+              <div class="az-cat__name">{{ c.n }}</div>
+              <div class="az-cat__count">{{ 'استعرض المنتجات' | trans }}</div>
+              <div class="az-cat__cta">{{ 'تسوق الآن' | trans }} <span class="ms material-symbols-outlined" style="font-size:.8rem;">arrow_back</span></div>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div style="text-align:center;margin-top:36px;" class="az-r">
+      <a href="{{ store.urls.categories ?? '#' }}" class="az-btn az-btn--ghost">
+        {{ 'عرض جميع التصنيفات' | trans }}
+        <span class="ms material-symbols-outlined">arrow_back</span>
+      </a>
     </div>
   </div>
 </section>
+<div class="az-label">قسم: التصنيفات — ثيم: ازدهار</div>
 
 {# ============================================================
-   2. FEATURES BAR
+   SECTION 5 — المنتجات المميزة
    ============================================================ #}
-<section class="az-features">
-  <div class="az-features__inner az-reveal">
-    <div class="az-feature-item az-reveal az-reveal-delay-1">
-      <div class="az-feature-item__icon-wrap">
-        <span class="material-symbols-outlined az-feature-item__icon">local_shipping</span>
-      </div>
-      <div>
-        <div class="az-feature-item__title">{{ 'شحن سريع مجاني' | trans }}</div>
-        <div class="az-feature-item__desc">{{ 'لجميع المناطق فوق ٢٠٠ ر.س' | trans }}</div>
-      </div>
+<section class="az-sec az-sec--white">
+  <div class="az-con">
+    <div class="az-head az-r">
+      <div class="az-eyebrow">{{ 'الأكثر مبيعاً' | trans }}</div>
+      <h2 class="az-h2">{{ 'المنتجات المميزة' | trans }}</h2>
+      <p class="az-sub">{{ 'منتجات مختارة بعناية لتناسب أذواقكم وتلبي احتياجاتكم' | trans }}</p>
     </div>
-    <div class="az-feature-item az-reveal az-reveal-delay-2">
-      <div class="az-feature-item__icon-wrap">
-        <span class="material-symbols-outlined az-feature-item__icon">verified</span>
-      </div>
-      <div>
-        <div class="az-feature-item__title">{{ 'منتجات أصلية ١٠٠٪' | trans }}</div>
-        <div class="az-feature-item__desc">{{ 'علامات تجارية موثوقة ومجربة' | trans }}</div>
-      </div>
-    </div>
-    <div class="az-feature-item az-reveal az-reveal-delay-3">
-      <div class="az-feature-item__icon-wrap">
-        <span class="material-symbols-outlined az-feature-item__icon">support_agent</span>
-      </div>
-      <div>
-        <div class="az-feature-item__title">{{ 'دعم فني ٢٤/٧' | trans }}</div>
-        <div class="az-feature-item__desc">{{ 'خبراء متواجدون دائماً' | trans }}</div>
-      </div>
-    </div>
-    <div class="az-feature-item az-reveal az-reveal-delay-4">
-      <div class="az-feature-item__icon-wrap">
-        <span class="material-symbols-outlined az-feature-item__icon">replay</span>
-      </div>
-      <div>
-        <div class="az-feature-item__title">{{ 'إرجاع مجاني' | trans }}</div>
-        <div class="az-feature-item__desc">{{ 'خلال ١٤ يوم من الاستلام' | trans }}</div>
-      </div>
-    </div>
-  </div>
-</section>
 
-{# ============================================================
-   3. CATEGORIES
-   ============================================================ #}
-<section class="az-section az-categories">
-  <div class="az-section-head az-reveal">
-    <div>
-      <div class="az-section-eyebrow">
-        <span class="az-section-eyebrow__line"></span>
-        <span class="az-section-eyebrow__text">{{ 'تصنيفاتنا' | trans }}</span>
-      </div>
-      <h2 class="az-section-title">{{ 'تسوق حسب الفئة' | trans }}</h2>
-      <p class="az-section-subtitle">{{ 'معدات احترافية مصممة لاحتياجاتك' | trans }}</p>
-    </div>
-    <a href="{{ store.urls.categories ?? store.urls.products }}" class="az-view-all">
-      {{ 'عرض الكل' | trans }}
-      <span class="material-symbols-outlined" style="font-size:.9rem;">arrow_back</span>
-    </a>
-  </div>
-
-  <div class="az-categories__grid">
-    {% if categories is defined and categories | length > 0 %}
-      {% for category in categories | slice(0, 4) %}
-        <a href="{{ category.url }}" class="az-cat-card az-reveal az-reveal-delay-{{ loop.index }}">
-          <div class="az-cat-card__bg"
-               style="background-image: url('{{ category.image | default('https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800') }}');">
-          </div>
-          <div class="az-cat-card__overlay"></div>
-          <div class="az-cat-card__arrow">
-            <span class="material-symbols-outlined" style="font-size:1rem;">arrow_back</span>
-          </div>
-          <div class="az-cat-card__info">
-            <div class="az-cat-card__name">{{ category.name }}</div>
-            {% if category.products_count is defined %}
-              <div class="az-cat-card__count">
-                <span class="material-symbols-outlined" style="font-size:.8rem;">inventory_2</span>
-                {{ category.products_count }}+ {{ 'منتج' | trans }}
+    {% set featured = store.products.featured ?? [] %}
+    {% if featured | length > 0 %}
+      <div class="az-prods__grid">
+        {% for p in featured | slice(0, 8) %}
+          <div class="az-prod az-r d{{ loop.index <= 4 ? loop.index : 4 }}">
+            <div class="az-prod__img-w">
+              <img class="az-prod__img" src="{{ p.image.url ?? '' }}" alt="{{ p.name }}" loading="lazy">
+              {% if p.is_new %}<span class="az-prod__badge az-prod__badge--new">{{ 'جديد' | trans }}</span>{% endif %}
+              {% if p.discount %}<span class="az-prod__badge">-{{ p.discount }}%</span>{% endif %}
+              <button class="az-prod__wish"><span class="ms material-symbols-outlined" style="font-size:1.1rem;">favorite_border</span></button>
+            </div>
+            <div class="az-prod__body">
+              <div class="az-prod__cat">{{ p.category.name ?? '' }}</div>
+              <div class="az-prod__name">{{ p.name }}</div>
+              <div class="az-prod__stars">★★★★★ <span style="font-size:.75rem;color:var(--az-muted);">({{ p.rating_count ?? 0 }})</span></div>
+              <div class="az-prod__foot">
+                <div>
+                  {% if p.sale_price %}<span class="az-prod__old">{{ p.price | money }}</span>{% endif %}
+                  <span class="az-prod__price">{{ (p.sale_price ?? p.price) | money }}</span>
+                </div>
+                <button class="az-prod__add"><span class="ms material-symbols-outlined" style="font-size:1.1rem;">add_shopping_cart</span></button>
               </div>
-            {% endif %}
+            </div>
           </div>
-        </a>
-      {% endfor %}
+        {% endfor %}
+      </div>
     {% else %}
-      {# Fallback placeholder #}
-      {% set ph_cats = [
-        {name:'معدات الصيد',    img:'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800'},
-        {name:'ملابس الصيد',    img:'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800'},
-        {name:'معدات التخييم',  img:'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800'},
-        {name:'الإكسسوارات',   img:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800'}
-      ] %}
-      {% for cat in ph_cats %}
-        <a href="{{ store.urls.products }}" class="az-cat-card az-reveal az-reveal-delay-{{ loop.index }}">
-          <div class="az-cat-card__bg" style="background-image: url('{{ cat.img }}');"></div>
-          <div class="az-cat-card__overlay"></div>
-          <div class="az-cat-card__arrow">
-            <span class="material-symbols-outlined" style="font-size:1rem;">arrow_back</span>
+      {# Demo products #}
+      <div class="az-prods__grid">
+        {% set dprods = [
+          {n:'منتج مميز رقم 1', p:'299', o:'399', b:'خصم 25%', c:'الملابس', g:'2563eb,7c3aed'},
+          {n:'منتج مميز رقم 2', p:'149', o:'',    b:'جديد',    c:'الإلكترونيات', g:'0f172a,1e3a5f'},
+          {n:'منتج مميز رقم 3', p:'599', o:'799', b:'خصم 25%', c:'المنزل', g:'059669,0d9488'},
+          {n:'منتج مميز رقم 4', p:'89',  o:'',    b:'',        c:'الرياضة', g:'dc2626,ea580c'},
+          {n:'منتج مميز رقم 5', p:'349', o:'449', b:'خصم 22%', c:'الجمال', g:'be185d,9333ea'},
+          {n:'منتج مميز رقم 6', p:'199', o:'',    b:'جديد',    c:'الأطفال', g:'d97706,ca8a04'},
+          {n:'منتج مميز رقم 7', p:'459', o:'599', b:'خصم 23%', c:'الملابس', g:'0891b2,0e7490'},
+          {n:'منتج مميز رقم 8', p:'129', o:'',    b:'',        c:'الإلكترونيات', g:'16a34a,15803d'}
+        ] %}
+        {% for p in dprods %}
+          <div class="az-prod az-r d{{ loop.index <= 4 ? loop.index : 4 }}">
+            <div class="az-prod__img-w">
+              <div class="az-prod__img" style="background:linear-gradient(135deg,#{{ p.g }});display:flex;align-items:center;justify-content:center;">
+                <span class="ms material-symbols-outlined" style="font-size:3rem;color:rgba(255,255,255,.25);">inventory_2</span>
+              </div>
+              {% if p.b %}<span class="az-prod__badge {% if p.b == 'جديد' %}az-prod__badge--new{% endif %}">{{ p.b }}</span>{% endif %}
+              <button class="az-prod__wish"><span class="ms material-symbols-outlined" style="font-size:1.1rem;">favorite_border</span></button>
+            </div>
+            <div class="az-prod__body">
+              <div class="az-prod__cat">{{ p.c }}</div>
+              <div class="az-prod__name">{{ p.n }}</div>
+              <div class="az-prod__stars">★★★★★ <span style="font-size:.75rem;color:var(--az-muted);">({{ loop.index * 11 + 7 }})</span></div>
+              <div class="az-prod__foot">
+                <div>
+                  {% if p.o %}<span class="az-prod__old">{{ p.o }} ر.س</span>{% endif %}
+                  <span class="az-prod__price">{{ p.p }} ر.س</span>
+                </div>
+                <button class="az-prod__add"><span class="ms material-symbols-outlined" style="font-size:1.1rem;">add_shopping_cart</span></button>
+              </div>
+            </div>
           </div>
-          <div class="az-cat-card__info">
-            <div class="az-cat-card__name">{{ cat.name }}</div>
-          </div>
-        </a>
-      {% endfor %}
+        {% endfor %}
+      </div>
     {% endif %}
+
+    <div style="text-align:center;margin-top:40px;" class="az-r">
+      <a href="{{ store.urls.products }}" class="az-btn az-btn--blue">
+        {{ 'عرض جميع المنتجات' | trans }}
+        <span class="ms material-symbols-outlined">arrow_back</span>
+      </a>
+    </div>
   </div>
 </section>
+<div class="az-label">قسم: المنتجات المميزة — ثيم: ازدهار</div>
 
 {# ============================================================
-   4. FLASH SALES
+   SECTION 6 — عروض الفلاش
    ============================================================ #}
-<section class="az-section az-flash">
-  <div class="az-flash__head az-reveal">
-    <div class="az-flash__title-wrap">
-      <div class="az-flash__icon-box">
-        <span class="material-symbols-outlined">bolt</span>
-      </div>
-      <div>
-        <div class="az-section-eyebrow" style="margin-bottom:.3rem;">
-          <span class="az-section-eyebrow__line"></span>
-          <span class="az-section-eyebrow__text">{{ 'عروض محدودة' | trans }}</span>
-        </div>
-        <div class="az-section-title" style="margin:0 0 .2rem;">{{ 'عروض الفلاش' | trans }}</div>
-        <div class="az-section-subtitle">{{ 'معدات فاخرة بأسعار استثنائية' | trans }}</div>
-      </div>
-    </div>
-    <div class="az-countdown">
-      <span class="az-countdown__label">{{ 'ينتهي خلال' | trans }}</span>
-      <div class="az-countdown__digits">
-        <div class="az-countdown__unit">
-          <div class="az-countdown__num" id="az-hours">12</div>
-          <div class="az-countdown__unit-lbl">{{ 'ساعة' | trans }}</div>
-        </div>
-        <span class="az-countdown__sep">:</span>
-        <div class="az-countdown__unit">
-          <div class="az-countdown__num" id="az-minutes">45</div>
-          <div class="az-countdown__unit-lbl">{{ 'دقيقة' | trans }}</div>
-        </div>
-        <span class="az-countdown__sep">:</span>
-        <div class="az-countdown__unit">
-          <div class="az-countdown__num" id="az-seconds">08</div>
-          <div class="az-countdown__unit-lbl">{{ 'ثانية' | trans }}</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="az-products-grid">
-    {% if products is defined and products | length > 0 %}
-      {% for product in products | slice(0, 4) %}
-        <div class="az-product-card az-reveal az-reveal-delay-{{ loop.index }}">
-          <div class="az-product-card__img-wrap">
-            <a href="{{ product.url }}">
-              <img class="az-product-card__img"
-                   src="{{ product.thumbnail | default(product.image) }}"
-                   alt="{{ product.name }}"
-                   loading="lazy" />
-            </a>
-            {% if product.discount_percent is defined and product.discount_percent %}
-              <span class="az-product-card__badge">{{ 'وفر' | trans }} {{ product.discount_percent }}٪</span>
-            {% endif %}
-            <div class="az-product-card__wishlist">
-              <span class="material-symbols-outlined" style="font-size:1.1rem;">favorite</span>
-            </div>
-          </div>
-          <div class="az-product-card__body">
-            <div class="az-product-card__name">{{ product.name }}</div>
-            <div class="az-product-card__stars">
-              {% for i in 1..5 %}
-                <span class="material-symbols-outlined az-product-card__star"
-                      style="font-variation-settings:'FILL' 1;">star</span>
-              {% endfor %}
-              <span class="az-product-card__reviews">({{ product.reviews_count | default(0) }})</span>
-            </div>
-            <div class="az-product-card__price-row">
-              <span class="az-product-card__price">{{ product.price | price }}</span>
-              {% if product.sale_price is defined and product.sale_price %}
-                <span class="az-product-card__old-price">{{ product.sale_price | price }}</span>
-              {% endif %}
-            </div>
-            <salla-add-product-button product-id="{{ product.id }}" product-status="{{ product.status }}">
-              <button class="az-product-card__add">
-                <span class="material-symbols-outlined" style="font-size:1.2rem;">shopping_cart</span>
-                {{ 'أضف للسلة' | trans }}
-              </button>
-            </salla-add-product-button>
-          </div>
-        </div>
-      {% endfor %}
-    {% else %}
-      {% for i in 1..4 %}
-        <div class="az-product-card az-reveal az-reveal-delay-{{ i }}">
-          <div class="az-product-card__img-wrap"
-               style="background: linear-gradient(135deg, var(--az-dark), var(--az-gold));">
-          </div>
-          <div class="az-product-card__body">
-            <div class="az-product-card__name">{{ 'منتج احترافي' | trans }} {{ i }}</div>
-            <div class="az-product-card__stars">
-              {% for j in 1..5 %}
-                <span class="material-symbols-outlined az-product-card__star"
-                      style="font-variation-settings:'FILL' 1;">star</span>
-              {% endfor %}
-            </div>
-            <div class="az-product-card__price-row">
-              <span class="az-product-card__price">٢٩٩ ر.س</span>
-              <span class="az-product-card__old-price">٣٩٩ ر.س</span>
-            </div>
-            <button class="az-product-card__add">
-              <span class="material-symbols-outlined" style="font-size:1.2rem;">shopping_cart</span>
-              {{ 'أضف للسلة' | trans }}
-            </button>
-          </div>
-        </div>
-      {% endfor %}
-    {% endif %}
-  </div>
-</section>
-
-{# ============================================================
-   5. PROMO BANNER
-   ============================================================ #}
-<section class="az-section az-promo">
-  <div class="az-promo__inner az-reveal">
-    <div class="az-promo__circle az-promo__circle--1"></div>
-    <div class="az-promo__circle az-promo__circle--2"></div>
-
-    <div class="az-promo__content">
-      <div class="az-promo__badge">
-        <span class="material-symbols-outlined" style="font-size:.9rem;">local_offer</span>
-        {{ 'عرض حصري' | trans }}
-      </div>
-      <h2 class="az-promo__title">
-        {{ 'احصل على' | trans }}
-        <span class="az-promo__highlight">{{ '٢٠٪ خصم' | trans }}</span>
-        <br>{{ 'على أول طلب لك' | trans }}
-      </h2>
-      <p class="az-promo__desc">
-        {{ 'سجّل الآن واحصل على عرض ترحيبي حصري. معدات الصيد الاحترافية بأفضل الأسعار في المملكة.' | trans }}
-      </p>
-    </div>
-
-    <div class="az-promo__actions">
-      <div class="az-promo__coupon">
+<section class="az-sec az-flash">
+  <div class="az-con">
+    <div class="az-flash__top az-r">
+      <div class="az-flash__left">
+        <span class="az-flash__fire">⚡</span>
         <div>
-          <div class="az-promo__coupon-label">{{ 'كود الخصم' | trans }}</div>
-          <div class="az-promo__coupon-code">AZDAHAR20</div>
+          <h2 class="az-flash__h2">{{ 'عروض الفلاش' | trans }}</h2>
+          <p class="az-flash__sub">{{ 'عروض محدودة الوقت — لا تفوّتها!' | trans }}</p>
         </div>
-        <span class="material-symbols-outlined" style="color:var(--az-gold); font-size:1.3rem;">content_copy</span>
       </div>
-      <a href="{{ store.urls.products }}" class="az-btn az-btn--primary" style="font-size:1.05rem; padding:1.1rem 2.5rem;">
-        {{ 'تسوق الآن' | trans }}
-        <span class="material-symbols-outlined">arrow_back</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-{# ============================================================
-   6. TESTIMONIALS
-   ============================================================ #}
-<section class="az-section az-testimonials">
-  <div class="az-section-head az-reveal">
-    <div>
-      <div class="az-section-eyebrow">
-        <span class="az-section-eyebrow__line"></span>
-        <span class="az-section-eyebrow__text">{{ 'آراء العملاء' | trans }}</span>
+      <div class="az-cd">
+        <div class="az-cd__u"><div class="az-cd__n" id="az-h">00</div><div class="az-cd__l">{{ 'ساعة' | trans }}</div></div>
+        <div class="az-cd__sep">:</div>
+        <div class="az-cd__u"><div class="az-cd__n" id="az-m">00</div><div class="az-cd__l">{{ 'دقيقة' | trans }}</div></div>
+        <div class="az-cd__sep">:</div>
+        <div class="az-cd__u"><div class="az-cd__n" id="az-s">00</div><div class="az-cd__l">{{ 'ثانية' | trans }}</div></div>
       </div>
-      <h2 class="az-section-title">{{ 'ماذا يقول عملاؤنا' | trans }}</h2>
-      <p class="az-section-subtitle">{{ 'آراء حقيقية من صيادين محترفين' | trans }}</p>
     </div>
-  </div>
-
-  <div class="az-testimonials__grid">
-    {% set testimonials = [
-      {name:'أحمد الغامدي',  role:'صياد محترف',  initial:'أ',
-       text:'أفضل معدات صيد اشتريتها في حياتي. الجودة ممتازة والتوصيل كان سريعاً جداً. أنصح الجميع بالتسوق من هنا.'},
-      {name:'محمد العتيبي',  role:'مغامر برّي',   initial:'م',
-       text:'تجربة تسوق رائعة! المنتجات أصلية ١٠٠٪ والأسعار منافسة. خدمة العملاء ممتازة وتجاوبت معي بسرعة.'},
-      {name:'خالد الدوسري',  role:'هاوي رحلات',  initial:'خ',
-       text:'المعدات التي اشتريتها غيّرت تجربة الصيد لديّ كلياً. جودة عالية وتصميم احترافي. سأعود للشراء مجدداً.'}
-    ] %}
-    {% for t in testimonials %}
-      <div class="az-testimonial-card az-reveal az-reveal-delay-{{ loop.index }}">
-        <div class="az-testimonial-card__quote">"</div>
-        <div class="az-testimonial-card__stars">
-          {% for i in 1..5 %}
-            <span class="material-symbols-outlined"
-                  style="font-size:.95rem; color:var(--az-gold); font-variation-settings:'FILL' 1;">star</span>
-          {% endfor %}
-        </div>
-        <p class="az-testimonial-card__text">{{ t.text }}</p>
-        <div class="az-testimonial-card__author">
-          <div class="az-testimonial-card__avatar">{{ t.initial }}</div>
-          <div>
-            <div class="az-testimonial-card__name">{{ t.name }}</div>
-            <div class="az-testimonial-card__role">{{ t.role }}</div>
+    <div class="az-flash__grid">
+      {% set fitems = [
+        {n:'منتج عرض الفلاش 1', d:'40', pr:65, st:'تبقى 8 قطع',  g:'ef4444,dc2626'},
+        {n:'منتج عرض الفلاش 2', d:'35', pr:80, st:'تبقى 5 قطع',  g:'f97316,ea580c'},
+        {n:'منتج عرض الفلاش 3', d:'50', pr:45, st:'تبقى 12 قطعة',g:'8b5cf6,7c3aed'},
+        {n:'منتج عرض الفلاش 4', d:'30', pr:90, st:'تبقى 3 قطع',  g:'10b981,059669'}
+      ] %}
+      {% for fi in fitems %}
+        <div class="az-fc az-r d{{ loop.index }}">
+          <div class="az-fc__img-w">
+            <div class="az-fc__img" style="background:linear-gradient(135deg,#{{ fi.g }});display:flex;align-items:center;justify-content:center;">
+              <span class="ms material-symbols-outlined" style="font-size:3.5rem;color:rgba(255,255,255,.2);">local_offer</span>
+            </div>
+            <span class="az-fc__disc">-{{ fi.d }}%</span>
+          </div>
+          <div class="az-fc__body">
+            <div class="az-fc__name">{{ fi.n }}</div>
+            <div class="az-fc__bar-w"><div class="az-fc__bar" data-w="{{ fi.pr }}"></div></div>
+            <div class="az-fc__stock">{{ fi.st }}</div>
+            <div class="az-fc__foot">
+              <div>
+                <span class="az-fc__old">{{ (200 + loop.index * 50) }} ر.س</span>
+                <span class="az-fc__price">{{ ((200 + loop.index * 50) * (100 - fi.d | int) // 100) }} ر.س</span>
+              </div>
+              <button class="az-fc__add">{{ 'أضف للسلة' | trans }}</button>
+            </div>
           </div>
         </div>
-      </div>
-    {% endfor %}
+      {% endfor %}
+    </div>
   </div>
 </section>
+<div class="az-label">قسم: عروض الفلاش — ثيم: ازدهار</div>
 
 {# ============================================================
-   7. FAQ
+   SECTION 7 — البانر الترويجي
    ============================================================ #}
-<section class="az-section az-faq">
-  <div class="az-faq__inner">
-    <div style="text-align:center; margin-bottom:3rem;" class="az-reveal">
-      <div class="az-section-eyebrow" style="justify-content:center;">
-        <span class="az-section-eyebrow__line"></span>
-        <span class="az-section-eyebrow__text">{{ 'الدعم' | trans }}</span>
-        <span class="az-section-eyebrow__line"></span>
+<section class="az-sec az-promo">
+  <div class="az-promo__c"></div>
+  <div class="az-promo__c"></div>
+  <div class="az-promo__c"></div>
+  <div class="az-con">
+    <div class="az-promo__inner az-r">
+      <div class="az-promo__text">
+        <div class="az-promo__ey">{{ 'عرض حصري' | trans }}</div>
+        <h2 class="az-promo__h2">{{ 'خصم 20% على أول طلب' | trans }}</h2>
+        <p class="az-promo__p">{{ 'سجّل الآن واحصل على خصم حصري على أول طلب لك. العرض محدود لأول 100 عميل فقط!' | trans }}</p>
+        <div class="az-promo__coupon" id="az-coupon" title="{{ 'انقر لنسخ الكود' | trans }}">
+          <div>
+            <div class="az-promo__cl">{{ 'كود الخصم' | trans }}</div>
+            <div class="az-promo__cc" id="az-coupon-code">AZDAHAR20</div>
+          </div>
+          <span class="ms material-symbols-outlined az-promo__ci" id="az-coupon-icon">content_copy</span>
+        </div>
       </div>
-      <h2 class="az-section-title">{{ 'الأسئلة الشائعة' | trans }}</h2>
-      <p class="az-section-subtitle">{{ 'كل ما تحتاج معرفته عن معداتنا وخدماتنا' | trans }}</p>
+      <div class="az-promo__cta">
+        <a href="{{ store.urls.products }}" class="az-btn az-btn--white" style="font-size:1.05rem;">
+          <span class="ms material-symbols-outlined">shopping_bag</span>
+          {{ 'تسوق الآن' | trans }}
+        </a>
+        <div class="az-promo__note">
+          <span class="ms material-symbols-outlined" style="font-size:1rem;">schedule</span>
+          {{ 'العرض ينتهي قريباً' | trans }}
+        </div>
+      </div>
     </div>
-
-    {% set faqs = [
-      {q:'هل تتوفر ضمانات على المنتجات؟',
-       a:'نعم، جميع معدات الصيد الاحترافية لدينا تأتي مع ضمان قياسي لمدة سنتين يغطي عيوب التصنيع.'},
-      {q:'كم يستغرق الشحن داخل المملكة العربية السعودية؟',
-       a:'بالنسبة للمدن الكبرى مثل الرياض وجدة والدمام، يستغرق التوصيل عادةً من ٢٤ إلى ٤٨ ساعة.'},
-      {q:'هل المنتجات أصلية ١٠٠٪؟',
-       a:'بكل تأكيد. نحن نستورد المنتجات مباشرة من المصنعين المعتمدين. كل قطعة أصلية ١٠٠٪ ومجربة ميدانياً.'},
-      {q:'هل يمكنني إرجاع المنتج إذا لم يناسبني؟',
-       a:'نعم، نوفر سياسة إرجاع مجانية خلال ١٤ يوماً من تاريخ الاستلام، شرط أن يكون المنتج بحالته الأصلية.'}
-    ] %}
-    {% for faq in faqs %}
-      <details class="az-faq__item az-reveal az-reveal-delay-{{ loop.index }}">
-        <summary>
-          <span class="az-faq__question">{{ faq.q }}</span>
-          <span class="az-faq__icon">
-            <span class="material-symbols-outlined" style="font-size:1.1rem;">expand_more</span>
-          </span>
-        </summary>
-        <div class="az-faq__answer">{{ faq.a }}</div>
-      </details>
-    {% endfor %}
   </div>
 </section>
+<div class="az-label">قسم: البانر الترويجي — ثيم: ازدهار</div>
 
 {# ============================================================
-   8. CTA BOTTOM
+   SECTION 8 — الماركات التجارية
    ============================================================ #}
-<section class="az-cta">
-  <div class="az-cta__glow"></div>
-  <div class="az-cta__content az-reveal">
-    <div class="az-section-eyebrow" style="justify-content:center; margin-bottom:1rem;">
-      <span class="az-section-eyebrow__line"></span>
-      <span class="az-section-eyebrow__text">{{ 'ابدأ رحلتك' | trans }}</span>
-      <span class="az-section-eyebrow__line"></span>
+<section class="az-sec az-sec--white">
+  <div class="az-con">
+    <div class="az-head az-r">
+      <div class="az-eyebrow">{{ 'شركاؤنا' | trans }}</div>
+      <h2 class="az-h2">{{ 'الماركات التجارية' | trans }}</h2>
+      <p class="az-sub">{{ 'نفتخر بتقديم أفضل الماركات العالمية والمحلية الموثوقة' | trans }}</p>
     </div>
-    <h2 class="az-cta__title">{{ 'جاهز لمغامرتك القادمة؟' | trans }}</h2>
-    <p class="az-cta__desc">
-      {{ 'اكتشف مجموعتنا الكاملة من معدات الصيد والرحلات البرية الاحترافية.' | trans }}
-    </p>
-    <div class="az-cta__btns">
-      <a href="{{ store.urls.products }}" class="az-btn az-btn--primary" style="font-size:1.05rem;">
-        {{ 'تسوق الآن' | trans }}
-        <span class="material-symbols-outlined">arrow_back</span>
-      </a>
-      <a href="{{ store.urls.contact ?? '#' }}" class="az-btn az-btn--outline" style="font-size:1.05rem;">
-        {{ 'تواصل معنا' | trans }}
+    <div class="az-brands__wrap az-r">
+      <div class="az-brands__track">
+        {% set brands = ['Nike','Adidas','Samsung','Apple','Sony','LG','Zara','H&M','Gucci','Puma','Reebok','New Balance','Philips','Bosch','IKEA','Dyson'] %}
+        {% for b in brands %}<div class="az-brand"><span>{{ b }}</span></div>{% endfor %}
+        {% for b in brands %}<div class="az-brand"><span>{{ b }}</span></div>{% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+<div class="az-label">قسم: الماركات التجارية — ثيم: ازدهار</div>
+
+{# ============================================================
+   SECTION 9 — آراء العملاء
+   ============================================================ #}
+<section class="az-sec az-sec--gray">
+  <div class="az-con">
+    <div class="az-head az-r">
+      <div class="az-eyebrow">{{ 'ماذا يقول عملاؤنا' | trans }}</div>
+      <h2 class="az-h2">{{ 'آراء العملاء' | trans }}</h2>
+      <p class="az-sub">{{ 'تجارب حقيقية من عملاء حقيقيين يثقون في متجرنا' | trans }}</p>
+    </div>
+    <div class="az-testi__grid">
+      {% set testis = [
+        {n:'أحمد الشمري', r:'عميل منذ 2022', av:'أ', t:'تجربة تسوق رائعة! المنتجات وصلت بسرعة كبيرة وكانت بجودة ممتازة تماماً كما هو موصوف. سأتسوق مرة أخرى بالتأكيد.'},
+        {n:'سارة العتيبي', r:'عميلة منذ 2023', av:'س', t:'خدمة عملاء ممتازة جداً. تواصلت معهم بخصوص استفسار وردوا بسرعة وحلوا المشكلة فوراً. شكراً لكم!'},
+        {n:'محمد القحطاني', r:'عميل منذ 2021', av:'م', t:'أفضل متجر إلكتروني تعاملت معه. الأسعار منافسة، الجودة عالية، والتوصيل سريع. أنصح الجميع بالتسوق هنا.'}
+      ] %}
+      {% for t in testis %}
+        <div class="az-testi az-r d{{ loop.index }}">
+          <div class="az-testi__stars">★★★★★</div>
+          <p class="az-testi__text">"{{ t.t }}"</p>
+          <div class="az-testi__author">
+            <div class="az-testi__av">{{ t.av }}</div>
+            <div>
+              <div class="az-testi__name">{{ t.n }}</div>
+              <div class="az-testi__role">{{ t.r }}</div>
+              <div class="az-testi__ver">
+                <span class="ms material-symbols-outlined">verified</span>
+                {{ 'عميل موثّق' | trans }}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="az-stats-row az-r">
+      <div style="text-align:center;">
+        <div class="az-stats-row__n">4.9/5</div>
+        <div class="az-stats-row__l">{{ 'متوسط التقييم' | trans }}</div>
+      </div>
+      <div class="az-stats-row__div"></div>
+      <div style="text-align:center;">
+        <div class="az-stats-row__n">+10,000</div>
+        <div class="az-stats-row__l">{{ 'تقييم موثّق' | trans }}</div>
+      </div>
+      <div class="az-stats-row__div"></div>
+      <div style="text-align:center;">
+        <div class="az-stats-row__n">98%</div>
+        <div class="az-stats-row__l">{{ 'نسبة الرضا' | trans }}</div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="az-label">قسم: آراء العملاء — ثيم: ازدهار</div>
+
+{# ============================================================
+   SECTION 10 — الأسئلة الشائعة
+   ============================================================ #}
+<section class="az-sec az-sec--white">
+  <div class="az-con">
+    <div class="az-head az-r">
+      <div class="az-eyebrow">{{ 'لديك استفسار؟' | trans }}</div>
+      <h2 class="az-h2">{{ 'الأسئلة الشائعة' | trans }}</h2>
+      <p class="az-sub">{{ 'إجابات على أكثر الأسئلة شيوعاً من عملائنا' | trans }}</p>
+    </div>
+    <div class="az-faq">
+      {% set faqs = [
+        {q:'كيف يمكنني تتبع طلبي؟', a:'بعد تأكيد الطلب ستصلك رسالة نصية ورسالة بريد إلكتروني تحتوي على رقم التتبع. يمكنك أيضاً متابعة طلبك من خلال صفحة "طلباتي" في حسابك.'},
+        {q:'ما هي طرق الدفع المتاحة؟', a:'نقبل جميع طرق الدفع الشائعة: بطاقات الائتمان والخصم (Visa, Mastercard)، مدى، Apple Pay، STC Pay، والدفع عند الاستلام.'},
+        {q:'هل يمكنني إرجاع المنتج إذا لم يناسبني؟', a:'نعم، نوفر سياسة إرجاع مجانية خلال 14 يوماً من تاريخ الاستلام، شرط أن يكون المنتج بحالته الأصلية وفي عبوته الأصلية.'},
+        {q:'كم يستغرق التوصيل؟', a:'التوصيل داخل المدن الكبرى (الرياض، جدة، الدمام) يستغرق من 24 إلى 48 ساعة. للمدن الأخرى من 3 إلى 5 أيام عمل.'},
+        {q:'هل المنتجات أصلية ومضمونة؟', a:'جميع منتجاتنا أصلية 100% ومستوردة مباشرة من الموزعين المعتمدين. نوفر ضمان المصنع على جميع المنتجات الإلكترونية.'}
+      ] %}
+      {% for faq in faqs %}
+        <details class="az-faq__item az-r d{{ loop.index <= 3 ? loop.index : 3 }}">
+          <summary>
+            <span>{{ faq.q }}</span>
+            <span class="ms material-symbols-outlined az-faq__ico">expand_more</span>
+          </summary>
+          <div class="az-faq__ans">{{ faq.a }}</div>
+        </details>
+      {% endfor %}
+    </div>
+    <div style="text-align:center;margin-top:32px;" class="az-r">
+      <p style="color:var(--az-muted);margin-bottom:14px;">{{ 'لم تجد إجابة لسؤالك؟' | trans }}</p>
+      <a href="{{ store.urls.contact ?? '#' }}" class="az-btn az-btn--ghost">
+        <span class="ms material-symbols-outlined">chat</span>
+        {{ 'تواصل مع الدعم' | trans }}
       </a>
     </div>
   </div>
 </section>
+<div class="az-label">قسم: الأسئلة الشائعة — ثيم: ازدهار</div>
+
+{# ============================================================
+   SECTION 11 — دعوة للعمل (CTA)
+   ============================================================ #}
+<section class="az-sec az-cta">
+  <div class="az-cta__pat"></div>
+  <div class="az-con">
+    <div class="az-cta__con az-r">
+      <h2 class="az-cta__h2">{{ 'ابدأ تسوقك اليوم' | trans }}</h2>
+      <p class="az-cta__p">{{ 'انضم إلى أكثر من 10,000 عميل راضٍ واستمتع بتجربة تسوق استثنائية مع ضمان الجودة والتوصيل السريع.' | trans }}</p>
+      <div class="az-cta__btns">
+        <a href="{{ store.urls.products }}" class="az-btn az-btn--white" style="font-size:1.05rem;">
+          <span class="ms material-symbols-outlined">shopping_bag</span>
+          {{ 'تسوق الآن' | trans }}
+        </a>
+        <a href="{{ store.urls.contact ?? '#' }}" class="az-btn az-btn--wghost" style="font-size:1.05rem;">
+          {{ 'تواصل معنا' | trans }}
+        </a>
+      </div>
+      <div class="az-cta__trust">
+        <div class="az-cta__ti"><span class="ms material-symbols-outlined">verified_user</span>{{ 'دفع آمن 100%' | trans }}</div>
+        <div class="az-cta__ti"><span class="ms material-symbols-outlined">local_shipping</span>{{ 'شحن مجاني' | trans }}</div>
+        <div class="az-cta__ti"><span class="ms material-symbols-outlined">autorenew</span>{{ 'إرجاع مجاني' | trans }}</div>
+        <div class="az-cta__ti"><span class="ms material-symbols-outlined">headset_mic</span>{{ 'دعم 24/7' | trans }}</div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="az-label" style="padding-bottom:16px;">قسم: دعوة للعمل — ثيم: ازدهار</div>
 
 </div>{# end .az-page #}
 {% endblock %}
 
 {% block scripts %}
-<script defer src="{{ 'home.js' | asset }}"></script>
 <script>
-(function() {
-  /* ---- Scroll Reveal ---- */
-  var reveals = document.querySelectorAll('.az-reveal');
+(function () {
+  /* ── Scroll Reveal ── */
+  var els = document.querySelectorAll('.az-r');
   if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) {
-        if (e.isIntersecting) {
-          e.target.classList.add('az-visible');
-          io.unobserve(e.target);
-        }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
       });
-    }, { threshold: 0.12 });
-    reveals.forEach(function(el) { io.observe(el); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (el) { io.observe(el); });
   } else {
-    reveals.forEach(function(el) { el.classList.add('az-visible'); });
+    els.forEach(function (el) { el.classList.add('on'); });
   }
 
-  /* ---- Countdown Timer ---- */
+  /* ── Hero BG Zoom ── */
+  var bg = document.getElementById('az-hero-bg');
+  if (bg) setTimeout(function () { bg.classList.add('loaded'); }, 200);
+
+  /* ── Countdown ── */
   var end = new Date();
-  end.setHours(end.getHours() + 12, end.getMinutes() + 45, end.getSeconds() + 8);
-
+  end.setHours(end.getHours() + 11, end.getMinutes() + 47, end.getSeconds() + 22);
   function pad(n) { return String(n).padStart(2, '0'); }
-
-  function flipNum(el, val) {
-    var current = el.textContent;
-    if (current === val) return;
-    el.classList.add('az-flip');
-    setTimeout(function() {
-      el.textContent = val;
-      el.classList.remove('az-flip');
-    }, 150);
+  function flip(el, v) {
+    if (!el || el.textContent === v) return;
+    el.classList.add('flip');
+    setTimeout(function () { el.textContent = v; el.classList.remove('flip'); }, 150);
   }
-
   function tick() {
-    var diff = end - new Date();
-    if (diff <= 0) return;
-    var h = document.getElementById('az-hours');
-    var m = document.getElementById('az-minutes');
-    var s = document.getElementById('az-seconds');
-    if (h) flipNum(h, pad(Math.floor(diff / 3600000)));
-    if (m) flipNum(m, pad(Math.floor((diff % 3600000) / 60000)));
-    if (s) flipNum(s, pad(Math.floor((diff % 60000) / 1000)));
+    var d = end - Date.now();
+    if (d <= 0) return;
+    flip(document.getElementById('az-h'), pad(Math.floor(d / 3600000)));
+    flip(document.getElementById('az-m'), pad(Math.floor((d % 3600000) / 60000)));
+    flip(document.getElementById('az-s'), pad(Math.floor((d % 60000) / 1000)));
   }
-  tick();
-  setInterval(tick, 1000);
+  tick(); setInterval(tick, 1000);
 
-  /* ---- Coupon Copy ---- */
-  var coupon = document.querySelector('.az-promo__coupon');
-  if (coupon) {
-    coupon.style.cursor = 'pointer';
-    coupon.addEventListener('click', function() {
-      var code = coupon.querySelector('.az-promo__coupon-code');
-      if (!code) return;
-      navigator.clipboard && navigator.clipboard.writeText(code.textContent.trim());
-      var icon = coupon.querySelector('.material-symbols-outlined');
-      if (icon) {
-        icon.textContent = 'check_circle';
-        setTimeout(function() { icon.textContent = 'content_copy'; }, 2000);
+  /* ── Coupon Copy ── */
+  var coupon = document.getElementById('az-coupon');
+  var icon   = document.getElementById('az-coupon-icon');
+  if (coupon && icon) {
+    coupon.addEventListener('click', function () {
+      var code = document.getElementById('az-coupon-code');
+      if (code && navigator.clipboard) {
+        navigator.clipboard.writeText(code.textContent.trim()).then(function () {
+          icon.textContent = 'check_circle';
+          setTimeout(function () { icon.textContent = 'content_copy'; }, 2500);
+        });
       }
     });
   }
 
-  /* ---- Hero BG slow zoom on load ---- */
-  var heroBg = document.querySelector('.az-hero__bg');
-  if (heroBg) {
-    setTimeout(function() { heroBg.style.transform = 'scale(1)'; }, 100);
+  /* ── Flash Progress Bars ── */
+  var bars = document.querySelectorAll('.az-fc__bar');
+  if ('IntersectionObserver' in window) {
+    var bio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.style.width = (e.target.getAttribute('data-w') || '50') + '%';
+          bio.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    bars.forEach(function (b) { b.style.width = '0'; bio.observe(b); });
   }
-
 })();
 </script>
 {% endblock %}
