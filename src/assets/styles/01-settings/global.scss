@@ -1,34 +1,24 @@
-
 // Colors
 $main-color: var(--color-primary);
 $infinte-color: var(--infinte-color);
 $main-text-color: var(--main-text-color);
-
 :root {
   --infinte-color: #c9c9c9;
   --main-text-color: #2F2824;
   --main-text-color-dark: #2F2824;
-
-  /* ازدهار theme colors - based on Stitch design */
-  --color-primary: #87602C;
-  --color-primary-dark: #6B4D22;
-  --color-primary-d: #6B4D22;
-  --color-primary-light: #c8a87a;
-  --color-primary-l: #A07840;
-  --color-primary-reverse: #2F2824;
+  /* ملاحظة: --color-primary يتم حقنه من master.twig من هوية المتجر */
+  /* لا تضع قيمة ثابتة هنا حتى لا تتجاوز قيمة سلة */
+  /* fallback فقط في حالة عدم وجود هوية */
   --color-secondary: #2F2824;
   --color-text: #5a5a5a;
   --bg-gray: #f5f0eb;
   --color-grey: #f9f6f2;
   --color-light-grey: #eeeeee;
-  --color-brand-dark: #2F2824;
-  --color-brand-gold: #87602C;
   --color-white: #FFFFFF;
   /* font-size */
   --font-sm: 0.8685714286rem;
   /* font-family */
-  --font-main: "Cairo", "DINNextLTArabic", sans-serif;
-
+  --font-main: "Cairo", sans-serif;
   /* plugins */
   --mm-ocd-width: calc(100% - 51px);
 }

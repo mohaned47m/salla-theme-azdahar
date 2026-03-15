@@ -1,7 +1,10 @@
 {
   "blocks": {
     "header": {
-      "cart": "Cart"
+      "cart": "Cart",
+      "free_shipping": "Free shipping on orders over 200 SAR",
+      "contact_us": "Contact Us",
+      "topbar_message": "Welcome to our store"
     },
     "appBanner": {
       "download_now": "download now"
@@ -22,6 +25,14 @@
   },
   "common": {
     "bank_offer_sub_title_multiple": "Pay for your purchases via one of the following bank cards and get the specified discount",
-    "bank_offer_sub_title_single": "Pay for your purchases via :bank_name bank card and get discount"
+    "bank_offer_sub_title_single": "Pay for your purchases via :bank_name bank card and get discount",
+    "elements": {
+      "open_menu": "Menu",
+      "search": "Search",
+      "login": "Login",
+      "wishlist": "Wishlist",
+      "cart": "Cart",
+      "close": "Close"
+    }
   }
 }

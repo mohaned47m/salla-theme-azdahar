@@ -5,7 +5,7 @@
 
 /* ---- الهيدر والشريط العلوي ---- */
 .top-navbar {
-  background-color: var(--color-brand-dark) !important;
+  background-color: var(--color-secondary, #2F2824) !important;
   color: #fff !important;
   
   .topnav-link-item {
@@ -31,7 +31,7 @@
 
 /* الشريط الرئيسي للتنقل */
 .main-nav-container {
-  background-color: var(--color-brand-gold) !important;
+  background-color: var(--color-primary) !important;
   
   .store-logo {
     filter: brightness(0) invert(1);
@@ -63,7 +63,7 @@
 /* ---- قسم البطل (Hero Slider) ---- */
 .s-block--hero-slider {
   .swiper-slide {
-    background-color: var(--color-brand-dark);
+    background-color: var(--color-secondary, #2F2824);
     min-height: 500px;
     
     @media (min-width: 1024px) {
@@ -94,7 +94,7 @@
     display: inline-block;
     margin-top: 1.5rem;
     padding: 0.875rem 2.5rem;
-    background-color: var(--color-brand-gold);
+    background-color: var(--color-primary);
     color: #fff;
     font-weight: 700;
     font-size: 1rem;
@@ -103,7 +103,7 @@
     transition: background-color 0.3s ease;
     
     &:hover {
-      background-color: var(--color-primary-d);
+      background-color: var(--color-primary-dark);
     }
   }
 }
@@ -111,7 +111,7 @@
 /* ---- قسم مميزات المتجر ---- */
 .s-block--features {
   padding: 3rem 0;
-  background-color: var(--color-brand-dark);
+  background-color: var(--color-secondary, #2F2824);
   
   .s-block--features__item {
     text-align: center;
@@ -122,8 +122,8 @@
       width: 64px;
       height: 64px;
       border-radius: 50%;
-      background: rgba(135, 96, 44, 0.3);
-      border: 2px solid var(--color-brand-gold);
+      background: rgba(var(--color-primary-rgb, 200,150,62), 0.3);
+      border: 2px solid var(--color-primary);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -131,7 +131,7 @@
       
       i {
         font-size: 1.75rem;
-        color: var(--color-brand-gold);
+        color: var(--color-primary);
       }
     }
     
@@ -158,14 +158,14 @@
     h2 {
       font-size: 1.75rem;
       font-weight: 800;
-      color: var(--color-brand-dark);
+      color: var(--color-secondary, #2F2824);
       
       &::after {
         content: '';
         display: block;
         width: 60px;
         height: 3px;
-        background-color: var(--color-brand-gold);
+        background-color: var(--color-primary);
         margin-top: 0.5rem;
       }
     }
@@ -190,21 +190,21 @@
   
   .s-product-card__name {
     font-weight: 600;
-    color: var(--color-brand-dark);
+    color: var(--color-secondary, #2F2824);
   }
   
   .s-product-card__price {
-    color: var(--color-brand-gold);
+    color: var(--color-primary);
     font-weight: 700;
   }
   
   .btn-add-to-cart,
   .s-product-card__add-btn {
-    background-color: var(--color-brand-gold) !important;
+    background-color: var(--color-primary) !important;
     color: #fff !important;
     
     &:hover {
-      background-color: var(--color-primary-d) !important;
+      background-color: var(--color-primary-dark) !important;
     }
   }
 }
@@ -227,19 +227,19 @@
 
 /* ---- عروض الفلاش ---- */
 .s-block--flash-sale {
-  background: linear-gradient(135deg, var(--color-brand-dark) 0%, #3d3028 100%);
+  background: linear-gradient(135deg, var(--color-secondary, #2F2824) 0%, #3d3028 100%);
   padding: 2rem 0;
   
   .s-block__title h2 {
     color: #fff;
     
     &::after {
-      background-color: var(--color-brand-gold);
+      background-color: var(--color-primary);
     }
   }
   
   .flash-sale-timer {
-    background: var(--color-brand-gold);
+    background: var(--color-primary);
     color: #fff;
     border-radius: 8px;
     padding: 0.5rem 1rem;
@@ -250,11 +250,11 @@
 
 /* ---- الفوتر ---- */
 .store-footer {
-  background-color: var(--color-brand-dark) !important;
+  background-color: var(--color-secondary, #2F2824) !important;
   color: rgba(255,255,255,0.8);
   
   .footer-title {
-    color: var(--color-brand-gold);
+    color: var(--color-primary);
     font-weight: 700;
     font-size: 1rem;
     margin-bottom: 1rem;
@@ -264,7 +264,7 @@
     color: rgba(255,255,255,0.7);
     
     &:hover {
-      color: var(--color-brand-gold);
+      color: var(--color-primary);
     }
   }
   
@@ -279,17 +279,17 @@
 .btn-primary,
 .s-btn-primary,
 [class*="btn--primary"] {
-  background-color: var(--color-brand-gold) !important;
+  background-color: var(--color-primary) !important;
   color: #fff !important;
   
   &:hover {
-    background-color: var(--color-primary-d) !important;
+    background-color: var(--color-primary-dark) !important;
   }
 }
 
 /* ---- شريط الإشعارات ---- */
 .store-announcement-bar {
-  background-color: var(--color-brand-gold);
+  background-color: var(--color-primary);
   color: #fff;
   text-align: center;
   padding: 0.5rem;

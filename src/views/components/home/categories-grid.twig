@@ -10,10 +10,10 @@
     <div class="container mx-auto px-6">
         {# Section Header #}
         <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold mb-4" style="color: #2F2824;">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4" style="color: var(--color-secondary, #2F2824);">
                 {{ component.title | default('تسوق حسب الفئة') }}
             </h2>
-            <div class="w-20 h-1 mx-auto rounded-full" style="background: linear-gradient(90deg, #87602C, #C8963E);"></div>
+            <div class="w-20 h-1 mx-auto rounded-full" style="background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));"></div>
         </div>
 
         {# Categories Grid #}
@@ -54,7 +54,7 @@
                class="azdahar-category-card group relative overflow-hidden rounded-2xl aspect-square block">
                 <div class="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-500 group-hover:scale-110"
                      style="background-image: url('{{ category.image.url | default('') }}');
-                            background-color: #87602C;"></div>
+                            background-color: var(--color-primary);"></div>
                 <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                 <div class="absolute bottom-0 left-0 right-0 p-4 text-white text-center">
                     <h3 class="font-bold text-lg">{{ category.name }}</h3>

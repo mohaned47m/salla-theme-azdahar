@@ -7,14 +7,14 @@
 | items[].text  | string | Subtitle for the feature                                         |
 | position      | Int    | Sorting number start from zero                                   |
 #}
-<section class="s-block s-block--features" style="background-color: #2F2824; padding: 2.5rem 0;">
+<section class="s-block s-block--features" style="background-color: var(--color-secondary, #2F2824); padding: 2.5rem 0;">
     <div class="container">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
           {% for item in items %}
               <div class="s-block--features__item text-center px-4 py-4">
                 <div class="feature-icon mx-auto mb-3" 
-                     style="width:60px;height:60px;border-radius:50%;background:rgba(135,96,44,0.2);border:2px solid #87602C;display:flex;align-items:center;justify-content:center;">
-                  <i class="{{ item.icon }}" style="font-size:1.5rem;color:#87602C;"></i>
+                     style="width:60px;height:60px;border-radius:50%;background:rgba(var(--color-primary-rgb, 200,150,62), 0.2);border:2px solid #87602C;display:flex;align-items:center;justify-content:center;">
+                  <i class="{{ item.icon }}" style="font-size:1.5rem;color:var(--color-primary);"></i>
                 </div>
                 <h2 style="font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:0.25rem;">{{ item.title }}</h2>
                 <p style="font-size:0.8rem;color:rgba(255,255,255,0.65);">{{ item.text }}</p>
