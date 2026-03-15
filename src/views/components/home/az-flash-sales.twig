@@ -9,16 +9,37 @@
 #}
 <section class="az-flash s-block" id="az-flash-{{ position }}" aria-label="قسم: عروض الفلاش — ثيم: ازدهار">
   <style>
+    /* ── عروض الفلاش — ازدهار ── */
     .az-flash {
       background: linear-gradient(135deg, #2F2824 0%, #1a1512 100%);
       padding: 5rem 0 4rem;
       direction: rtl;
+      position: relative;
+      overflow: hidden;
+    }
+    /* خطوط خلفية ديكورية */
+    .az-flash::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 40px,
+          rgba(200,150,62,0.03) 40px,
+          rgba(200,150,62,0.03) 41px
+        );
+      pointer-events: none;
     }
     .az-flash__inner {
       max-width: 1280px;
       margin: 0 auto;
       padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
     }
+    /* رأس القسم */
     .az-flash__head {
       display: flex;
       align-items: center;
@@ -38,7 +59,7 @@
       color: rgba(255,255,255,0.6);
       margin: 0;
     }
-    /* Countdown */
+    /* عداد تنازلي */
     .az-countdown {
       display: flex;
       align-items: center;
@@ -46,14 +67,16 @@
     }
     .az-countdown__unit {
       text-align: center;
-      background: rgba(200,150,62,0.15);
+      background: rgba(200,150,62,0.12);
       border: 1px solid rgba(200,150,62,0.3);
       border-radius: 10px;
-      padding: 0.5rem 0.8rem;
-      min-width: 56px;
+      padding: 0.5rem 0.9rem;
+      min-width: 58px;
+      transition: background 0.3s;
     }
+    .az-countdown__unit:hover { background: rgba(200,150,62,0.2); }
     .az-countdown__num {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       font-weight: 900;
       color: #C8963E;
       display: block;
@@ -61,112 +84,210 @@
       line-height: 1;
     }
     .az-countdown__label {
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       color: rgba(255,255,255,0.5);
-      margin-top: 0.2rem;
+      margin-top: 0.25rem;
     }
     .az-countdown__sep {
       font-size: 1.4rem;
       font-weight: 900;
       color: #C8963E;
       margin-bottom: 0.8rem;
+      animation: azBlink 1s step-end infinite;
     }
-    /* Products */
+    @keyframes azBlink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+    /* شبكة المنتجات */
     .az-flash__grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 1.2rem;
     }
-    @media(min-width:640px)  { .az-flash__grid { grid-template-columns: repeat(3, 1fr); } }
-    @media(min-width:1024px) { .az-flash__grid { grid-template-columns: repeat(4, 1fr); } }
+    @media (min-width: 640px)  { .az-flash__grid { grid-template-columns: repeat(3, 1fr); gap: 1.4rem; } }
+    @media (min-width: 1024px) { .az-flash__grid { grid-template-columns: repeat(4, 1fr); gap: 1.6rem; } }
+    /* كارد الفلاش */
     .az-flash-card {
-      background: rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.05);
       border: 1px solid rgba(200,150,62,0.15);
-      border-radius: 14px;
+      border-radius: 16px;
       overflow: hidden;
-      transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.35s cubic-bezier(.25,.8,.25,1), border-color 0.35s, box-shadow 0.35s;
+      animation: azFlashCardIn 0.5s ease both;
+    }
+    .az-flash-card:nth-child(1) { animation-delay: 0.05s; }
+    .az-flash-card:nth-child(2) { animation-delay: 0.10s; }
+    .az-flash-card:nth-child(3) { animation-delay: 0.15s; }
+    .az-flash-card:nth-child(4) { animation-delay: 0.20s; }
+    .az-flash-card:nth-child(5) { animation-delay: 0.25s; }
+    .az-flash-card:nth-child(6) { animation-delay: 0.30s; }
+    .az-flash-card:nth-child(7) { animation-delay: 0.35s; }
+    .az-flash-card:nth-child(8) { animation-delay: 0.40s; }
+    @keyframes azFlashCardIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
     .az-flash-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(200,150,62,0.4);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+      transform: translateY(-8px);
+      border-color: rgba(200,150,62,0.5);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(200,150,62,0.2);
     }
+    /* صورة المنتج — نسبة 1:1 ثابتة */
     .az-flash-card__img-wrap {
-      aspect-ratio: 1;
+      position: relative;
+      width: 100%;
+      padding-top: 100%;
       overflow: hidden;
       background: rgba(255,255,255,0.04);
-      position: relative;
+      flex-shrink: 0;
+    }
+    .az-flash-card__img-wrap > a {
+      position: absolute;
+      inset: 0;
+      display: block;
     }
     .az-flash-card__img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s;
-    }
-    .az-flash-card:hover .az-flash-card__img { transform: scale(1.06); }
-    .az-flash-card__discount {
       position: absolute;
-      top: 0.7rem; right: 0.7rem;
-      background: #ef4444;
-      color: #fff;
-      font-size: 0.72rem;
-      font-weight: 800;
-      padding: 0.2rem 0.6rem;
-      border-radius: 50px;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      transition: transform 0.55s cubic-bezier(.25,.8,.25,1);
     }
-    .az-flash-card__body { padding: 1rem; }
+    .az-flash-card:hover .az-flash-card__img { transform: scale(1.07); }
+    /* بادج الخصم */
+    .az-flash-card__badge {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 0.25rem 0.65rem;
+      border-radius: 50px;
+      box-shadow: 0 2px 8px rgba(239,68,68,0.5);
+      z-index: 2;
+      white-space: nowrap;
+    }
+    /* تراكب عرض سريع */
+    .az-flash-card__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(47,40,36,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      z-index: 1;
+    }
+    .az-flash-card:hover .az-flash-card__overlay { opacity: 1; }
+    .az-flash-card__quick-view {
+      background: rgba(255,255,255,0.95);
+      color: #2F2824;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.55rem 1.2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      transform: translateY(10px);
+      transition: transform 0.35s ease, background 0.3s, color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .az-flash-card:hover .az-flash-card__quick-view { transform: translateY(0); }
+    .az-flash-card__quick-view:hover { background: #C8963E; color: #fff; }
+    /* جسم الكارد */
+    .az-flash-card__body {
+      padding: 0.9rem 1rem 1rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 0.5rem;
+    }
     .az-flash-card__name {
       font-size: 0.88rem;
       font-weight: 700;
       color: #fff;
-      margin: 0 0 0.5rem;
+      margin: 0;
+      line-height: 1.4;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      text-decoration: none;
+      transition: color 0.3s;
     }
+    .az-flash-card__name:hover { color: #C8963E; }
     .az-flash-card__prices {
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: auto;
     }
     .az-flash-card__price {
       font-size: 1rem;
       font-weight: 900;
       color: #C8963E;
+      direction: ltr;
     }
     .az-flash-card__old {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: rgba(255,255,255,0.4);
       text-decoration: line-through;
+      direction: ltr;
     }
+    /* زر إضافة للسلة — ذهبي ازدهار */
     .az-flash-card__btn {
-      display: block;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
       width: 100%;
-      margin-top: 0.8rem;
-      background: linear-gradient(135deg, #C8963E, #87602C);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 0.6rem;
-      font-size: 0.83rem;
-      font-weight: 700;
+      background: linear-gradient(135deg, #C8963E 0%, #87602C 100%) !important;
+      color: #fff !important;
+      border: none !important;
+      border-radius: 10px !important;
+      padding: 0.65rem 1rem !important;
+      font-size: 0.85rem !important;
+      font-weight: 700 !important;
       cursor: pointer;
+      transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s;
       text-align: center;
       text-decoration: none;
-      transition: opacity 0.3s;
+      box-shadow: 0 3px 12px rgba(200,150,62,0.35);
     }
-    .az-flash-card__btn:hover { opacity: 0.88; color: #fff; }
-    .az-flash-empty {
-      grid-column: 1/-1;
-      text-align: center;
-      padding: 3rem;
-      color: rgba(255,255,255,0.4);
+    .az-flash-card__btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(200,150,62,0.5);
+      color: #fff !important;
+    }
+    .az-flash-card__btn i { font-size: 0.9rem; }
+    /* موبايل */
+    @media (max-width: 480px) {
+      .az-flash { padding: 3rem 0 2.5rem; }
+      .az-flash__grid { gap: 0.75rem; }
+      .az-flash__head { flex-direction: column; align-items: flex-start; }
+      .az-flash-card__body { padding: 0.7rem 0.75rem 0.8rem; }
+      .az-flash-card__name { font-size: 0.8rem; }
+      .az-flash-card__price { font-size: 0.9rem; }
+      .az-flash-card__btn { font-size: 0.78rem !important; padding: 0.55rem !important; }
+      .az-countdown__num { font-size: 1.2rem; }
     }
     .az-section-label {
       display: block;
       text-align: center;
       font-size: 0.7rem;
-      color: rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.15);
       letter-spacing: 0.12em;
       text-transform: uppercase;
       padding: 2rem 0 0;
@@ -175,6 +296,7 @@
   </style>
 
   <div class="az-flash__inner">
+    {# رأس القسم #}
     <div class="az-flash__head">
       <div class="az-flash__head-left">
         <h2>{{ component.title ?: '⚡ عروض الفلاش الحصرية' }}</h2>
@@ -212,13 +334,22 @@
                 {% endif %}
               </a>
               {% if product.is_on_sale %}
-                <span class="az-flash-card__discount">{{ trans('common.on_sale') }}</span>
+                <span class="az-flash-card__badge">
+                  {%- if product.discount_percent is defined and product.discount_percent -%}
+                    {{ product.discount_percent }}% خصم
+                  {%- else -%}
+                    خصم
+                  {%- endif -%}
+                </span>
               {% endif %}
+              <div class="az-flash-card__overlay">
+                <a href="{{ product.url }}" class="az-flash-card__quick-view">
+                  <i class="sicon-eye"></i> عرض المنتج
+                </a>
+              </div>
             </div>
             <div class="az-flash-card__body">
-              <a href="{{ product.url }}">
-                <h3 class="az-flash-card__name">{{ product.name }}</h3>
-              </a>
+              <a href="{{ product.url }}" class="az-flash-card__name">{{ product.name }}</a>
               <div class="az-flash-card__prices">
                 <span class="az-flash-card__price">{{ product.price | money }}</span>
                 {% if product.regular_price %}
@@ -233,7 +364,7 @@
         {% endfor %}
       </div>
     {% else %}
-      {# Fallback: استخدام مكون سلة الرسمي لعرض منتجات العروض #}
+      {# Fallback: مكون سلة الرسمي #}
       <salla-products-slider
         source="sale"
         limit="8"
