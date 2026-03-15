@@ -13,7 +13,8 @@
 {% set az_bg = component.section_bg_color ?: '#fafaf9' %}
 {% set az_btn = component.btn_color ?: 'var(--color-primary)' %}
 {% set az_title = component.title_color ?: 'var(--color-secondary)' %}
-<style>
+<section class="az-products s-block" id="az-products-{{ position }}" aria-label="المنتجات المميزة">
+  <style>
   .az-featured-products {
     --az-bg: {{ az_bg }};
     --az-btn: {{ az_btn }};
@@ -39,10 +40,7 @@
   .az-featured-products .az-prod-card__btn:hover {
     filter: brightness(0.88);
   }
-</style>
 
-<section class="az-products s-block" id="az-products-{{ position }}" aria-label="المنتجات المميزة">
-  <style>
     .az-products {
       background: #fafaf9;
       padding: 5rem 0 4rem;

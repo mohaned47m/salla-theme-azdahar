@@ -10,7 +10,8 @@
 {% set az_bg = component.section_bg_color ?: '#f8f5f1' %}
 {% set az_btn = component.btn_color ?: 'var(--color-primary)' %}
 {% set az_title = component.title_color ?: 'var(--color-secondary)' %}
-<style>
+<section class="az-testimonials s-block" id="az-testimonials-{{ position }}" >
+  <style>
   .az-testimonials {
     --az-bg: {{ az_bg }};
     --az-btn: {{ az_btn }};
@@ -36,10 +37,7 @@
   .az-testimonials .az-prod-card__btn:hover {
     filter: brightness(0.88);
   }
-</style>
 
-<section class="az-testimonials s-block" id="az-testimonials-{{ position }}" >
-  <style>
     .az-testimonials {
       background: #f8f5f1;
       padding: 5rem 0 4rem;

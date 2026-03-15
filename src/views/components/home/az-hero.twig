@@ -12,7 +12,8 @@
 {% set az_bg = component.section_bg_color ?: 'var(--color-secondary)' %}
 {% set az_btn = component.btn_color ?: 'var(--color-primary)' %}
 {% set az_title = component.title_color ?: '#fff' %}
-<style>
+<section class="az-hero s-block" id="az-hero-{{ position }}" >
+  <style>
   .az-hero {
     --az-bg: {{ az_bg }};
     --az-btn: {{ az_btn }};
@@ -38,10 +39,7 @@
   .az-hero .az-prod-card__btn:hover {
     filter: brightness(0.88);
   }
-</style>
 
-<section class="az-hero s-block" id="az-hero-{{ position }}" >
-  <style>
     /* ── البانر الرئيسي — ازدهار ── */
     .az-hero {
       position: relative;

@@ -11,7 +11,8 @@
 {% set az_bg = component.section_bg_color ?: 'var(--color-secondary)' %}
 {% set az_btn = component.btn_color ?: 'var(--color-primary)' %}
 {% set az_title = component.title_color ?: '#fff' %}
-<style>
+<section class="az-cta s-block" id="az-cta-{{ position }}" >
+  <style>
   .az-cta {
     --az-bg: {{ az_bg }};
     --az-btn: {{ az_btn }};
@@ -37,10 +38,7 @@
   .az-cta .az-prod-card__btn:hover {
     filter: brightness(0.88);
   }
-</style>
 
-<section class="az-cta s-block" id="az-cta-{{ position }}" >
-  <style>
     .az-cta {
       background: var(--color-secondary, #2F2824);
       padding: 6rem 0;

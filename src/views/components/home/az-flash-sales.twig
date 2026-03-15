@@ -11,7 +11,8 @@
 {% set az_bg = component.section_bg_color ?: 'var(--color-secondary)' %}
 {% set az_btn = component.btn_color ?: 'var(--color-primary)' %}
 {% set az_title = component.title_color ?: '#fff' %}
-<style>
+<section class="az-flash s-block" id="az-flash-{{ position }}" aria-label="عروض الفلاش">
+  <style>
   .az-flash-sales {
     --az-bg: {{ az_bg }};
     --az-btn: {{ az_btn }};
@@ -37,10 +38,7 @@
   .az-flash-sales .az-prod-card__btn:hover {
     filter: brightness(0.88);
   }
-</style>
 
-<section class="az-flash s-block" id="az-flash-{{ position }}" aria-label="عروض الفلاش">
-  <style>
     /* ── عروض الفلاش — ازدهار ── */
     .az-flash {
       background: linear-gradient(135deg, #2F2824 0%, #1a1512 100%);

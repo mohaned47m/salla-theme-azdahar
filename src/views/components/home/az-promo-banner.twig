@@ -13,7 +13,8 @@
 {% set az_bg = component.section_bg_color ?: 'var(--color-primary)' %}
 {% set az_btn = component.btn_color ?: '#fff' %}
 {% set az_title = component.title_color ?: '#fff' %}
-<style>
+<section class="az-promo s-block" id="az-promo-{{ position }}" >
+  <style>
   .az-promo-banner {
     --az-bg: {{ az_bg }};
     --az-btn: {{ az_btn }};
@@ -39,10 +40,7 @@
   .az-promo-banner .az-prod-card__btn:hover {
     filter: brightness(0.88);
   }
-</style>
 
-<section class="az-promo s-block" id="az-promo-{{ position }}" >
-  <style>
     .az-promo {
       background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary) 60%, #5c3d1a 100%);
       padding: 5rem 0;

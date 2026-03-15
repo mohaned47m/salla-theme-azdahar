@@ -3,8 +3,8 @@
     "ar": "ازدهار",
     "en": "Azdahar"
   },
-  "repository": "https://github.com/SallaApp/theme-raed",
-  "author_email": "support@salla.sa",
+  "repository": "https://github.com/mohaned47m/salla-theme-azdahar",
+  "author_email": "mohaned47m@gmail.com",
   "features": [
     "mega-menu",
     "fonts",
@@ -2338,7 +2338,7 @@
       ]
     }
   ],
-  "support_url": "https://salla.com/",
+  "support_url": "https://github.com/mohaned47m/salla-theme-azdahar",
   "description": {
     "ar": "ثيم ازدهار - تصميم احترافي عصري لمتاجر الإلكترونية",
     "en": "Azdahar Theme - Professional modern design for e-commerce stores"
