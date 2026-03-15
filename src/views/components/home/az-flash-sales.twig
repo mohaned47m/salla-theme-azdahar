@@ -77,7 +77,7 @@
     .az-countdown__num {
       font-size: 1.6rem;
       font-weight: 900;
-      color: var(--color-primary, #C8963E);
+      color: var(--color-primary, var(--color-primary));
       display: block;
       font-variant-numeric: tabular-nums;
       line-height: 1;
@@ -90,7 +90,7 @@
     .az-countdown__sep {
       font-size: 1.4rem;
       font-weight: 900;
-      color: var(--color-primary, #C8963E);
+      color: var(--color-primary, var(--color-primary));
       margin-bottom: 0.8rem;
       animation: azBlink 1s step-end infinite;
     }
@@ -132,8 +132,8 @@
     }
     .az-flash-card:hover {
       transform: translateY(-8px);
-      border-color: color-mix(in srgb, var(--color-primary, #C8963E) 50%, transparent);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.35), 0 0 0 1px color-mix(in srgb, var(--color-primary, #C8963E) 20%, transparent);
+      border-color: color-mix(in srgb, var(--color-primary, var(--color-primary)) 50%, transparent);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.35), 0 0 0 1px color-mix(in srgb, var(--color-primary, var(--color-primary)) 20%, transparent);
     }
     /* صورة المنتج — نسبة 1:1 ثابتة */
     .az-flash-card__img-wrap {
@@ -194,7 +194,7 @@
     .az-flash-card:hover .az-flash-card__overlay { opacity: 1; }
     .az-flash-card__quick-view {
       background: rgba(255,255,255,0.95);
-      color: #2F2824;
+      color: var(--color-secondary);
       font-size: 0.82rem;
       font-weight: 700;
       padding: 0.55rem 1.2rem;
@@ -207,7 +207,7 @@
       gap: 0.4rem;
     }
     .az-flash-card:hover .az-flash-card__quick-view { transform: translateY(0); }
-    .az-flash-card__quick-view:hover { background: var(--color-primary, #C8963E); color: #fff; }
+    .az-flash-card__quick-view:hover { background: var(--color-primary, var(--color-primary)); color: #fff; }
     /* جسم الكارد */
     .az-flash-card__body {
       padding: 0.9rem 1rem 1rem;
@@ -229,7 +229,7 @@
       text-decoration: none;
       transition: color 0.3s;
     }
-    .az-flash-card__name:hover { color: var(--color-primary, #C8963E); }
+    .az-flash-card__name:hover { color: var(--color-primary, var(--color-primary)); }
     .az-flash-card__prices {
       display: flex;
       align-items: center;
@@ -240,7 +240,7 @@
     .az-flash-card__price {
       font-size: 1rem;
       font-weight: 900;
-      color: var(--color-primary, #C8963E);
+      color: var(--color-primary, var(--color-primary));
       direction: ltr;
     }
     .az-flash-card__old {
@@ -256,7 +256,7 @@
       justify-content: center !important;
       gap: 0.4rem !important;
       width: 100% !important;
-      background: var(--color-primary, #C8963E) !important;
+      background: var(--color-primary, var(--color-primary)) !important;
       color: var(--color-primary-reverse, #fff) !important;
       border: none !important;
       border-radius: 10px !important;
@@ -267,12 +267,12 @@
       transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s !important;
       text-align: center !important;
       text-decoration: none !important;
-      box-shadow: 0 3px 12px color-mix(in srgb, var(--color-primary, #C8963E) 35%, transparent) !important;
+      box-shadow: 0 3px 12px color-mix(in srgb, var(--color-primary, var(--color-primary)) 35%, transparent) !important;
     }
     .az-flash-card__btn:hover {
-      background: var(--color-primary-d, var(--color-primary, #87602C)) !important;
+      background: var(--color-primary-d, var(--color-primary, var(--color-primary))) !important;
       transform: translateY(-2px) !important;
-      box-shadow: 0 6px 20px color-mix(in srgb, var(--color-primary, #C8963E) 50%, transparent) !important;
+      box-shadow: 0 6px 20px color-mix(in srgb, var(--color-primary, var(--color-primary)) 50%, transparent) !important;
       color: var(--color-primary-reverse, #fff) !important;
     }
     .az-flash-card__btn i { font-size: 0.9rem; }

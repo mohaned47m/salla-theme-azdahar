@@ -6,109 +6,218 @@
 | cart.total       | string  | Formatted total ex: "١٠٠ ر.س"   |
 #}
 {% set important_links = theme.settings.get('important_links') %}
-<header class="store-header">
-  {# الشريط العلوي - بني غامق #}
-  <div class="top-navbar" style="background-color: #2F2824; color: rgba(255,255,255,0.85);">
-    <div class="container flex justify-between items-center">
-      <div class="flex-1 flex items-center gap-2">
-          {# Footer Menu #}
-          {% if important_links %}
-            <salla-menu source="footer" topnav style="--salla-menu-color: rgba(255,255,255,0.75); --salla-menu-hover-color: #e8c88a;"></salla-menu>
+
+<style>
+  /* ===== هيدر ازدهار — ألوان ديناميكية من هوية المتجر ===== */
+  .az-topbar {
+    background-color: var(--color-primary-dark, var(--color-primary));
+    color: rgba(255,255,255,0.85);
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.82rem;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .az-topbar a, .az-topbar span, .az-topbar button { color: rgba(255,255,255,0.8); }
+  .az-topbar a:hover, .az-topbar button:hover { color: #fff; }
+  .az-topbar .topbar-msg i { color: rgba(255,255,255,0.9); margin-inline-end: 4px; }
+  .az-main-nav {
+    background-color: var(--color-primary);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 100;
+  }
+  .az-main-nav .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    gap: 1rem;
+  }
+  .az-main-nav .nav-start {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+  }
+  .az-main-nav .nav-end {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .az-logo img {
+    max-height: 48px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    transition: opacity 0.2s;
+  }
+  .az-logo:hover img { opacity: 0.85; }
+  .az-header-btn {
+    background: rgba(255,255,255,0.12);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    font-size: 1.1rem;
+    text-decoration: none;
+  }
+  .az-header-btn:hover {
+    background: rgba(255,255,255,0.22);
+    transform: scale(1.05);
+  }
+  .az-header-btn i { color: #fff; }
+  .az-search-wrap salla-search {
+    --salla-search-bg: rgba(255,255,255,0.15);
+    --salla-search-color: #fff;
+    --salla-search-placeholder-color: rgba(255,255,255,0.6);
+    --salla-search-border-color: rgba(255,255,255,0.25);
+    --salla-search-border-radius: 24px;
+  }
+  custom-main-menu {
+    --salla-menu-color: rgba(255,255,255,0.9);
+    --salla-menu-hover-color: #fff;
+    --salla-menu-active-color: #fff;
+    --salla-menu-hover-bg: rgba(255,255,255,0.12);
+    --salla-menu-font-family: 'Cairo', sans-serif;
+  }
+  salla-cart-summary {
+    --salla-cart-summary-color: #fff;
+    --salla-cart-summary-badge-bg: rgba(0,0,0,0.3);
+    --salla-cart-summary-badge-color: #fff;
+  }
+  .az-lang-btn {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    color: rgba(255,255,255,0.85);
+    padding: 4px 12px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .az-lang-btn:hover { background: rgba(255,255,255,0.22); color: #fff; }
+  header.store-header {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    font-family: 'Cairo', sans-serif;
+  }
+  @media (max-width: 1023px) {
+    .az-search-wrap { display: none !important; }
+    .az-topbar .topbar-msg { display: none; }
+    .az-logo img { max-height: 40px; }
+    .az-wishlist-btn { display: none !important; }
+  }
+</style>
+
+<header class="store-header" role="banner">
+
+  {# ===== الشريط العلوي ===== #}
+  <div class="az-topbar hidden lg:block">
+    <div class="container">
+      <div class="flex items-center justify-between gap-4">
+        <span class="topbar-msg flex items-center gap-1 text-sm">
+          <i class="sicon-shipping-fast"></i>
+          {{ trans('blocks.header.free_shipping') | default('شحن مجاني للطلبات فوق 200 ريال') }}
+        </span>
+        {% if important_links %}
+          <salla-menu source="footer" topnav
+            style="--salla-menu-color: rgba(255,255,255,0.75); --salla-menu-hover-color: #fff;">
+          </salla-menu>
+        {% endif %}
+        <div class="flex items-center gap-3">
+          {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
+            <button type="button"
+                    onclick="salla.event.dispatch('localization::open')"
+                    class="az-lang-btn">
+              <span>{{ user.language.name }}</span>
+              <span class="mx-1">|</span>
+              <span>{{ currency.symbol }}</span>
+            </button>
+            <salla-localization-modal></salla-localization-modal>
           {% endif %}
-
-          {# Language & Currency Component #}
-          <div class="header-buttons">
-              {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
-                  <button type="button" onclick="salla.event.dispatch('localization::open')" 
-                          class="btn--rounded-gray basis-0"
-                          style="background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85); border: 1px solid rgba(255,255,255,0.15);">
-                      <span>{{ user.language.name }}</span>
-                      <span class="mx-1.5">|</span> <span>{{ currency.symbol }}</span>
-                  </button>
-                  <salla-localization-modal></salla-localization-modal>
-              {% endif %}
-          </div>
-
-          {# Scopes | Branches #}
           {% if store.scope %}
-              <button class="btn--rounded-gray"
-                      style="background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85);"
-                      onclick="salla.event.dispatch('scopes::open', {'mode': 'default'})">
-                  <i class="sicon-location rtl:ml-1 ltr:mr-1"></i> {{ store.scope.name }}
-              </button>
+            <button class="az-lang-btn"
+                    onclick="salla.event.dispatch('scopes::open', {'mode': 'default'})">
+              <i class="sicon-location rtl:ml-1 ltr:mr-1"></i> {{ store.scope.name }}
+            </button>
           {% endif %}
-
-          {# Search bar #}
-          <div class="header-search flex-1">
-            <salla-search inline oval height="36"></salla-search>
-          </div>
+          <salla-contacts is-header
+            style="--salla-contacts-color: rgba(255,255,255,0.7); --salla-contacts-hover-color: #fff;">
+          </salla-contacts>
+        </div>
       </div>
-
-      <salla-contacts is-header style="--salla-contacts-color: rgba(255,255,255,0.75); --salla-contacts-hover-color: #e8c88a;"></salla-contacts>
     </div>
   </div>
 
-  {# الشريط الرئيسي للتنقل - ذهبي/بني #}
-  <div id="mainnav" class="main-nav-container shadow-default flex items-center" 
-       style="background-color: #87602C;">
-      <div class="inner w-full" style="background-color: inherit;">
-          <div class="container">
-              <div class="flex items-stretch justify-between relative">
-                  <div class="flex items-center">
-                      {# زر القائمة للموبايل #}
-                      <a class="lg:hidden mburger mburger--collapse leading-none rtl:ml-4 ltr:mr-4" 
-                         href="#mobile-menu" aria-label="Open-menu"
-                         style="color: #fff;">
-                        <i class="sicon-menu text-2xl" style="color: #fff;"></i>
-                      </a>
-                      
-                      {# شعار المتجر #}
-                      <a class="navbar-brand" href="{{ store.url }}">
-                          <img fetchpriority="high" 
-                               width="100%" height="100%" 
-                               loading="eager" 
-                               src="{{ store.logo|cdn(175) }}" 
-                               alt="{{ store.name }} logo"
-                               style="filter: brightness(0) invert(1); max-height: 48px; object-fit: contain;">
-                          {% if is_page('index') %}
-                            <h1 class="sr-only">{{ store.name }}</h1>
-                          {% else %}
-                            <h2 class="sr-only">{{ store.name }}</h2>
-                          {% endif %}
-                      </a>
-                      
-                      {# القائمة الرئيسية #}
-                      <custom-main-menu style="--salla-menu-color: rgba(255,255,255,0.9); --salla-menu-hover-color: #fff; --salla-menu-active-color: #fff;"></custom-main-menu>
-                  </div>
-                  
-                  {# أزرار الهيدر اليمين #}
-                  <div class="flex items-center justify-end my-2.5 gap-1">
-                      {# زر البحث للموبايل #}
-                      <button class="header-btn lg:hidden" aria-label="search" 
-                              onclick="salla.event.dispatch('search::open')"
-                              style="color: #fff;">
-                        <i class="header-btn__icon sicon-search" style="color: #fff;"></i>
-                      </button>
-                      
-                      {# زر المستخدم #}
-                      {% if user.type=='user' %}
-                        <salla-user-menu avatar-only show-header 
-                                         style="--salla-user-menu-color: #fff;"></salla-user-menu>
-                      {% else %}
-                          <button class="header-btn" aria-label="user-icon" 
-                                  onclick="salla.event.dispatch('login::open')"
-                                  style="color: #fff;">
-                            <i class="header-btn__icon sicon-user-circle" style="color: #fff;"></i>
-                          </button>
-                      {% endif %}
-                      
-                      {# سلة التسوق #}
-                      <salla-cart-summary class="rtl:mr-2 ltr:ml-2" style="--salla-cart-summary-color: #fff; --salla-cart-summary-badge-bg: #2F2824;">
-                        <i slot="icon" class="header-btn__icon icon sicon-shopping-bag" style="color: #fff;"></i>
-                      </salla-cart-summary>
-                  </div>
-              </div>
+  {# ===== الشريط الرئيسي ===== #}
+  <div id="mainnav" class="az-main-nav">
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-start">
+          <a class="az-header-btn lg:hidden"
+             href="#mobile-menu"
+             aria-label="{{ trans('common.elements.open_menu') | default('القائمة') }}">
+            <i class="sicon-menu"></i>
+          </a>
+          <a class="az-logo flex-shrink-0" href="{{ store.url }}" aria-label="{{ store.name }}">
+            {% if store.logo %}
+              <img fetchpriority="high" loading="eager"
+                   src="{{ store.logo | cdn(175) }}"
+                   alt="{{ store.name }}">
+            {% else %}
+              <span style="color:#fff; font-size:1.3rem; font-weight:800; font-family:'Cairo',sans-serif;">
+                {{ store.name }}
+              </span>
+            {% endif %}
+            {% if is_page('index') %}
+              <h1 class="sr-only">{{ store.name }}</h1>
+            {% else %}
+              <h2 class="sr-only">{{ store.name }}</h2>
+            {% endif %}
+          </a>
+          <div class="hidden lg:flex">
+            <custom-main-menu></custom-main-menu>
           </div>
+        </div>
+        <div class="nav-end">
+          <div class="az-search-wrap hidden lg:block" style="min-width: 220px; max-width: 340px;">
+            <salla-search inline oval height="36"></salla-search>
+          </div>
+          <button class="az-header-btn lg:hidden"
+                  aria-label="{{ trans('common.elements.search') | default('بحث') }}"
+                  onclick="salla.event.dispatch('search::open')">
+            <i class="sicon-search"></i>
+          </button>
+          {% if user.type == 'user' %}
+            <salla-user-menu avatar-only show-header
+              style="--salla-user-menu-color: #fff;">
+            </salla-user-menu>
+          {% else %}
+            <button class="az-header-btn"
+                    aria-label="{{ trans('common.elements.login') | default('تسجيل الدخول') }}"
+                    onclick="salla.event.dispatch('login::open')">
+              <i class="sicon-user-circle"></i>
+            </button>
+          {% endif %}
+          <button class="az-header-btn az-wishlist-btn hidden lg:flex"
+                  aria-label="{{ trans('common.elements.wishlist') | default('المفضلة') }}"
+                  onclick="salla.event.dispatch('wishlist::open')">
+            <i class="sicon-heart"></i>
+          </button>
+          <salla-cart-summary class="rtl:mr-1 ltr:ml-1">
+            <i slot="icon" class="sicon-shopping-bag" style="color:#fff; font-size:1.2rem;"></i>
+          </salla-cart-summary>
+        </div>
       </div>
+    </div>
   </div>
+
 </header>

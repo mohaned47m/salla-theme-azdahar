@@ -33,7 +33,7 @@
     .az-faq__head .az-divider {
       width: 50px; height: 4px;
       border-radius: 4px;
-      background: linear-gradient(90deg, #C8963E, #87602C);
+      background: linear-gradient(90deg, var(--color-primary), var(--color-primary));
       margin: 0.8rem auto;
     }
     .az-faq__head p {
@@ -79,13 +79,13 @@
       transition: background 0.3s, transform 0.3s;
     }
     .az-faq__item.open .az-faq__q-icon {
-      background: #C8963E;
-      border-color: #C8963E;
+      background: var(--color-primary);
+      border-color: var(--color-primary);
       transform: rotate(45deg);
     }
     .az-faq__q-icon i {
       font-size: 1rem;
-      color: #C8963E;
+      color: var(--color-primary);
       transition: color 0.3s;
     }
     .az-faq__item.open .az-faq__q-icon i { color: #fff; }

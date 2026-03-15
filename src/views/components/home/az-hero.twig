@@ -52,7 +52,7 @@
       gap: 0.5rem;
       background: rgba(135,96,44,0.25);
       border: 1px solid rgba(200,150,62,0.5);
-      color: #e8c88a;
+      color: var(--color-primary-light);
       padding: 0.4rem 1.2rem;
       border-radius: 50px;
       font-size: 0.85rem;
@@ -64,7 +64,7 @@
       content: '';
       width: 8px; height: 8px;
       border-radius: 50%;
-      background: #C8963E;
+      background: var(--color-primary);
       animation: azPulse 1.5s ease infinite;
     }
     @keyframes azPulse {
@@ -80,7 +80,7 @@
       animation: azFadeInRight 0.9s ease 0.2s both;
     }
     .az-hero__title span {
-      background: linear-gradient(90deg, #C8963E, #e8c88a);
+      background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -103,7 +103,7 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: linear-gradient(135deg, #C8963E, #87602C);
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary));
       color: #fff;
       padding: 0.9rem 2.2rem;
       border-radius: 50px;
@@ -150,7 +150,7 @@
     .az-hero__stat-num {
       font-size: 1.8rem;
       font-weight: 900;
-      color: #C8963E;
+      color: var(--color-primary);
       display: block;
       line-height: 1;
     }

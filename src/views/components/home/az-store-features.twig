@@ -76,8 +76,8 @@
       width: 54px;
       height: 54px;
       border-radius: 50%;
-      background: color-mix(in srgb, var(--color-primary, #C8963E) 15%, transparent);
-      border: 2px solid color-mix(in srgb, var(--color-primary, #C8963E) 35%, transparent);
+      background: color-mix(in srgb, var(--color-primary, var(--color-primary)) 15%, transparent);
+      border: 2px solid color-mix(in srgb, var(--color-primary, var(--color-primary)) 35%, transparent);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -86,13 +86,13 @@
       transition: background 0.3s, border-color 0.3s;
     }
     .az-feature-card:hover .az-feature-card__icon-wrap {
-      background: color-mix(in srgb, var(--color-primary, #C8963E) 25%, transparent);
-      border-color: color-mix(in srgb, var(--color-primary, #C8963E) 60%, transparent);
+      background: color-mix(in srgb, var(--color-primary, var(--color-primary)) 25%, transparent);
+      border-color: color-mix(in srgb, var(--color-primary, var(--color-primary)) 60%, transparent);
     }
     /* أيقونة سلة */
     .az-feature-card__icon-wrap i {
       font-size: 1.5rem;
-      color: var(--color-primary, #C8963E);
+      color: var(--color-primary, var(--color-primary));
       line-height: 1;
     }
     /* صورة مرفوعة */
