@@ -1,126 +1,182 @@
 {#
-| Variable                    | Type     | Description                    |
-|-----------------------------|----------|--------------------------------|
-| component.feature_1_icon    | string   | Icon class for feature 1       |
-| component.feature_1_title   | string   | Title for feature 1            |
-| component.feature_1_text    | string   | Description for feature 1      |
-| component.feature_2_icon    | string   | Icon class for feature 2       |
-| component.feature_2_title   | string   | Title for feature 2            |
-| component.feature_2_text    | string   | Description for feature 2      |
-| component.feature_3_icon    | string   | Icon class for feature 3       |
-| component.feature_3_title   | string   | Title for feature 3            |
-| component.feature_3_text    | string   | Description for feature 3      |
-| component.feature_4_icon    | string   | Icon class for feature 4       |
-| component.feature_4_title   | string   | Title for feature 4            |
-| component.feature_4_text    | string   | Description for feature 4      |
-| position                    | int      | Sort order                     |
+| Variable                    | Type     | Description                                              |
+|-----------------------------|----------|----------------------------------------------------------|
+| component.title             | string   | Section title (optional)                                 |
+| component.feature_1_icon    | string   | Salla icon class (e.g. sicon-truck-fast)                 |
+| component.feature_1_image   | string   | Uploaded image URL — overrides icon if set               |
+| component.feature_1_title   | string   | Title for feature 1                                      |
+| component.feature_1_text    | string   | Description for feature 1                                |
+| component.feature_2_icon    | string   | Salla icon class                                         |
+| component.feature_2_image   | string   | Uploaded image URL                                       |
+| component.feature_2_title   | string   | Title for feature 2                                      |
+| component.feature_2_text    | string   | Description for feature 2                                |
+| component.feature_3_icon    | string   | Salla icon class                                         |
+| component.feature_3_image   | string   | Uploaded image URL                                       |
+| component.feature_3_title   | string   | Title for feature 3                                      |
+| component.feature_3_text    | string   | Description for feature 3                                |
+| component.feature_4_icon    | string   | Salla icon class                                         |
+| component.feature_4_image   | string   | Uploaded image URL                                       |
+| component.feature_4_title   | string   | Title for feature 4                                      |
+| component.feature_4_text    | string   | Description for feature 4                                |
+| position                    | int      | Sort order                                               |
 #}
-<section class="az-features s-block" id="az-features-{{ position }}" aria-label="قسم: مميزات المتجر — ثيم: ازدهار">
+<section class="az-features s-block" id="az-features-{{ position }}">
   <style>
     .az-features {
       background: #2F2824;
-      padding: 3rem 0;
+      padding: 3.5rem 0;
       direction: rtl;
     }
-    .az-features__grid {
+    .az-features__inner {
       max-width: 1280px;
       margin: 0 auto;
       padding: 0 1.5rem;
+    }
+    .az-features__title {
+      text-align: center;
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      font-weight: 900;
+      color: #fff;
+      margin: 0 0 2rem;
+    }
+    .az-features__grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
     }
-    @media(min-width:768px) {
-      .az-features__grid { grid-template-columns: repeat(4, 1fr); }
-    }
+    @media (min-width: 640px)  { .az-features__grid { gap: 1.2rem; } }
+    @media (min-width: 1024px) { .az-features__grid { grid-template-columns: repeat(4, 1fr); gap: 1.4rem; } }
+    /* كارد الميزة */
     .az-feature-card {
       display: flex;
       align-items: center;
       gap: 1rem;
-      padding: 1.2rem 1.5rem;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.05);
+      padding: 1.2rem 1.4rem;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.04);
       border: 1px solid rgba(200,150,62,0.15);
-      transition: background 0.3s, border-color 0.3s, transform 0.3s;
+      transition: background 0.3s, border-color 0.3s, transform 0.35s cubic-bezier(.25,.8,.25,1);
+      animation: azFeatIn 0.5s ease both;
+    }
+    .az-feature-card:nth-child(1) { animation-delay: 0.05s; }
+    .az-feature-card:nth-child(2) { animation-delay: 0.10s; }
+    .az-feature-card:nth-child(3) { animation-delay: 0.15s; }
+    .az-feature-card:nth-child(4) { animation-delay: 0.20s; }
+    @keyframes azFeatIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
     .az-feature-card:hover {
-      background: rgba(200,150,62,0.1);
+      background: rgba(200,150,62,0.09);
       border-color: rgba(200,150,62,0.4);
-      transform: translateY(-4px);
+      transform: translateY(-5px);
     }
-    .az-feature-card__icon {
-      width: 52px; height: 52px;
+    /* حاوية الأيقونة / الصورة */
+    .az-feature-card__icon-wrap {
+      width: 54px;
+      height: 54px;
       border-radius: 50%;
-      background: rgba(135,96,44,0.2);
-      border: 2px solid rgba(200,150,62,0.4);
-      display: flex; align-items: center; justify-content: center;
+      background: color-mix(in srgb, var(--color-primary, #C8963E) 15%, transparent);
+      border: 2px solid color-mix(in srgb, var(--color-primary, #C8963E) 35%, transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-shrink: 0;
-      transition: background 0.3s;
+      overflow: hidden;
+      transition: background 0.3s, border-color 0.3s;
     }
-    .az-feature-card:hover .az-feature-card__icon {
-      background: rgba(200,150,62,0.25);
+    .az-feature-card:hover .az-feature-card__icon-wrap {
+      background: color-mix(in srgb, var(--color-primary, #C8963E) 25%, transparent);
+      border-color: color-mix(in srgb, var(--color-primary, #C8963E) 60%, transparent);
     }
-    .az-feature-card__icon i {
-      font-size: 1.4rem;
-      color: #C8963E;
+    /* أيقونة سلة */
+    .az-feature-card__icon-wrap i {
+      font-size: 1.5rem;
+      color: var(--color-primary, #C8963E);
+      line-height: 1;
     }
+    /* صورة مرفوعة */
+    .az-feature-card__icon-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    /* النصوص */
+    .az-feature-card__content { flex: 1; min-width: 0; }
     .az-feature-card__title {
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 700;
       color: #fff;
       margin: 0 0 0.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .az-feature-card__text {
-      font-size: 0.78rem;
-      color: rgba(255,255,255,0.55);
+      font-size: 0.76rem;
+      color: rgba(255,255,255,0.5);
       margin: 0;
+      line-height: 1.5;
     }
-    .az-section-label {
-      display: block;
-      text-align: center;
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.2);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 1rem 0 0;
-      font-family: monospace;
+    /* موبايل */
+    @media (max-width: 480px) {
+      .az-features { padding: 2.5rem 0; }
+      .az-feature-card { padding: 1rem 1.1rem; gap: 0.8rem; }
+      .az-feature-card__icon-wrap { width: 44px; height: 44px; }
+      .az-feature-card__icon-wrap i { font-size: 1.2rem; }
+      .az-feature-card__title { font-size: 0.82rem; }
+      .az-feature-card__text { font-size: 0.7rem; }
     }
   </style>
 
   {% set features = [
     {
-      icon: component.feature_1_icon is defined and component.feature_1_icon ? component.feature_1_icon : 'sicon-truck-fast',
+      icon:  component.feature_1_icon  is defined and component.feature_1_icon  ? component.feature_1_icon  : 'sicon-truck-fast',
+      image: component.feature_1_image is defined and component.feature_1_image ? component.feature_1_image : '',
       title: component.feature_1_title is defined and component.feature_1_title ? component.feature_1_title : 'شحن مجاني',
-      text: component.feature_1_text is defined and component.feature_1_text ? component.feature_1_text : 'على الطلبات فوق 200 ريال'
+      text:  component.feature_1_text  is defined and component.feature_1_text  ? component.feature_1_text  : 'على الطلبات فوق 200 ريال'
     },
     {
-      icon: component.feature_2_icon is defined and component.feature_2_icon ? component.feature_2_icon : 'sicon-shield-check',
+      icon:  component.feature_2_icon  is defined and component.feature_2_icon  ? component.feature_2_icon  : 'sicon-shield-check',
+      image: component.feature_2_image is defined and component.feature_2_image ? component.feature_2_image : '',
       title: component.feature_2_title is defined and component.feature_2_title ? component.feature_2_title : 'منتجات أصلية 100%',
-      text: component.feature_2_text is defined and component.feature_2_text ? component.feature_2_text : 'مضمونة الجودة والأصالة'
+      text:  component.feature_2_text  is defined and component.feature_2_text  ? component.feature_2_text  : 'مضمونة الجودة والأصالة'
     },
     {
-      icon: component.feature_3_icon is defined and component.feature_3_icon ? component.feature_3_icon : 'sicon-refresh-circle',
+      icon:  component.feature_3_icon  is defined and component.feature_3_icon  ? component.feature_3_icon  : 'sicon-refresh-circle',
+      image: component.feature_3_image is defined and component.feature_3_image ? component.feature_3_image : '',
       title: component.feature_3_title is defined and component.feature_3_title ? component.feature_3_title : 'إرجاع مجاني',
-      text: component.feature_3_text is defined and component.feature_3_text ? component.feature_3_text : 'خلال 14 يوماً من الاستلام'
+      text:  component.feature_3_text  is defined and component.feature_3_text  ? component.feature_3_text  : 'خلال 14 يوماً من الاستلام'
     },
     {
-      icon: component.feature_4_icon is defined and component.feature_4_icon ? component.feature_4_icon : 'sicon-headphones',
+      icon:  component.feature_4_icon  is defined and component.feature_4_icon  ? component.feature_4_icon  : 'sicon-headphones',
+      image: component.feature_4_image is defined and component.feature_4_image ? component.feature_4_image : '',
       title: component.feature_4_title is defined and component.feature_4_title ? component.feature_4_title : 'دعم 24/7',
-      text: component.feature_4_text is defined and component.feature_4_text ? component.feature_4_text : 'فريق جاهز لمساعدتك دائماً'
+      text:  component.feature_4_text  is defined and component.feature_4_text  ? component.feature_4_text  : 'فريق جاهز لمساعدتك دائماً'
     }
   ] %}
 
-  <div class="az-features__grid">
-    {% for feat in features %}
-      <div class="az-feature-card">
-        <div class="az-feature-card__icon"><i class="{{ feat.icon }}"></i></div>
-        <div>
-          <p class="az-feature-card__title">{{ feat.title }}</p>
-          <p class="az-feature-card__text">{{ feat.text }}</p>
+  <div class="az-features__inner">
+    {% if component.title is defined and component.title %}
+      <h2 class="az-features__title">{{ component.title }}</h2>
+    {% endif %}
+    <div class="az-features__grid">
+      {% for feat in features %}
+        <div class="az-feature-card">
+          <div class="az-feature-card__icon-wrap">
+            {# أولوية: صورة مرفوعة > أيقونة سلة #}
+            {% if feat.image %}
+              <img src="{{ feat.image }}" alt="{{ feat.title }}" loading="lazy">
+            {% else %}
+              <i class="{{ feat.icon }}"></i>
+            {% endif %}
+          </div>
+          <div class="az-feature-card__content">
+            <p class="az-feature-card__title">{{ feat.title }}</p>
+            <p class="az-feature-card__text">{{ feat.text }}</p>
+          </div>
         </div>
-      </div>
-    {% endfor %}
+      {% endfor %}
+    </div>
   </div>
-
-  <span class="az-section-label">قسم: مميزات المتجر — ثيم: ازدهار</span>
 </section>

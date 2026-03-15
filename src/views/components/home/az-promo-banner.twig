@@ -9,7 +9,7 @@
 | component.discount_percent| number  | Discount percentage to display      |
 | position                  | int     | Sort order                          |
 #}
-<section class="az-promo s-block" id="az-promo-{{ position }}" aria-label="قسم: البانر الترويجي — ثيم: ازدهار">
+<section class="az-promo s-block" id="az-promo-{{ position }}" >
   <style>
     .az-promo {
       background: linear-gradient(135deg, #C8963E 0%, #87602C 60%, #5c3d1a 100%);
@@ -168,16 +168,6 @@
       color: rgba(255,255,255,0.8);
       font-weight: 700;
     }
-    .az-section-label {
-      display: block;
-      text-align: center;
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.25);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 2rem 0 0;
-      font-family: monospace;
-    }
   </style>
 
   <div class="az-promo__inner">
@@ -212,5 +202,4 @@
     </div>
   </div>
 
-  <span class="az-section-label">قسم: البانر الترويجي — ثيم: ازدهار</span>
 </section>

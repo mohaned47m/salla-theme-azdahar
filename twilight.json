@@ -1183,6 +1183,18 @@
         },
         {
           "type": "string",
+          "icon": "sicon-image",
+          "label": "صورة الميزة 1 (اختياري — تستبدل الأيقونة)",
+          "multilanguage": false,
+          "id": "feature_1_image",
+          "value": "",
+          "required": false,
+          "format": "image",
+          "minLength": 0,
+          "maxLength": 500
+        },
+        {
+          "type": "string",
           "icon": "sicon-format-text-alt",
           "label": "عنوان الميزة 1",
           "multilanguage": true,
@@ -1219,6 +1231,18 @@
           "placeholder": "",
           "minLength": 0,
           "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-image",
+          "label": "صورة الميزة 2 (اختياري — تستبدل الأيقونة)",
+          "multilanguage": false,
+          "id": "feature_2_image",
+          "value": "",
+          "required": false,
+          "format": "image",
+          "minLength": 0,
+          "maxLength": 500
         },
         {
           "type": "string",
@@ -1261,6 +1285,18 @@
         },
         {
           "type": "string",
+          "icon": "sicon-image",
+          "label": "صورة الميزة 3 (اختياري — تستبدل الأيقونة)",
+          "multilanguage": false,
+          "id": "feature_3_image",
+          "value": "",
+          "required": false,
+          "format": "image",
+          "minLength": 0,
+          "maxLength": 500
+        },
+        {
+          "type": "string",
           "icon": "sicon-format-text-alt",
           "label": "عنوان الميزة 3",
           "multilanguage": true,
@@ -1297,6 +1333,18 @@
           "placeholder": "",
           "minLength": 0,
           "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-image",
+          "label": "صورة الميزة 4 (اختياري — تستبدل الأيقونة)",
+          "multilanguage": false,
+          "id": "feature_4_image",
+          "value": "",
+          "required": false,
+          "format": "image",
+          "minLength": 0,
+          "maxLength": 500
         },
         {
           "type": "string",

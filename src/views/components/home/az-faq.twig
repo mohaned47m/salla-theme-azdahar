@@ -8,10 +8,10 @@
 | component.faqs[].a    | string     | Answer text                       |
 | position              | int        | Sort order                        |
 #}
-<section class="az-faq s-block" id="az-faq-{{ position }}" aria-label="قسم: الأسئلة الشائعة — ثيم: ازدهار">
+<section class="az-faq s-block" id="az-faq-{{ position }}" >
   <style>
     .az-faq {
-      background: #fafaf9;
+      background: #fff;
       padding: 5rem 0 4rem;
       direction: rtl;
     }
@@ -103,16 +103,6 @@
       border-top: 1px solid #f1ece6;
       padding-top: 1rem;
     }
-    .az-section-label {
-      display: block;
-      text-align: center;
-      font-size: 0.7rem;
-      color: #cbd5e1;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 2rem 0 0;
-      font-family: monospace;
-    }
   </style>
 
   <div class="az-faq__inner">
@@ -160,5 +150,4 @@
     </div>
   </div>
 
-  <span class="az-section-label">قسم: الأسئلة الشائعة — ثيم: ازدهار</span>
 </section>

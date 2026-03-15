@@ -8,7 +8,7 @@
 | component.button_url   | string  | CTA button link                    |
 | position               | int     | Sort order                         |
 #}
-<section class="az-hero s-block" id="az-hero-{{ position }}" aria-label="قسم: البانر الرئيسي — ثيم: ازدهار">
+<section class="az-hero s-block" id="az-hero-{{ position }}" >
   <style>
     /* ── البانر الرئيسي — ازدهار ── */
     .az-hero {
@@ -179,16 +179,6 @@
       50%      { transform: translateX(-50%) translateY(8px); }
     }
     /* section label */
-    .az-section-label {
-      display: block;
-      text-align: center;
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.25);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 0.3rem 0 0;
-      font-family: monospace;
-    }
     @keyframes azFadeInDown  { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:none} }
     @keyframes azFadeInRight { from{opacity:0;transform:translateX(30px)}  to{opacity:1;transform:none} }
     @keyframes azFadeInUp    { from{opacity:0;transform:translateY(20px)}  to{opacity:1;transform:none} }
@@ -255,5 +245,4 @@
     <i class="sicon-arrow-down"></i>
   </div>
 
-  <span class="az-section-label">قسم: البانر الرئيسي — ثيم: ازدهار</span>
 </section>

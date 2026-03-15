@@ -7,7 +7,7 @@
 | component.categories    | Category[] | Store categories from Salla     |
 | position                | int        | Sort order                      |
 #}
-<section class="az-categories s-block" id="az-categories-{{ position }}" aria-label="قسم: التصنيفات — ثيم: ازدهار">
+<section class="az-categories s-block" id="az-categories-{{ position }}" >
   <style>
     .az-categories {
       background: #fff;
@@ -159,16 +159,6 @@
       color: #fff;
       transform: translateY(-2px);
     }
-    .az-section-label {
-      display: block;
-      text-align: center;
-      font-size: 0.7rem;
-      color: #cbd5e1;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 2rem 0 0;
-      font-family: monospace;
-    }
   </style>
 
   <div class="az-categories__inner">
@@ -229,5 +219,4 @@
     {% endif %}
   </div>
 
-  <span class="az-section-label">قسم: التصنيفات — ثيم: ازدهار</span>
 </section>
