@@ -7,7 +7,7 @@
 | component.products          | Product[]  | Sale products from Salla            |
 | position                    | int        | Sort order                          |
 #}
-<section class="az-flash s-block" id="az-flash-{{ position }}" aria-label="قسم: عروض الفلاش — ثيم: ازدهار">
+<section class="az-flash s-block" id="az-flash-{{ position }}" aria-label="عروض الفلاش">
   <style>
     /* ── عروض الفلاش — ازدهار ── */
     .az-flash {
@@ -17,7 +17,6 @@
       position: relative;
       overflow: hidden;
     }
-    /* خطوط خلفية ديكورية */
     .az-flash::before {
       content: '';
       position: absolute;
@@ -78,7 +77,7 @@
     .az-countdown__num {
       font-size: 1.6rem;
       font-weight: 900;
-      color: #C8963E;
+      color: var(--color-primary, #C8963E);
       display: block;
       font-variant-numeric: tabular-nums;
       line-height: 1;
@@ -91,7 +90,7 @@
     .az-countdown__sep {
       font-size: 1.4rem;
       font-weight: 900;
-      color: #C8963E;
+      color: var(--color-primary, #C8963E);
       margin-bottom: 0.8rem;
       animation: azBlink 1s step-end infinite;
     }
@@ -133,8 +132,8 @@
     }
     .az-flash-card:hover {
       transform: translateY(-8px);
-      border-color: rgba(200,150,62,0.5);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(200,150,62,0.2);
+      border-color: color-mix(in srgb, var(--color-primary, #C8963E) 50%, transparent);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.35), 0 0 0 1px color-mix(in srgb, var(--color-primary, #C8963E) 20%, transparent);
     }
     /* صورة المنتج — نسبة 1:1 ثابتة */
     .az-flash-card__img-wrap {
@@ -150,6 +149,7 @@
       inset: 0;
       display: block;
     }
+    /* الصورة الأساسية والثانوية */
     .az-flash-card__img {
       position: absolute;
       inset: 0;
@@ -157,9 +157,13 @@
       height: 100%;
       object-fit: cover;
       object-position: center top;
-      transition: transform 0.55s cubic-bezier(.25,.8,.25,1);
+      transition: opacity 0.45s ease, transform 0.55s cubic-bezier(.25,.8,.25,1);
     }
-    .az-flash-card:hover .az-flash-card__img { transform: scale(1.07); }
+    .az-flash-card__img--primary   { opacity: 1; z-index: 1; }
+    .az-flash-card__img--secondary { opacity: 0; z-index: 2; transform: scale(1.04); }
+    .az-flash-card:hover .az-flash-card__img--primary   { opacity: 0; transform: scale(1.04); }
+    .az-flash-card:hover .az-flash-card__img--secondary { opacity: 1; transform: scale(1); }
+    .az-flash-card.no-second-img:hover .az-flash-card__img--primary { opacity: 1; transform: scale(1.07); }
     /* بادج الخصم */
     .az-flash-card__badge {
       position: absolute;
@@ -172,7 +176,7 @@
       padding: 0.25rem 0.65rem;
       border-radius: 50px;
       box-shadow: 0 2px 8px rgba(239,68,68,0.5);
-      z-index: 2;
+      z-index: 3;
       white-space: nowrap;
     }
     /* تراكب عرض سريع */
@@ -185,7 +189,7 @@
       justify-content: center;
       opacity: 0;
       transition: opacity 0.35s ease;
-      z-index: 1;
+      z-index: 4;
     }
     .az-flash-card:hover .az-flash-card__overlay { opacity: 1; }
     .az-flash-card__quick-view {
@@ -203,7 +207,7 @@
       gap: 0.4rem;
     }
     .az-flash-card:hover .az-flash-card__quick-view { transform: translateY(0); }
-    .az-flash-card__quick-view:hover { background: #C8963E; color: #fff; }
+    .az-flash-card__quick-view:hover { background: var(--color-primary, #C8963E); color: #fff; }
     /* جسم الكارد */
     .az-flash-card__body {
       padding: 0.9rem 1rem 1rem;
@@ -225,7 +229,7 @@
       text-decoration: none;
       transition: color 0.3s;
     }
-    .az-flash-card__name:hover { color: #C8963E; }
+    .az-flash-card__name:hover { color: var(--color-primary, #C8963E); }
     .az-flash-card__prices {
       display: flex;
       align-items: center;
@@ -236,7 +240,7 @@
     .az-flash-card__price {
       font-size: 1rem;
       font-weight: 900;
-      color: #C8963E;
+      color: var(--color-primary, #C8963E);
       direction: ltr;
     }
     .az-flash-card__old {
@@ -245,31 +249,31 @@
       text-decoration: line-through;
       direction: ltr;
     }
-    /* زر إضافة للسلة — ذهبي ازدهار */
+    /* زر إضافة للسلة — لون identity المتجر */
     .az-flash-card__btn {
       display: flex !important;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-      width: 100%;
-      background: linear-gradient(135deg, #C8963E 0%, #87602C 100%) !important;
-      color: #fff !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 0.4rem !important;
+      width: 100% !important;
+      background: var(--color-primary, #C8963E) !important;
+      color: var(--color-primary-reverse, #fff) !important;
       border: none !important;
       border-radius: 10px !important;
       padding: 0.65rem 1rem !important;
       font-size: 0.85rem !important;
       font-weight: 700 !important;
-      cursor: pointer;
-      transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s;
-      text-align: center;
-      text-decoration: none;
-      box-shadow: 0 3px 12px rgba(200,150,62,0.35);
+      cursor: pointer !important;
+      transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s !important;
+      text-align: center !important;
+      text-decoration: none !important;
+      box-shadow: 0 3px 12px color-mix(in srgb, var(--color-primary, #C8963E) 35%, transparent) !important;
     }
     .az-flash-card__btn:hover {
-      opacity: 0.9;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(200,150,62,0.5);
-      color: #fff !important;
+      background: var(--color-primary-d, var(--color-primary, #87602C)) !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 6px 20px color-mix(in srgb, var(--color-primary, #C8963E) 50%, transparent) !important;
+      color: var(--color-primary-reverse, #fff) !important;
     }
     .az-flash-card__btn i { font-size: 0.9rem; }
     /* موبايل */
@@ -282,16 +286,6 @@
       .az-flash-card__price { font-size: 0.9rem; }
       .az-flash-card__btn { font-size: 0.78rem !important; padding: 0.55rem !important; }
       .az-countdown__num { font-size: 1.2rem; }
-    }
-    .az-section-label {
-      display: block;
-      text-align: center;
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.15);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 2rem 0 0;
-      font-family: monospace;
     }
   </style>
 
@@ -324,23 +318,43 @@
     {% if component.products is defined and component.products|length > 0 %}
       <div class="az-flash__grid">
         {% for product in component.products %}
-          <div class="az-flash-card">
+          {# حساب نسبة الخصم الحقيقية #}
+          {% set discount_pct = 0 %}
+          {% if product.sale_price is defined and product.sale_price and product.price %}
+            {% set discount_pct = ((product.price - product.sale_price) / product.price * 100) | round %}
+          {% elseif product.regular_price is defined and product.regular_price and product.price %}
+            {% set discount_pct = ((product.regular_price - product.price) / product.regular_price * 100) | round %}
+          {% endif %}
+
+          {# الصورة الثانية للهوفر #}
+          {% set second_img = '' %}
+          {% if product.images is defined and product.images|length > 1 %}
+            {% set second_img = product.images[1].url %}
+          {% endif %}
+
+          <div class="az-flash-card{% if not second_img %} no-second-img{% endif %}">
             <div class="az-flash-card__img-wrap">
               <a href="{{ product.url }}">
-                {% if product.image %}
-                  <img src="{{ product.image.url }}" alt="{{ product.name }}" class="az-flash-card__img" loading="lazy">
-                {% else %}
-                  <img src="{{ 'images/img_placeholder.png' | asset }}" alt="{{ product.name }}" class="az-flash-card__img" loading="lazy">
+                {# الصورة الأساسية #}
+                <img
+                  src="{{ product.thumbnail.url | default(product.image.url | default('')) }}"
+                  alt="{{ product.name }}"
+                  class="az-flash-card__img az-flash-card__img--primary"
+                  loading="lazy">
+                {# الصورة الثانية — تظهر عند الهوفر #}
+                {% if second_img %}
+                  <img
+                    src="{{ second_img }}"
+                    alt="{{ product.name }}"
+                    class="az-flash-card__img az-flash-card__img--secondary"
+                    loading="lazy">
                 {% endif %}
               </a>
-              {% if product.is_on_sale %}
-                <span class="az-flash-card__badge">
-                  {%- if product.discount_percent is defined and product.discount_percent -%}
-                    {{ product.discount_percent }}% خصم
-                  {%- else -%}
-                    خصم
-                  {%- endif -%}
-                </span>
+              {# بادج الخصم بنسبة مئوية حقيقية #}
+              {% if product.is_on_sale and discount_pct > 0 %}
+                <span class="az-flash-card__badge">{{ discount_pct }}% خصم</span>
+              {% elseif product.is_on_sale %}
+                <span class="az-flash-card__badge">خصم</span>
               {% endif %}
               <div class="az-flash-card__overlay">
                 <a href="{{ product.url }}" class="az-flash-card__quick-view">
@@ -351,9 +365,11 @@
             <div class="az-flash-card__body">
               <a href="{{ product.url }}" class="az-flash-card__name">{{ product.name }}</a>
               <div class="az-flash-card__prices">
-                <span class="az-flash-card__price">{{ product.price | money }}</span>
-                {% if product.regular_price %}
-                  <span class="az-flash-card__old">{{ product.regular_price | money }}</span>
+                <span class="az-flash-card__price">
+                  {{ (product.sale_price ?: product.price) | money }}
+                </span>
+                {% if product.is_on_sale and product.price %}
+                  <span class="az-flash-card__old">{{ product.price | money }}</span>
                 {% endif %}
               </div>
               <salla-add-product-button product-id="{{ product.id }}" class="az-flash-card__btn">
@@ -373,8 +389,6 @@
       ></salla-products-slider>
     {% endif %}
   </div>
-
-  <span class="az-section-label">قسم: عروض الفلاش — ثيم: ازدهار</span>
 
   <script>
     (function() {

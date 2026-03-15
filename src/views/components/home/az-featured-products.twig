@@ -9,7 +9,7 @@
 | component.show_wishlist     | bool       | Show wishlist button                |
 | position                    | int        | Sort order                          |
 #}
-<section class="az-products s-block" id="az-products-{{ position }}" aria-label="قسم: المنتجات المميزة — ثيم: ازدهار">
+<section class="az-products s-block" id="az-products-{{ position }}" aria-label="المنتجات المميزة">
   <style>
     .az-products {
       background: #fafaf9;
@@ -38,7 +38,7 @@
     .az-products__head-left .az-divider {
       width: 50px; height: 4px;
       border-radius: 4px;
-      background: linear-gradient(90deg, #C8963E, #87602C);
+      background: var(--color-primary);
     }
     .az-products__head-left p {
       font-size: 0.95rem;
@@ -49,19 +49,19 @@
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      color: #C8963E;
+      color: var(--color-primary);
       font-weight: 700;
       font-size: 0.9rem;
       text-decoration: none;
-      border: 1.5px solid rgba(200,150,62,0.4);
+      border: 1.5px solid color-mix(in srgb, var(--color-primary) 40%, transparent);
       padding: 0.5rem 1.2rem;
       border-radius: 50px;
       transition: all 0.3s ease;
     }
     .az-view-all-link:hover {
-      background: #C8963E;
+      background: var(--color-primary);
       color: #fff;
-      border-color: #C8963E;
+      border-color: var(--color-primary);
       transform: translateY(-2px);
     }
     /* شبكة المنتجات */
@@ -99,7 +99,7 @@
     .az-prod-card:hover {
       transform: translateY(-8px);
       box-shadow: 0 16px 40px rgba(47,40,36,0.13);
-      border-color: rgba(200,150,62,0.3);
+      border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
     }
     /* صورة المنتج — نسبة 1:1 ثابتة */
     .az-prod-card__img-wrap {
@@ -115,6 +115,7 @@
       inset: 0;
       display: block;
     }
+    /* الصورة الأساسية والثانوية */
     .az-prod-card__img {
       position: absolute;
       inset: 0;
@@ -122,9 +123,21 @@
       height: 100%;
       object-fit: cover;
       object-position: center top;
-      transition: transform 0.55s cubic-bezier(.25,.8,.25,1);
+      transition: opacity 0.45s ease, transform 0.55s cubic-bezier(.25,.8,.25,1);
     }
-    .az-prod-card:hover .az-prod-card__img { transform: scale(1.07); }
+    .az-prod-card__img--primary {
+      opacity: 1;
+      z-index: 1;
+    }
+    .az-prod-card__img--secondary {
+      opacity: 0;
+      z-index: 2;
+      transform: scale(1.04);
+    }
+    .az-prod-card:hover .az-prod-card__img--primary  { opacity: 0; transform: scale(1.04); }
+    .az-prod-card:hover .az-prod-card__img--secondary { opacity: 1; transform: scale(1); }
+    /* إذا ما في صورة ثانية — نحرك الأولى فقط */
+    .az-prod-card.no-second-img:hover .az-prod-card__img--primary { opacity: 1; transform: scale(1.07); }
     /* بادج الخصم */
     .az-prod-card__badge {
       position: absolute;
@@ -137,7 +150,7 @@
       padding: 0.25rem 0.65rem;
       border-radius: 50px;
       box-shadow: 0 2px 8px rgba(239,68,68,0.4);
-      z-index: 2;
+      z-index: 3;
       white-space: nowrap;
     }
     /* تراكب عرض سريع */
@@ -150,7 +163,7 @@
       justify-content: center;
       opacity: 0;
       transition: opacity 0.35s ease;
-      z-index: 1;
+      z-index: 4;
     }
     .az-prod-card:hover .az-prod-card__overlay { opacity: 1; }
     .az-prod-card__quick-view {
@@ -168,7 +181,7 @@
       gap: 0.4rem;
     }
     .az-prod-card:hover .az-prod-card__quick-view { transform: translateY(0); }
-    .az-prod-card__quick-view:hover { background: #C8963E; color: #fff; }
+    .az-prod-card__quick-view:hover { background: var(--color-primary); color: #fff; }
     /* زر المفضلة */
     .az-prod-card__wishlist {
       position: absolute;
@@ -186,15 +199,15 @@
       cursor: pointer;
       transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
       box-shadow: 0 2px 10px rgba(0,0,0,0.12);
-      z-index: 3;
+      z-index: 5;
       padding: 0;
     }
     .az-prod-card__wishlist:hover {
       background: #fff;
       transform: scale(1.15);
-      box-shadow: 0 4px 16px rgba(200,150,62,0.3);
+      box-shadow: 0 4px 16px color-mix(in srgb, var(--color-primary) 30%, transparent);
     }
-    .az-prod-card__wishlist i { font-size: 1rem; color: #C8963E; line-height: 1; }
+    .az-prod-card__wishlist i { font-size: 1rem; color: var(--color-primary); line-height: 1; }
     /* جسم الكارد */
     .az-prod-card__body {
       padding: 0.9rem 1rem 1rem;
@@ -216,7 +229,7 @@
       text-decoration: none;
       transition: color 0.3s;
     }
-    .az-prod-card__name:hover { color: #C8963E; }
+    .az-prod-card__name:hover { color: var(--color-primary); }
     .az-prod-card__price-row {
       display: flex;
       align-items: center;
@@ -227,7 +240,7 @@
     .az-prod-card__price {
       font-size: 1rem;
       font-weight: 900;
-      color: #C8963E;
+      color: var(--color-primary);
       direction: ltr;
     }
     .az-prod-card__old-price {
@@ -236,31 +249,31 @@
       text-decoration: line-through;
       direction: ltr;
     }
-    /* زر إضافة للسلة — لون ذهبي ازدهار */
+    /* زر إضافة للسلة — لون identity المتجر */
     .az-prod-card__add-btn {
       display: flex !important;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-      width: 100%;
-      background: linear-gradient(135deg, #C8963E 0%, #87602C 100%) !important;
-      color: #fff !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 0.4rem !important;
+      width: 100% !important;
+      background: var(--color-primary) !important;
+      color: var(--color-primary-reverse, #fff) !important;
       border: none !important;
       border-radius: 10px !important;
       padding: 0.65rem 1rem !important;
       font-size: 0.85rem !important;
       font-weight: 700 !important;
-      cursor: pointer;
-      transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s;
-      text-align: center;
-      text-decoration: none;
-      box-shadow: 0 3px 12px rgba(200,150,62,0.3);
+      cursor: pointer !important;
+      transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s !important;
+      text-align: center !important;
+      text-decoration: none !important;
+      box-shadow: 0 3px 12px color-mix(in srgb, var(--color-primary) 35%, transparent) !important;
     }
     .az-prod-card__add-btn:hover {
-      opacity: 0.9;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(200,150,62,0.45);
-      color: #fff !important;
+      background: var(--color-primary-d, var(--color-primary)) !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 6px 20px color-mix(in srgb, var(--color-primary) 50%, transparent) !important;
+      color: var(--color-primary-reverse, #fff) !important;
     }
     .az-prod-card__add-btn i { font-size: 0.9rem; }
     /* موبايل */
@@ -271,16 +284,6 @@
       .az-prod-card__name { font-size: 0.8rem; }
       .az-prod-card__price { font-size: 0.9rem; }
       .az-prod-card__add-btn { font-size: 0.78rem !important; padding: 0.55rem !important; }
-    }
-    .az-section-label {
-      display: block;
-      text-align: center;
-      font-size: 0.7rem;
-      color: #cbd5e1;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 2rem 0 0;
-      font-family: monospace;
     }
   </style>
 
@@ -301,23 +304,43 @@
     {% if component.products is defined and component.products|length > 0 %}
       <div class="az-prod-grid">
         {% for product in component.products %}
-          <div class="az-prod-card">
+          {# حساب نسبة الخصم الحقيقية #}
+          {% set discount_pct = 0 %}
+          {% if product.sale_price is defined and product.sale_price and product.price %}
+            {% set discount_pct = ((product.price - product.sale_price) / product.price * 100) | round %}
+          {% elseif product.regular_price is defined and product.regular_price and product.price %}
+            {% set discount_pct = ((product.regular_price - product.price) / product.regular_price * 100) | round %}
+          {% endif %}
+
+          {# الصورة الثانية للهوفر #}
+          {% set second_img = '' %}
+          {% if product.images is defined and product.images|length > 1 %}
+            {% set second_img = product.images[1].url %}
+          {% endif %}
+
+          <div class="az-prod-card{% if not second_img %} no-second-img{% endif %}">
             <div class="az-prod-card__img-wrap">
               <a href="{{ product.url }}">
-                {% if product.image %}
-                  <img src="{{ product.image.url }}" alt="{{ product.name }}" class="az-prod-card__img" loading="lazy">
-                {% else %}
-                  <img src="{{ 'images/img_placeholder.png' | asset }}" alt="{{ product.name }}" class="az-prod-card__img" loading="lazy">
+                {# الصورة الأساسية #}
+                <img
+                  src="{{ product.thumbnail.url | default(product.image.url | default('')) }}"
+                  alt="{{ product.name }}"
+                  class="az-prod-card__img az-prod-card__img--primary"
+                  loading="lazy">
+                {# الصورة الثانية — تظهر عند الهوفر #}
+                {% if second_img %}
+                  <img
+                    src="{{ second_img }}"
+                    alt="{{ product.name }}"
+                    class="az-prod-card__img az-prod-card__img--secondary"
+                    loading="lazy">
                 {% endif %}
               </a>
-              {% if product.is_on_sale %}
-                <span class="az-prod-card__badge">
-                  {%- if product.discount_percent is defined and product.discount_percent -%}
-                    {{ product.discount_percent }}% خصم
-                  {%- else -%}
-                    خصم
-                  {%- endif -%}
-                </span>
+              {# بادج الخصم بنسبة مئوية حقيقية #}
+              {% if product.is_on_sale and discount_pct > 0 %}
+                <span class="az-prod-card__badge">{{ discount_pct }}% خصم</span>
+              {% elseif product.is_on_sale %}
+                <span class="az-prod-card__badge">خصم</span>
               {% endif %}
               <div class="az-prod-card__overlay">
                 <a href="{{ product.url }}" class="az-prod-card__quick-view">
@@ -334,9 +357,11 @@
             <div class="az-prod-card__body">
               <a href="{{ product.url }}" class="az-prod-card__name">{{ product.name }}</a>
               <div class="az-prod-card__price-row">
-                <span class="az-prod-card__price">{{ product.price | money }}</span>
-                {% if product.is_on_sale and product.regular_price %}
-                  <span class="az-prod-card__old-price">{{ product.regular_price | money }}</span>
+                <span class="az-prod-card__price">
+                  {{ (product.sale_price ?: product.price) | money }}
+                </span>
+                {% if product.is_on_sale and product.price %}
+                  <span class="az-prod-card__old-price">{{ product.price | money }}</span>
                 {% endif %}
               </div>
               {% if component.show_add_to_cart is not defined or component.show_add_to_cart %}
@@ -358,6 +383,4 @@
       ></salla-products-slider>
     {% endif %}
   </div>
-
-  <span class="az-section-label">قسم: المنتجات المميزة — ثيم: ازدهار</span>
 </section>
