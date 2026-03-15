@@ -7,6 +7,38 @@
 | component.categories    | Category[] | Store categories from Salla     |
 | position                | int        | Sort order                      |
 #}
+
+{% set az_bg = component.section_bg_color ?: '#fff' %}
+{% set az_btn = component.btn_color ?: 'var(--color-primary)' %}
+{% set az_title = component.title_color ?: 'var(--color-secondary)' %}
+<style>
+  .az-categories {
+    --az-bg: {{ az_bg }};
+    --az-btn: {{ az_btn }};
+    --az-title: {{ az_title }};
+    background: var(--az-bg) !important;
+  }
+  .az-categories .az-section-title,
+  .az-categories .az-section-subtitle {
+    color: var(--az-title) !important;
+  }
+  .az-categories .az-btn,
+  .az-categories .az-btn-primary,
+  .az-categories .az-cta__btn-primary,
+  .az-categories .az-flash-card__btn,
+  .az-categories .az-prod-card__btn {
+    background: var(--az-btn) !important;
+    border-color: var(--az-btn) !important;
+  }
+  .az-categories .az-btn:hover,
+  .az-categories .az-btn-primary:hover,
+  .az-categories .az-cta__btn-primary:hover,
+  .az-categories .az-flash-card__btn:hover,
+  .az-categories .az-prod-card__btn:hover {
+    filter: brightness(0.88);
+  }
+</style>
+
 <section class="az-categories s-block" id="az-categories-{{ position }}" >
   <style>
     .az-categories {
@@ -35,7 +67,7 @@
     .az-section-head__title {
       font-size: clamp(1.6rem, 3vw, 2.4rem);
       font-weight: 900;
-      color: #2F2824;
+      color: var(--color-secondary);
       margin: 0 0 0.6rem;
     }
     .az-section-head__divider {
@@ -66,12 +98,12 @@
       display: block;
       text-decoration: none;
       background: #f1ece6;
-      box-shadow: 0 2px 12px rgba(47,40,36,0.08);
+      box-shadow: 0 2px 12px color-mix(in srgb, var(--color-secondary) 8%, transparent);
       transition: transform 0.4s cubic-bezier(.25,.8,.25,1), box-shadow 0.4s;
     }
     .az-cat-card:hover {
       transform: translateY(-8px) scale(1.01);
-      box-shadow: 0 16px 40px rgba(47,40,36,0.18);
+      box-shadow: 0 16px 40px color-mix(in srgb, var(--color-secondary) 18%, transparent);
     }
     .az-cat-card__img {
       width: 100%; height: 100%;
@@ -96,7 +128,7 @@
     .az-cat-card__overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(26,21,18,0.85) 0%, rgba(26,21,18,0.2) 50%, transparent 100%);
+      background: linear-gradient(to top, color-mix(in srgb, var(--color-secondary) 85%, transparent) 0%, color-mix(in srgb, var(--color-secondary) 20%, transparent) 50%, transparent 100%);
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
@@ -104,7 +136,7 @@
       transition: background 0.3s;
     }
     .az-cat-card:hover .az-cat-card__overlay {
-      background: linear-gradient(to top, rgba(26,21,18,0.92) 0%, rgba(26,21,18,0.35) 60%, rgba(26,21,18,0.05) 100%);
+      background: linear-gradient(to top, color-mix(in srgb, var(--color-secondary) 92%, transparent) 0%, color-mix(in srgb, var(--color-secondary) 35%, transparent) 60%, color-mix(in srgb, var(--color-secondary) 5%, transparent) 100%);
     }
     .az-cat-card__name {
       font-size: 1.05rem;

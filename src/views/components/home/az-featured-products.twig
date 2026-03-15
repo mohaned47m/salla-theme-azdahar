@@ -9,6 +9,38 @@
 | component.show_wishlist     | bool       | Show wishlist button                |
 | position                    | int        | Sort order                          |
 #}
+
+{% set az_bg = component.section_bg_color ?: '#fafaf9' %}
+{% set az_btn = component.btn_color ?: 'var(--color-primary)' %}
+{% set az_title = component.title_color ?: 'var(--color-secondary)' %}
+<style>
+  .az-featured-products {
+    --az-bg: {{ az_bg }};
+    --az-btn: {{ az_btn }};
+    --az-title: {{ az_title }};
+    background: var(--az-bg) !important;
+  }
+  .az-featured-products .az-section-title,
+  .az-featured-products .az-section-subtitle {
+    color: var(--az-title) !important;
+  }
+  .az-featured-products .az-btn,
+  .az-featured-products .az-btn-primary,
+  .az-featured-products .az-cta__btn-primary,
+  .az-featured-products .az-flash-card__btn,
+  .az-featured-products .az-prod-card__btn {
+    background: var(--az-btn) !important;
+    border-color: var(--az-btn) !important;
+  }
+  .az-featured-products .az-btn:hover,
+  .az-featured-products .az-btn-primary:hover,
+  .az-featured-products .az-cta__btn-primary:hover,
+  .az-featured-products .az-flash-card__btn:hover,
+  .az-featured-products .az-prod-card__btn:hover {
+    filter: brightness(0.88);
+  }
+</style>
+
 <section class="az-products s-block" id="az-products-{{ position }}" aria-label="المنتجات المميزة">
   <style>
     .az-products {
@@ -98,7 +130,7 @@
     }
     .az-prod-card:hover {
       transform: translateY(-8px);
-      box-shadow: 0 16px 40px rgba(47,40,36,0.13);
+      box-shadow: 0 16px 40px color-mix(in srgb, var(--color-secondary) 13%, transparent);
       border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
     }
     /* صورة المنتج — نسبة 1:1 ثابتة */
@@ -157,7 +189,7 @@
     .az-prod-card__overlay {
       position: absolute;
       inset: 0;
-      background: rgba(47,40,36,0.32);
+      background: color-mix(in srgb, var(--color-secondary) 32%, transparent);
       display: flex;
       align-items: center;
       justify-content: center;

@@ -236,6 +236,188 @@
       "required": false,
       "value": false,
       "selected": false
+    },
+    {
+      "type": "static",
+      "format": "line",
+      "id": "static-floating-line"
+    },
+    {
+      "type": "static",
+      "format": "title",
+      "id": "static-floating-title",
+      "label": "أزرار التواصل العائمة"
+    },
+    {
+      "id": "show_floating_buttons",
+      "type": "boolean",
+      "format": "switch",
+      "icon": "sicon-phone-call",
+      "label": "إظهار أزرار التواصل العائمة",
+      "value": true,
+      "selected": true
+    },
+    {
+      "id": "show_whatsapp_btn",
+      "type": "boolean",
+      "format": "switch",
+      "icon": "sicon-whatsapp",
+      "label": "إظهار زر الواتساب",
+      "value": true,
+      "selected": true
+    },
+    {
+      "id": "whatsapp_number",
+      "type": "string",
+      "format": "text",
+      "icon": "sicon-whatsapp",
+      "label": "رقم الواتساب",
+      "placeholder": "966500000000",
+      "description": "أدخل الرقم بدون + مثال: 966500000000",
+      "value": "",
+      "required": false
+    },
+    {
+      "id": "whatsapp_message",
+      "type": "string",
+      "format": "text",
+      "icon": "sicon-message",
+      "label": "رسالة الواتساب الافتراضية",
+      "placeholder": "مرحباً، أريد الاستفسار عن منتجاتكم",
+      "value": "مرحباً، أريد الاستفسار عن منتجاتكم",
+      "required": false
+    },
+    {
+      "id": "show_phone_btn",
+      "type": "boolean",
+      "format": "switch",
+      "icon": "sicon-phone-call",
+      "label": "إظهار زر الهاتف",
+      "value": true,
+      "selected": true
+    },
+    {
+      "id": "phone_number",
+      "type": "string",
+      "format": "text",
+      "icon": "sicon-phone-call",
+      "label": "رقم الهاتف",
+      "placeholder": "0500000000",
+      "value": "",
+      "required": false
+    },
+    {
+      "id": "floating_position",
+      "type": "items",
+      "format": "dropdown-list",
+      "icon": "sicon-layout-right",
+      "label": "موضع الأزرار العائمة",
+      "value": "right",
+      "selected": "right",
+      "options": [
+        {
+          "id": "right",
+          "title": "يمين"
+        },
+        {
+          "id": "left",
+          "title": "يسار"
+        }
+      ]
+    },
+    {
+      "type": "static",
+      "format": "line",
+      "id": "static-popup-line"
+    },
+    {
+      "type": "static",
+      "format": "title",
+      "id": "static-popup-title",
+      "label": "نافذة الترحيب (بوباب)"
+    },
+    {
+      "id": "show_popup",
+      "type": "boolean",
+      "format": "switch",
+      "icon": "sicon-popup",
+      "label": "تفعيل نافذة الترحيب",
+      "value": false,
+      "selected": false
+    },
+    {
+      "id": "popup_image",
+      "type": "string",
+      "format": "image",
+      "icon": "sicon-image",
+      "label": "صورة النافذة",
+      "value": "",
+      "required": false
+    },
+    {
+      "id": "popup_title",
+      "type": "string",
+      "format": "text",
+      "icon": "sicon-format-text-alt",
+      "label": "عنوان النافذة",
+      "value": "عروض خاصة لك!",
+      "required": false
+    },
+    {
+      "id": "popup_text",
+      "type": "string",
+      "format": "textarea",
+      "icon": "sicon-typography",
+      "label": "نص النافذة",
+      "value": "اشترك الآن واحصل على أفضل العروض",
+      "required": false
+    },
+    {
+      "id": "popup_btn_text",
+      "type": "string",
+      "format": "text",
+      "icon": "sicon-format-text-alt",
+      "label": "نص زر النافذة",
+      "value": "تسوق الآن",
+      "required": false
+    },
+    {
+      "id": "popup_btn_url",
+      "type": "string",
+      "format": "text",
+      "icon": "sicon-link",
+      "label": "رابط زر النافذة",
+      "value": "",
+      "required": false
+    },
+    {
+      "id": "popup_delay",
+      "type": "string",
+      "format": "number",
+      "icon": "sicon-timer",
+      "label": "تأخير ظهور النافذة (بالثواني)",
+      "value": "3",
+      "required": false
+    },
+    {
+      "type": "static",
+      "format": "line",
+      "id": "static-footer-extra-line"
+    },
+    {
+      "type": "static",
+      "format": "title",
+      "id": "static-footer-extra-title",
+      "label": "إعدادات الفوتر"
+    },
+    {
+      "id": "show_footer_app_column",
+      "type": "boolean",
+      "format": "switch",
+      "icon": "sicon-mobile",
+      "label": "إظهار عمود تحميل التطبيق في الفوتر",
+      "value": true,
+      "selected": true
     }
   ],
   "components": [
@@ -1144,6 +1326,41 @@
           "value": "",
           "required": false,
           "format": "text"
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "static-color-divider-#1a1"
+        },
+        {
+          "id": "section_bg_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون خلفية القسم",
+          "value": "#1a1512",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام اللون الافتراضي"
+        },
+        {
+          "id": "btn_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون الأزرار",
+          "value": "",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام لون الهوية"
+        },
+        {
+          "id": "title_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون العناوين",
+          "value": "",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام اللون الافتراضي"
         }
       ]
     },
@@ -1371,6 +1588,41 @@
           "placeholder": "",
           "minLength": 0,
           "maxLength": 100
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "static-color-divider-#2F2"
+        },
+        {
+          "id": "section_bg_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون خلفية القسم",
+          "value": "#2F2824",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام اللون الافتراضي"
+        },
+        {
+          "id": "btn_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون الأزرار",
+          "value": "",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام لون الهوية"
+        },
+        {
+          "id": "title_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون العناوين",
+          "value": "",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام اللون الافتراضي"
         }
       ]
     },
@@ -1430,6 +1682,41 @@
           "multichoice": true,
           "source": "categories",
           "searchable": true
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "static-color-divider-#fff"
+        },
+        {
+          "id": "section_bg_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون خلفية القسم",
+          "value": "#ffffff",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام اللون الافتراضي"
+        },
+        {
+          "id": "btn_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون الأزرار",
+          "value": "",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام لون الهوية"
+        },
+        {
+          "id": "title_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون العناوين",
+          "value": "",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام اللون الافتراضي"
         }
       ]
     },
@@ -1511,6 +1798,41 @@
           "format": "text",
           "required": false,
           "value": null
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "static-color-divider-#faf"
+        },
+        {
+          "id": "section_bg_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون خلفية القسم",
+          "value": "#fafaf9",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام اللون الافتراضي"
+        },
+        {
+          "id": "btn_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون الأزرار",
+          "value": "",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام لون الهوية"
+        },
+        {
+          "id": "title_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون العناوين",
+          "value": "",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام اللون الافتراضي"
         }
       ]
     },
@@ -1572,6 +1894,41 @@
           "maxLength": 8,
           "minLength": 1,
           "value": []
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "static-color-divider-#2F2"
+        },
+        {
+          "id": "section_bg_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون خلفية القسم",
+          "value": "#2F2824",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام اللون الافتراضي"
+        },
+        {
+          "id": "btn_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون الأزرار",
+          "value": "",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام لون الهوية"
+        },
+        {
+          "id": "title_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون العناوين",
+          "value": "",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام اللون الافتراضي"
         }
       ]
     },
@@ -1645,6 +2002,41 @@
           "required": false,
           "min": 1,
           "max": 99
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "static-color-divider-"
+        },
+        {
+          "id": "section_bg_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون خلفية القسم",
+          "value": "",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام اللون الافتراضي"
+        },
+        {
+          "id": "btn_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون الأزرار",
+          "value": "",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام لون الهوية"
+        },
+        {
+          "id": "title_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون العناوين",
+          "value": "",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام اللون الافتراضي"
         }
       ]
     },
@@ -1690,6 +2082,41 @@
           "required": false,
           "value": false,
           "selected": false
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "static-color-divider-#f8f"
+        },
+        {
+          "id": "section_bg_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون خلفية القسم",
+          "value": "#f8f5f1",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام اللون الافتراضي"
+        },
+        {
+          "id": "btn_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون الأزرار",
+          "value": "",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام لون الهوية"
+        },
+        {
+          "id": "title_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون العناوين",
+          "value": "",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام اللون الافتراضي"
         }
       ]
     },
@@ -1783,6 +2210,41 @@
               "maxLength": 1000
             }
           ]
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "static-color-divider-#fff"
+        },
+        {
+          "id": "section_bg_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون خلفية القسم",
+          "value": "#ffffff",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام اللون الافتراضي"
+        },
+        {
+          "id": "btn_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون الأزرار",
+          "value": "",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام لون الهوية"
+        },
+        {
+          "id": "title_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون العناوين",
+          "value": "",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام اللون الافتراضي"
         }
       ]
     },
@@ -1837,6 +2299,41 @@
           "value": "تسوق الآن",
           "required": false,
           "format": "text"
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "static-color-divider-#2F2"
+        },
+        {
+          "id": "section_bg_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون خلفية القسم",
+          "value": "#2F2824",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام اللون الافتراضي"
+        },
+        {
+          "id": "btn_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون الأزرار",
+          "value": "",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام لون الهوية"
+        },
+        {
+          "id": "title_color",
+          "type": "string",
+          "format": "color",
+          "icon": "sicon-color-palette",
+          "label": "لون العناوين",
+          "value": "",
+          "required": false,
+          "description": "اتركه فارغاً لاستخدام اللون الافتراضي"
         }
       ]
     }

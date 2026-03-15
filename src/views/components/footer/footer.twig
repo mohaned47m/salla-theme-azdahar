@@ -151,7 +151,9 @@
       </div>
 
       {# ===== تطبيقات المتجر ===== #}
+      {% if theme.settings.get('show_footer_app_column', true) %}
       <salla-apps-icons class="lg:col-span-2 rtl:lg:pr-16 ltr:lg:pl-16"></salla-apps-icons>
+      {% endif %}
 
     </div>
   </div>

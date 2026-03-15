@@ -8,6 +8,38 @@
 | component.button_url   | string  | CTA button link                    |
 | position               | int     | Sort order                         |
 #}
+
+{% set az_bg = component.section_bg_color ?: 'var(--color-secondary)' %}
+{% set az_btn = component.btn_color ?: 'var(--color-primary)' %}
+{% set az_title = component.title_color ?: '#fff' %}
+<style>
+  .az-hero {
+    --az-bg: {{ az_bg }};
+    --az-btn: {{ az_btn }};
+    --az-title: {{ az_title }};
+    background: var(--az-bg) !important;
+  }
+  .az-hero .az-section-title,
+  .az-hero .az-section-subtitle {
+    color: var(--az-title) !important;
+  }
+  .az-hero .az-btn,
+  .az-hero .az-btn-primary,
+  .az-hero .az-cta__btn-primary,
+  .az-hero .az-flash-card__btn,
+  .az-hero .az-prod-card__btn {
+    background: var(--az-btn) !important;
+    border-color: var(--az-btn) !important;
+  }
+  .az-hero .az-btn:hover,
+  .az-hero .az-btn-primary:hover,
+  .az-hero .az-cta__btn-primary:hover,
+  .az-hero .az-flash-card__btn:hover,
+  .az-hero .az-prod-card__btn:hover {
+    filter: brightness(0.88);
+  }
+</style>
+
 <section class="az-hero s-block" id="az-hero-{{ position }}" >
   <style>
     /* ── البانر الرئيسي — ازدهار ── */
@@ -36,7 +68,7 @@
     .az-hero__overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(26,21,18,0.92) 0%, rgba(26,21,18,0.55) 55%, rgba(26,21,18,0.2) 100%);
+      background: linear-gradient(135deg, color-mix(in srgb, var(--color-secondary) 92%, transparent) 0%, color-mix(in srgb, var(--color-secondary) 55%, transparent) 55%, color-mix(in srgb, var(--color-secondary) 20%, transparent) 100%);
     }
     .az-hero__content {
       position: relative;
@@ -50,8 +82,8 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: rgba(135,96,44,0.25);
-      border: 1px solid rgba(200,150,62,0.5);
+      background: color-mix(in srgb, var(--color-primary) 25%, transparent);
+      border: 1px solid color-mix(in srgb, var(--color-primary) 50%, transparent);
       color: var(--color-primary-light);
       padding: 0.4rem 1.2rem;
       border-radius: 50px;
@@ -111,11 +143,11 @@
       font-weight: 700;
       text-decoration: none;
       transition: transform 0.3s, box-shadow 0.3s;
-      box-shadow: 0 4px 20px rgba(200,150,62,0.4);
+      box-shadow: 0 4px 20px color-mix(in srgb, var(--color-primary) 40%, transparent);
     }
     .az-hero__btn-primary:hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 30px rgba(200,150,62,0.6);
+      box-shadow: 0 8px 30px color-mix(in srgb, var(--color-primary) 60%, transparent);
       color: #fff;
     }
     .az-hero__btn-secondary {

@@ -1,0 +1,153 @@
+{#
+| Variable                    | Type    | Description                          |
+| component.whatsapp_number   | string  | رقم الواتساب (بدون +)                |
+| component.whatsapp_message  | string  | رسالة افتراضية للواتساب              |
+| component.phone_number      | string  | رقم الهاتف                           |
+| component.show_whatsapp     | bool    | إظهار زر الواتساب                    |
+| component.show_phone        | bool    | إظهار زر الهاتف                      |
+| component.btn_color         | string  | لون الأزرار (افتراضي: لون الهوية)    |
+| component.position          | string  | الموضع: right أو left                |
+#}
+
+{% set show_wa = component.show_whatsapp is not defined or component.show_whatsapp %}
+{% set show_ph = component.show_phone is not defined or component.show_phone %}
+{% set wa_num = component.whatsapp_number ?: '' %}
+{% set ph_num = component.phone_number ?: '' %}
+{% set wa_msg = component.whatsapp_message ?: 'مرحباً، أريد الاستفسار عن منتجاتكم' %}
+{% set pos = component.position ?: 'right' %}
+{% set btn_clr = component.btn_color ?: 'var(--color-primary)' %}
+
+{% if show_wa or show_ph %}
+<div class="az-float-btns az-float-btns--{{ pos }}" id="az-float-btns" role="complementary" aria-label="أزرار التواصل السريع">
+
+<style>
+  .az-float-btns {
+    position: fixed;
+    bottom: 2rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-end;
+  }
+  .az-float-btns--right { right: 1.5rem; left: auto; }
+  .az-float-btns--left  { left: 1.5rem; right: auto; }
+
+  .az-float-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.22);
+    transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), box-shadow 0.3s ease;
+    position: relative;
+    animation: az-float-in 0.5s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  .az-float-btn:nth-child(1) { animation-delay: 0.1s; }
+  .az-float-btn:nth-child(2) { animation-delay: 0.25s; }
+
+  .az-float-btn:hover {
+    transform: scale(1.12) translateY(-3px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.28);
+  }
+
+  .az-float-btn--wa {
+    background: #25D366;
+  }
+  .az-float-btn--phone {
+    background: {{ btn_clr }};
+  }
+
+  .az-float-btn i {
+    font-size: 1.4rem;
+    color: #fff;
+    line-height: 1;
+  }
+
+  /* نبضة حول زر الواتساب */
+  .az-float-btn--wa::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid #25D366;
+    animation: az-pulse 2s ease-out infinite;
+    opacity: 0;
+  }
+  .az-float-btn--phone::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid {{ btn_clr }};
+    animation: az-pulse 2s ease-out infinite 0.5s;
+    opacity: 0;
+  }
+
+  /* Tooltip */
+  .az-float-btn .az-float-tooltip {
+    position: absolute;
+    {% if pos == 'right' %}
+    right: calc(100% + 10px);
+    {% else %}
+    left: calc(100% + 10px);
+    {% endif %}
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    font-size: 0.78rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s, transform 0.2s;
+    font-family: 'Cairo', sans-serif;
+  }
+  .az-float-btn:hover .az-float-tooltip {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+
+  @keyframes az-pulse {
+    0%   { transform: scale(1); opacity: 0.6; }
+    70%  { transform: scale(1.5); opacity: 0; }
+    100% { transform: scale(1.5); opacity: 0; }
+  }
+
+  @keyframes az-float-in {
+    from { opacity: 0; transform: scale(0.5) translateY(20px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* إخفاء عند الطباعة */
+  @media print { .az-float-btns { display: none !important; } }
+</style>
+
+  {% if show_wa and wa_num %}
+    {% set wa_url = 'https://wa.me/' ~ wa_num ~ '?text=' ~ wa_msg|url_encode %}
+    <a href="{{ wa_url }}"
+       class="az-float-btn az-float-btn--wa"
+       target="_blank"
+       rel="noopener noreferrer"
+       aria-label="تواصل عبر واتساب">
+      <i class="sicon-whatsapp"></i>
+      <span class="az-float-tooltip">واتساب</span>
+    </a>
+  {% endif %}
+
+  {% if show_ph and ph_num %}
+    <a href="tel:{{ ph_num }}"
+       class="az-float-btn az-float-btn--phone"
+       aria-label="اتصل بنا">
+      <i class="sicon-phone-call"></i>
+      <span class="az-float-tooltip">اتصل بنا</span>
+    </a>
+  {% endif %}
+
+</div>
+{% endif %}

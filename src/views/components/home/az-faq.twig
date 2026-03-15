@@ -8,6 +8,38 @@
 | component.faqs[].a    | string     | Answer text                       |
 | position              | int        | Sort order                        |
 #}
+
+{% set az_bg = component.section_bg_color ?: '#fff' %}
+{% set az_btn = component.btn_color ?: 'var(--color-primary)' %}
+{% set az_title = component.title_color ?: 'var(--color-secondary)' %}
+<style>
+  .az-faq {
+    --az-bg: {{ az_bg }};
+    --az-btn: {{ az_btn }};
+    --az-title: {{ az_title }};
+    background: var(--az-bg) !important;
+  }
+  .az-faq .az-section-title,
+  .az-faq .az-section-subtitle {
+    color: var(--az-title) !important;
+  }
+  .az-faq .az-btn,
+  .az-faq .az-btn-primary,
+  .az-faq .az-cta__btn-primary,
+  .az-faq .az-flash-card__btn,
+  .az-faq .az-prod-card__btn {
+    background: var(--az-btn) !important;
+    border-color: var(--az-btn) !important;
+  }
+  .az-faq .az-btn:hover,
+  .az-faq .az-btn-primary:hover,
+  .az-faq .az-cta__btn-primary:hover,
+  .az-faq .az-flash-card__btn:hover,
+  .az-faq .az-prod-card__btn:hover {
+    filter: brightness(0.88);
+  }
+</style>
+
 <section class="az-faq s-block" id="az-faq-{{ position }}" >
   <style>
     .az-faq {
@@ -27,7 +59,7 @@
     .az-faq__head h2 {
       font-size: clamp(1.5rem, 3vw, 2.2rem);
       font-weight: 900;
-      color: #2F2824;
+      color: var(--color-secondary);
       margin: 0 0 0.5rem;
     }
     .az-faq__head .az-divider {
@@ -51,8 +83,8 @@
       transition: border-color 0.3s, box-shadow 0.3s;
     }
     .az-faq__item.open {
-      border-color: rgba(200,150,62,0.4);
-      box-shadow: 0 4px 16px rgba(200,150,62,0.08);
+      border-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
+      box-shadow: 0 4px 16px color-mix(in srgb, var(--color-primary) 8%, transparent);
     }
     .az-faq__q {
       display: flex;
@@ -66,7 +98,7 @@
     .az-faq__q-text {
       font-size: 1rem;
       font-weight: 700;
-      color: #2F2824;
+      color: var(--color-secondary);
       flex: 1;
     }
     .az-faq__q-icon {

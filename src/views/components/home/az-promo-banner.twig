@@ -9,6 +9,38 @@
 | component.discount_percent| number  | Discount percentage to display      |
 | position                  | int     | Sort order                          |
 #}
+
+{% set az_bg = component.section_bg_color ?: 'var(--color-primary)' %}
+{% set az_btn = component.btn_color ?: '#fff' %}
+{% set az_title = component.title_color ?: '#fff' %}
+<style>
+  .az-promo-banner {
+    --az-bg: {{ az_bg }};
+    --az-btn: {{ az_btn }};
+    --az-title: {{ az_title }};
+    background: var(--az-bg) !important;
+  }
+  .az-promo-banner .az-section-title,
+  .az-promo-banner .az-section-subtitle {
+    color: var(--az-title) !important;
+  }
+  .az-promo-banner .az-btn,
+  .az-promo-banner .az-btn-primary,
+  .az-promo-banner .az-cta__btn-primary,
+  .az-promo-banner .az-flash-card__btn,
+  .az-promo-banner .az-prod-card__btn {
+    background: var(--az-btn) !important;
+    border-color: var(--az-btn) !important;
+  }
+  .az-promo-banner .az-btn:hover,
+  .az-promo-banner .az-btn-primary:hover,
+  .az-promo-banner .az-cta__btn-primary:hover,
+  .az-promo-banner .az-flash-card__btn:hover,
+  .az-promo-banner .az-prod-card__btn:hover {
+    filter: brightness(0.88);
+  }
+</style>
+
 <section class="az-promo s-block" id="az-promo-{{ position }}" >
   <style>
     .az-promo {

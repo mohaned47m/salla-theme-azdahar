@@ -133,5 +133,206 @@
     <salla-scopes selection="{{ store.scope.display_as == 'popup' ? 'mandatory' : 'optional' }}"></salla-scopes>
 {% endif %}
 {% block scripts %}{% endblock %}
+
+{# ===== أزرار عائمة (واتساب + هاتف) ===== #}
+{% if theme.settings.get('show_floating_buttons', true) %}
+<div class="az-float-btns az-float-btns--{{ theme.settings.get('floating_position', 'right') }}" id="az-float-btns">
+<style>
+  .az-float-btns {
+    position: fixed;
+    bottom: 2rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .az-float-btns--right { right: 1.5rem; }
+  .az-float-btns--left  { left: 1.5rem; }
+  .az-float-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.22);
+    transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), box-shadow 0.3s;
+    position: relative;
+    animation: az-float-in 0.5s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  .az-float-btn:nth-child(1) { animation-delay: 0.2s; }
+  .az-float-btn:nth-child(2) { animation-delay: 0.4s; }
+  .az-float-btn:hover { transform: scale(1.12) translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.28); }
+  .az-float-btn--wa  { background: #25D366; }
+  .az-float-btn--ph  { background: var(--color-primary); }
+  .az-float-btn i    { font-size: 1.4rem; color: #fff; }
+  .az-float-btn::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    animation: az-pulse 2s ease-out infinite;
+    opacity: 0;
+  }
+  .az-float-btn--wa::before  { color: #25D366; }
+  .az-float-btn--ph::before  { color: var(--color-primary); animation-delay: 0.6s; }
+  .az-float-tooltip {
+    position: absolute;
+    {% if theme.settings.get('floating_position','right') == 'right' %}
+    right: calc(100% + 10px);
+    {% else %}
+    left: calc(100% + 10px);
+    {% endif %}
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    font-size: 0.78rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    font-family: 'Cairo', sans-serif;
+  }
+  .az-float-btn:hover .az-float-tooltip { opacity: 1; }
+  @keyframes az-pulse {
+    0%  { transform: scale(1); opacity: 0.6; }
+    70% { transform: scale(1.5); opacity: 0; }
+    100%{ transform: scale(1.5); opacity: 0; }
+  }
+  @keyframes az-float-in {
+    from { opacity: 0; transform: scale(0.5) translateY(20px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  @media print { .az-float-btns { display: none !important; } }
+</style>
+
+  {% set wa_num = theme.settings.get('whatsapp_number', '') %}
+  {% set ph_num = theme.settings.get('phone_number', '') %}
+  {% set wa_msg = theme.settings.get('whatsapp_message', 'مرحباً، أريد الاستفسار عن منتجاتكم') %}
+
+  {% if theme.settings.get('show_whatsapp_btn', true) and wa_num %}
+    <a href="https://wa.me/{{ wa_num }}?text={{ wa_msg|url_encode }}"
+       class="az-float-btn az-float-btn--wa"
+       target="_blank" rel="noopener noreferrer"
+       aria-label="تواصل عبر واتساب">
+      <i class="sicon-whatsapp"></i>
+      <span class="az-float-tooltip">واتساب</span>
+    </a>
+  {% endif %}
+
+  {% if theme.settings.get('show_phone_btn', true) and ph_num %}
+    <a href="tel:{{ ph_num }}"
+       class="az-float-btn az-float-btn--ph"
+       aria-label="اتصل بنا">
+      <i class="sicon-phone-call"></i>
+      <span class="az-float-tooltip">اتصل بنا</span>
+    </a>
+  {% endif %}
+</div>
+{% endif %}
+
+{# ===== بوباب الترحيب ===== #}
+{% if theme.settings.get('show_popup', false) %}
+  {% set popup_img = theme.settings.get('popup_image', '') %}
+  {% set popup_title = theme.settings.get('popup_title', 'عروض خاصة لك!') %}
+  {% set popup_text = theme.settings.get('popup_text', 'اشترك الآن واحصل على أفضل العروض') %}
+  {% set popup_btn_text = theme.settings.get('popup_btn_text', 'تسوق الآن') %}
+  {% set popup_btn_url = theme.settings.get('popup_btn_url', '') %}
+  <div class="az-popup-overlay" id="az-popup-overlay" role="dialog" aria-modal="true" aria-label="{{ popup_title }}">
+    <style>
+      .az-popup-overlay {
+        position: fixed; inset: 0; z-index: 99999;
+        background: rgba(0,0,0,0.6);
+        display: flex; align-items: center; justify-content: center;
+        padding: 1rem;
+        animation: az-popup-bg-in 0.3s ease both;
+      }
+      .az-popup-overlay.az-hidden { display: none; }
+      .az-popup-box {
+        background: #fff;
+        border-radius: 16px;
+        max-width: 480px;
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        animation: az-popup-in 0.4s cubic-bezier(.34,1.56,.64,1) both;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      }
+      .az-popup-close {
+        position: absolute;
+        top: 0.75rem;
+        {% if store.locale.dir == 'rtl' %}left: 0.75rem;{% else %}right: 0.75rem;{% endif %}
+        background: rgba(0,0,0,0.15);
+        border: none;
+        border-radius: 50%;
+        width: 32px; height: 32px;
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        color: #fff;
+        font-size: 1rem;
+        transition: background 0.2s;
+        z-index: 2;
+      }
+      .az-popup-close:hover { background: rgba(0,0,0,0.35); }
+      .az-popup-img { width: 100%; max-height: 220px; object-fit: cover; display: block; }
+      .az-popup-body { padding: 1.5rem; text-align: center; font-family: 'Cairo', sans-serif; }
+      .az-popup-title { font-size: 1.3rem; font-weight: 700; color: var(--color-secondary, #2F2824); margin-bottom: 0.5rem; }
+      .az-popup-text  { color: #64748b; font-size: 0.95rem; margin-bottom: 1.25rem; line-height: 1.7; }
+      .az-popup-btn {
+        display: inline-block;
+        background: var(--color-primary);
+        color: #fff;
+        padding: 0.7rem 2rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.95rem;
+        transition: filter 0.2s, transform 0.2s;
+      }
+      .az-popup-btn:hover { filter: brightness(0.88); transform: translateY(-2px); }
+      @keyframes az-popup-bg-in { from { opacity: 0; } to { opacity: 1; } }
+      @keyframes az-popup-in {
+        from { opacity: 0; transform: scale(0.8) translateY(30px); }
+        to   { opacity: 1; transform: scale(1) translateY(0); }
+      }
+    </style>
+    <div class="az-popup-box">
+      <button class="az-popup-close" onclick="document.getElementById('az-popup-overlay').classList.add('az-hidden')" aria-label="إغلاق">
+        <i class="sicon-close"></i>
+      </button>
+      {% if popup_img %}
+        <img src="{{ popup_img }}" alt="{{ popup_title }}" class="az-popup-img" loading="lazy">
+      {% endif %}
+      <div class="az-popup-body">
+        <h3 class="az-popup-title">{{ popup_title }}</h3>
+        <p class="az-popup-text">{{ popup_text }}</p>
+        {% if popup_btn_url %}
+          <a href="{{ popup_btn_url }}" class="az-popup-btn">{{ popup_btn_text }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <script>
+    (function(){
+      var key = 'az_popup_seen';
+      var delay = {{ theme.settings.get('popup_delay', 3) }} * 1000;
+      if (!sessionStorage.getItem(key)) {
+        setTimeout(function(){
+          var el = document.getElementById('az-popup-overlay');
+          if (el) { el.style.display = 'flex'; sessionStorage.setItem(key, '1'); }
+        }, delay);
+        document.getElementById('az-popup-overlay').style.display = 'none';
+      } else {
+        document.getElementById('az-popup-overlay').classList.add('az-hidden');
+      }
+    })();
+  </script>
+{% endif %}
+
 </body>
 </html>

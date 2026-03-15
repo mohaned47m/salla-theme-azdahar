@@ -7,6 +7,38 @@
 | component.button_text  | string  | Primary button label                |
 | position               | int     | Sort order                          |
 #}
+
+{% set az_bg = component.section_bg_color ?: 'var(--color-secondary)' %}
+{% set az_btn = component.btn_color ?: 'var(--color-primary)' %}
+{% set az_title = component.title_color ?: '#fff' %}
+<style>
+  .az-cta {
+    --az-bg: {{ az_bg }};
+    --az-btn: {{ az_btn }};
+    --az-title: {{ az_title }};
+    background: var(--az-bg) !important;
+  }
+  .az-cta .az-section-title,
+  .az-cta .az-section-subtitle {
+    color: var(--az-title) !important;
+  }
+  .az-cta .az-btn,
+  .az-cta .az-btn-primary,
+  .az-cta .az-cta__btn-primary,
+  .az-cta .az-flash-card__btn,
+  .az-cta .az-prod-card__btn {
+    background: var(--az-btn) !important;
+    border-color: var(--az-btn) !important;
+  }
+  .az-cta .az-btn:hover,
+  .az-cta .az-btn-primary:hover,
+  .az-cta .az-cta__btn-primary:hover,
+  .az-cta .az-flash-card__btn:hover,
+  .az-cta .az-prod-card__btn:hover {
+    filter: brightness(0.88);
+  }
+</style>
+
 <section class="az-cta s-block" id="az-cta-{{ position }}" >
   <style>
     .az-cta {
@@ -25,7 +57,7 @@
       transform: translate(-50%, -50%);
       width: 600px; height: 600px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(200,150,62,0.15) 0%, transparent 70%);
+      background: radial-gradient(circle, color-mix(in srgb, var(--color-primary) 15%, transparent) 0%, transparent 70%);
       pointer-events: none;
     }
     .az-cta__inner {
@@ -37,8 +69,8 @@
     }
     .az-cta__eyebrow {
       display: inline-block;
-      background: rgba(200,150,62,0.15);
-      border: 1px solid rgba(200,150,62,0.3);
+      background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+      border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
       color: var(--color-primary);
       font-size: 0.8rem;
       font-weight: 700;
@@ -84,11 +116,11 @@
       font-weight: 800;
       text-decoration: none;
       transition: transform 0.3s, box-shadow 0.3s;
-      box-shadow: 0 4px 20px rgba(200,150,62,0.4);
+      box-shadow: 0 4px 20px color-mix(in srgb, var(--color-primary) 40%, transparent);
     }
     .az-cta__btn-primary:hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 32px rgba(200,150,62,0.6);
+      box-shadow: 0 8px 32px color-mix(in srgb, var(--color-primary) 60%, transparent);
       color: #fff;
     }
     .az-cta__btn-secondary {
