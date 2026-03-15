@@ -6,6 +6,7 @@
 | component.coupon_code     | string  | Discount coupon code                |
 | component.button_url      | string  | CTA button link                     |
 | component.button_text     | string  | CTA button label                    |
+| component.discount_percent| number  | Discount percentage to display      |
 | position                  | int     | Sort order                          |
 #}
 <section class="az-promo s-block" id="az-promo-{{ position }}" aria-label="قسم: البانر الترويجي — ثيم: ازدهار">
@@ -204,7 +205,7 @@
     <div class="az-promo__visual">
       <div class="az-promo__badge-big">
         <div class="inner">
-          <div class="pct">20%</div>
+          <div class="pct">{{ component.discount_percent is defined and component.discount_percent ? component.discount_percent : 20 }}%</div>
           <div class="off">خصم</div>
         </div>
       </div>

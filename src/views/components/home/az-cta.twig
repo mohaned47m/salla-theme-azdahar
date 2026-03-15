@@ -142,8 +142,7 @@
   <div class="az-cta__inner">
     <span class="az-cta__eyebrow">ابدأ رحلة التسوق</span>
     <h2 class="az-cta__title">
-      {{ component.title ?: 'ابدأ تسوقك' }}<br>
-      <span>{{ 'اليوم' }}</span>
+      {{ component.title ?: 'ابدأ تسوقك اليوم' }}
     </h2>
     <p class="az-cta__sub">
       {{ component.subtitle ?: 'انضم إلى أكثر من 10,000 عميل راضٍ واستمتع بتجربة تسوق استثنائية.' }}
@@ -153,7 +152,7 @@
         <i class="sicon-shopping-bag"></i>
         {{ component.button_text ?: 'تسوق الآن' }}
       </a>
-      <a href="{{ store.url }}/categories" class="az-cta__btn-secondary">
+      <a href="{{ link('categories') }}" class="az-cta__btn-secondary">
         <i class="sicon-layout-grid-rearrange"></i>
         تصفح التصنيفات
       </a>

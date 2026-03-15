@@ -208,8 +208,7 @@
 
     {# العنوان #}
     <h1 class="az-hero__title">
-      {{ component.title ?: 'اكتشف أفضل' }}<br>
-      <span>{{ 'المنتجات المختارة' }}</span>
+      {{ component.title ?: 'اكتشف أفضل المنتجات المختارة' }}
     </h1>
 
     {# النص التعريفي #}
@@ -223,7 +222,7 @@
         <i class="sicon-shopping-bag"></i>
         {{ component.button_text ?: 'تسوق الآن' }}
       </a>
-      <a href="{{ store.url }}/categories" class="az-hero__btn-secondary">
+      <a href="{{ component.button_url_secondary is defined and component.button_url_secondary ? component.button_url_secondary : link('categories') }}" class="az-hero__btn-secondary">
         <i class="sicon-layout-grid-rearrange"></i>
         تصفح التصنيفات
       </a>

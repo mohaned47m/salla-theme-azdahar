@@ -1135,6 +1135,15 @@
           "value": "تسوق الآن",
           "required": false,
           "format": "text"
+        },
+        {
+          "type": "string",
+          "icon": "sicon-link",
+          "label": "رابط زر التصنيفات (اختياري)",
+          "id": "button_url_secondary",
+          "value": "",
+          "required": false,
+          "format": "text"
         }
       ]
     },
@@ -1156,6 +1165,162 @@
           "value": "لماذا تتسوق معنا؟",
           "required": false,
           "format": "text",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "أيقونة الميزة 1",
+          "multilanguage": true,
+          "id": "feature_1_icon",
+          "value": "sicon-truck-fast",
+          "required": false,
+          "format": "text",
+          "placeholder": "",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "عنوان الميزة 1",
+          "multilanguage": true,
+          "id": "feature_1_title",
+          "value": "شحن مجاني",
+          "required": false,
+          "format": "text",
+          "placeholder": "",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "وصف الميزة 1",
+          "multilanguage": true,
+          "id": "feature_1_text",
+          "value": "على الطلبات فوق 200 ريال",
+          "required": false,
+          "format": "text",
+          "placeholder": "",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "أيقونة الميزة 2",
+          "multilanguage": true,
+          "id": "feature_2_icon",
+          "value": "sicon-shield-check",
+          "required": false,
+          "format": "text",
+          "placeholder": "",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "عنوان الميزة 2",
+          "multilanguage": true,
+          "id": "feature_2_title",
+          "value": "منتجات أصلية 100%",
+          "required": false,
+          "format": "text",
+          "placeholder": "",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "وصف الميزة 2",
+          "multilanguage": true,
+          "id": "feature_2_text",
+          "value": "مضمونة الجودة والأصالة",
+          "required": false,
+          "format": "text",
+          "placeholder": "",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "أيقونة الميزة 3",
+          "multilanguage": true,
+          "id": "feature_3_icon",
+          "value": "sicon-refresh-circle",
+          "required": false,
+          "format": "text",
+          "placeholder": "",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "عنوان الميزة 3",
+          "multilanguage": true,
+          "id": "feature_3_title",
+          "value": "إرجاع مجاني",
+          "required": false,
+          "format": "text",
+          "placeholder": "",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "وصف الميزة 3",
+          "multilanguage": true,
+          "id": "feature_3_text",
+          "value": "خلال 14 يوماً من الاستلام",
+          "required": false,
+          "format": "text",
+          "placeholder": "",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "أيقونة الميزة 4",
+          "multilanguage": true,
+          "id": "feature_4_icon",
+          "value": "sicon-headphones",
+          "required": false,
+          "format": "text",
+          "placeholder": "",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "عنوان الميزة 4",
+          "multilanguage": true,
+          "id": "feature_4_title",
+          "value": "دعم 24/7",
+          "required": false,
+          "format": "text",
+          "placeholder": "",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "وصف الميزة 4",
+          "multilanguage": true,
+          "id": "feature_4_text",
+          "value": "فريق جاهز لمساعدتك دائماً",
+          "required": false,
+          "format": "text",
+          "placeholder": "",
           "minLength": 0,
           "maxLength": 100
         }
@@ -1422,6 +1587,16 @@
           "value": "تسوق الآن",
           "required": false,
           "format": "text"
+        },
+        {
+          "type": "number",
+          "icon": "sicon-percentage",
+          "label": "نسبة الخصم (%)",
+          "id": "discount_percent",
+          "value": 20,
+          "required": false,
+          "min": 1,
+          "max": 99
         }
       ]
     },
@@ -1502,6 +1677,64 @@
           "format": "textarea",
           "minLength": 0,
           "maxLength": 255
+        },
+        {
+          "id": "faqs",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 0,
+          "maxLength": 20,
+          "label": "الأسئلة الشائعة",
+          "item_label": "سؤال",
+          "value": [
+            {
+              "faqs.q": "كيف يمكنني تتبع طلبي؟",
+              "faqs.a": "يمكنك تتبع طلبك من خلال صفحة طلباتي في حسابك."
+            },
+            {
+              "faqs.q": "ما هي سياسة الإرجاع؟",
+              "faqs.a": "نقبل الإرجاع خلال 14 يوماً من الاستلام."
+            },
+            {
+              "faqs.q": "هل الشحن مجاني؟",
+              "faqs.a": "نعم، مجاني على الطلبات فوق 200 ريال."
+            },
+            {
+              "faqs.q": "ما طرق الدفع المتاحة؟",
+              "faqs.a": "مدى، بطاقات ائتمان، أبل باي، تابي، تمارا."
+            },
+            {
+              "faqs.q": "كيف أتواصل مع خدمة العملاء؟",
+              "faqs.a": "عبر الواتساب أو الدردشة المباشرة على الموقع."
+            }
+          ],
+          "fields": [
+            {
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "label": "السؤال",
+              "id": "faqs.q",
+              "value": "",
+              "required": true,
+              "format": "text",
+              "placeholder": "أدخل السؤال...",
+              "minLength": 1,
+              "maxLength": 255
+            },
+            {
+              "type": "string",
+              "icon": "sicon-typography",
+              "label": "الإجابة",
+              "id": "faqs.a",
+              "value": "",
+              "required": true,
+              "format": "textarea",
+              "placeholder": "أدخل الإجابة...",
+              "minLength": 1,
+              "maxLength": 1000
+            }
+          ]
         }
       ]
     },

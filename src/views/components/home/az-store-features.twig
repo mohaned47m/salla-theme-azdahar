@@ -1,8 +1,19 @@
 {#
-| Variable        | Type   | Description              |
-|-----------------|--------|--------------------------|
-| component.title | string | Section title            |
-| position        | int    | Sort order               |
+| Variable                    | Type     | Description                    |
+|-----------------------------|----------|--------------------------------|
+| component.feature_1_icon    | string   | Icon class for feature 1       |
+| component.feature_1_title   | string   | Title for feature 1            |
+| component.feature_1_text    | string   | Description for feature 1      |
+| component.feature_2_icon    | string   | Icon class for feature 2       |
+| component.feature_2_title   | string   | Title for feature 2            |
+| component.feature_2_text    | string   | Description for feature 2      |
+| component.feature_3_icon    | string   | Icon class for feature 3       |
+| component.feature_3_title   | string   | Title for feature 3            |
+| component.feature_3_text    | string   | Description for feature 3      |
+| component.feature_4_icon    | string   | Icon class for feature 4       |
+| component.feature_4_title   | string   | Title for feature 4            |
+| component.feature_4_text    | string   | Description for feature 4      |
+| position                    | int      | Sort order                     |
 #}
 <section class="az-features s-block" id="az-features-{{ position }}" aria-label="قسم: مميزات المتجر — ثيم: ازدهار">
   <style>
@@ -76,35 +87,39 @@
     }
   </style>
 
+  {% set features = [
+    {
+      icon: component.feature_1_icon is defined and component.feature_1_icon ? component.feature_1_icon : 'sicon-truck-fast',
+      title: component.feature_1_title is defined and component.feature_1_title ? component.feature_1_title : 'شحن مجاني',
+      text: component.feature_1_text is defined and component.feature_1_text ? component.feature_1_text : 'على الطلبات فوق 200 ريال'
+    },
+    {
+      icon: component.feature_2_icon is defined and component.feature_2_icon ? component.feature_2_icon : 'sicon-shield-check',
+      title: component.feature_2_title is defined and component.feature_2_title ? component.feature_2_title : 'منتجات أصلية 100%',
+      text: component.feature_2_text is defined and component.feature_2_text ? component.feature_2_text : 'مضمونة الجودة والأصالة'
+    },
+    {
+      icon: component.feature_3_icon is defined and component.feature_3_icon ? component.feature_3_icon : 'sicon-refresh-circle',
+      title: component.feature_3_title is defined and component.feature_3_title ? component.feature_3_title : 'إرجاع مجاني',
+      text: component.feature_3_text is defined and component.feature_3_text ? component.feature_3_text : 'خلال 14 يوماً من الاستلام'
+    },
+    {
+      icon: component.feature_4_icon is defined and component.feature_4_icon ? component.feature_4_icon : 'sicon-headphones',
+      title: component.feature_4_title is defined and component.feature_4_title ? component.feature_4_title : 'دعم 24/7',
+      text: component.feature_4_text is defined and component.feature_4_text ? component.feature_4_text : 'فريق جاهز لمساعدتك دائماً'
+    }
+  ] %}
+
   <div class="az-features__grid">
-    <div class="az-feature-card">
-      <div class="az-feature-card__icon"><i class="sicon-truck-fast"></i></div>
-      <div>
-        <p class="az-feature-card__title">شحن مجاني</p>
-        <p class="az-feature-card__text">على الطلبات فوق 200 ريال</p>
+    {% for feat in features %}
+      <div class="az-feature-card">
+        <div class="az-feature-card__icon"><i class="{{ feat.icon }}"></i></div>
+        <div>
+          <p class="az-feature-card__title">{{ feat.title }}</p>
+          <p class="az-feature-card__text">{{ feat.text }}</p>
+        </div>
       </div>
-    </div>
-    <div class="az-feature-card">
-      <div class="az-feature-card__icon"><i class="sicon-shield-check"></i></div>
-      <div>
-        <p class="az-feature-card__title">منتجات أصلية 100%</p>
-        <p class="az-feature-card__text">مضمونة الجودة والأصالة</p>
-      </div>
-    </div>
-    <div class="az-feature-card">
-      <div class="az-feature-card__icon"><i class="sicon-refresh-circle"></i></div>
-      <div>
-        <p class="az-feature-card__title">إرجاع مجاني</p>
-        <p class="az-feature-card__text">خلال 14 يوماً من الاستلام</p>
-      </div>
-    </div>
-    <div class="az-feature-card">
-      <div class="az-feature-card__icon"><i class="sicon-headphones"></i></div>
-      <div>
-        <p class="az-feature-card__title">دعم 24/7</p>
-        <p class="az-feature-card__text">فريق جاهز لمساعدتك دائماً</p>
-      </div>
-    </div>
+    {% endfor %}
   </div>
 
   <span class="az-section-label">قسم: مميزات المتجر — ثيم: ازدهار</span>

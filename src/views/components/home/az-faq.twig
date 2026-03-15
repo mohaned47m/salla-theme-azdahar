@@ -1,9 +1,12 @@
 {#
-| Variable           | Type    | Description              |
-|--------------------|---------|--------------------------|
-| component.title    | string  | Section title            |
-| component.subtitle | string  | Section subtitle         |
-| position           | int     | Sort order               |
+| Variable              | Type       | Description                       |
+|-----------------------|------------|-----------------------------------|
+| component.title       | string     | Section title                     |
+| component.subtitle    | string     | Section subtitle                  |
+| component.faqs        | object[]   | FAQ items from collection field   |
+| component.faqs[].q    | string     | Question text                     |
+| component.faqs[].a    | string     | Answer text                       |
+| position              | int        | Sort order                        |
 #}
 <section class="az-faq s-block" id="az-faq-{{ position }}" aria-label="قسم: الأسئلة الشائعة — ثيم: ازدهار">
   <style>
@@ -120,24 +123,40 @@
     </div>
 
     <div class="az-faq__list">
-      {% set faqs = [
-        {q: 'كيف يمكنني تتبع طلبي؟', a: 'يمكنك تتبع طلبك من خلال صفحة "طلباتي" في حسابك، أو عبر رابط التتبع المرسل إلى بريدك الإلكتروني بعد تأكيد الطلب.'},
-        {q: 'ما هي سياسة الإرجاع والاستبدال؟', a: 'نقبل الإرجاع والاستبدال خلال 14 يوماً من تاريخ الاستلام، بشرط أن يكون المنتج في حالته الأصلية وغير مستخدم.'},
-        {q: 'هل الشحن مجاني؟', a: 'نعم، الشحن مجاني على جميع الطلبات التي تتجاوز 200 ريال سعودي. للطلبات الأقل، تُطبق رسوم شحن بسيطة.'},
-        {q: 'ما هي طرق الدفع المتاحة؟', a: 'نقبل جميع بطاقات الائتمان والخصم، ومدى، وأبل باي، وتابي، وتمارا، والدفع عند الاستلام.'},
-        {q: 'كيف أتواصل مع خدمة العملاء؟', a: 'يمكنك التواصل معنا عبر الواتساب، أو البريد الإلكتروني، أو الدردشة المباشرة على الموقع. فريقنا متاح 24/7 لمساعدتك.'}
-      ] %}
-      {% for item in faqs %}
-        <div class="az-faq__item" onclick="this.classList.toggle('open')">
-          <div class="az-faq__q">
-            <span class="az-faq__q-text">{{ item.q }}</span>
-            <span class="az-faq__q-icon"><i class="sicon-plus"></i></span>
+      {# إذا في أسئلة من لوحة التحكم عبر collection field #}
+      {% if component.faqs is defined and component.faqs|length > 0 %}
+        {% for item in component.faqs %}
+          <div class="az-faq__item" onclick="this.classList.toggle('open')">
+            <div class="az-faq__q">
+              <span class="az-faq__q-text">{{ item['faqs.q'] is defined ? item['faqs.q'] : (item.q is defined ? item.q : '') }}</span>
+              <span class="az-faq__q-icon"><i class="sicon-plus"></i></span>
+            </div>
+            <div class="az-faq__a">
+              <div class="az-faq__a-inner">{{ item['faqs.a'] is defined ? item['faqs.a'] : (item.a is defined ? item.a : '') }}</div>
+            </div>
           </div>
-          <div class="az-faq__a">
-            <div class="az-faq__a-inner">{{ item.a }}</div>
+        {% endfor %}
+      {% else %}
+        {# أسئلة افتراضية #}
+        {% set default_faqs = [
+          {q: 'كيف يمكنني تتبع طلبي؟', a: 'يمكنك تتبع طلبك من خلال صفحة "طلباتي" في حسابك، أو عبر رابط التتبع المرسل إلى بريدك الإلكتروني بعد تأكيد الطلب.'},
+          {q: 'ما هي سياسة الإرجاع والاستبدال؟', a: 'نقبل الإرجاع والاستبدال خلال 14 يوماً من تاريخ الاستلام، بشرط أن يكون المنتج في حالته الأصلية وغير مستخدم.'},
+          {q: 'هل الشحن مجاني؟', a: 'نعم، الشحن مجاني على جميع الطلبات التي تتجاوز 200 ريال سعودي. للطلبات الأقل، تُطبق رسوم شحن بسيطة.'},
+          {q: 'ما هي طرق الدفع المتاحة؟', a: 'نقبل جميع بطاقات الائتمان والخصم، ومدى، وأبل باي، وتابي، وتمارا، والدفع عند الاستلام.'},
+          {q: 'كيف أتواصل مع خدمة العملاء؟', a: 'يمكنك التواصل معنا عبر الواتساب، أو البريد الإلكتروني، أو الدردشة المباشرة على الموقع. فريقنا متاح 24/7 لمساعدتك.'}
+        ] %}
+        {% for item in default_faqs %}
+          <div class="az-faq__item" onclick="this.classList.toggle('open')">
+            <div class="az-faq__q">
+              <span class="az-faq__q-text">{{ item.q }}</span>
+              <span class="az-faq__q-icon"><i class="sicon-plus"></i></span>
+            </div>
+            <div class="az-faq__a">
+              <div class="az-faq__a-inner">{{ item.a }}</div>
+            </div>
           </div>
-        </div>
-      {% endfor %}
+        {% endfor %}
+      {% endif %}
     </div>
   </div>
 
