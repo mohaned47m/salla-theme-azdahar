@@ -2,7 +2,7 @@
 | Variable                    | Type     | Description                                              |
 |-----------------------------|----------|----------------------------------------------------------|
 | component.title             | string   | Section title (optional)                                 |
-| component.feature_1_icon    | string   | Salla icon class (e.g. sicon-truck-fast)                 |
+| component.feature_1_icon    | string   | Salla icon class (e.g. sicon-shipping-fast)                 |
 | component.feature_1_image   | string   | Uploaded image URL — overrides icon if set               |
 | component.feature_1_title   | string   | Title for feature 1                                      |
 | component.feature_1_text    | string   | Description for feature 1                                |
@@ -131,7 +131,7 @@
 
   {% set features = [
     {
-      icon:  component.feature_1_icon  is defined and component.feature_1_icon  ? component.feature_1_icon  : 'sicon-truck-fast',
+      icon:  component.feature_1_icon  is defined and component.feature_1_icon  ? component.feature_1_icon  : 'sicon-shipping-fast',
       image: component.feature_1_image is defined and component.feature_1_image ? component.feature_1_image : '',
       title: component.feature_1_title is defined and component.feature_1_title ? component.feature_1_title : 'شحن مجاني',
       text:  component.feature_1_text  is defined and component.feature_1_text  ? component.feature_1_text  : 'على الطلبات فوق 200 ريال'
@@ -143,7 +143,7 @@
       text:  component.feature_2_text  is defined and component.feature_2_text  ? component.feature_2_text  : 'مضمونة الجودة والأصالة'
     },
     {
-      icon:  component.feature_3_icon  is defined and component.feature_3_icon  ? component.feature_3_icon  : 'sicon-refresh-circle',
+      icon:  component.feature_3_icon  is defined and component.feature_3_icon  ? component.feature_3_icon  : 'sicon-rotate',
       image: component.feature_3_image is defined and component.feature_3_image ? component.feature_3_image : '',
       title: component.feature_3_title is defined and component.feature_3_title ? component.feature_3_title : 'إرجاع مجاني',
       text:  component.feature_3_text  is defined and component.feature_3_text  ? component.feature_3_text  : 'خلال 14 يوماً من الاستلام'
