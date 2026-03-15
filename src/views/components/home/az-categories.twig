@@ -1,11 +1,11 @@
 {#
-| Variable               | Type     | Description                     |
-|------------------------|----------|---------------------------------|
-| component.title        | string   | Section title                   |
-| component.subtitle     | string   | Section subtitle                |
-| component.show_view_all| bool     | Show "view all" button          |
-| categories             | array    | Store categories from Salla     |
-| position               | int      | Sort order                      |
+| Variable                | Type       | Description                     |
+|-------------------------|------------|---------------------------------|
+| component.title         | string     | Section title                   |
+| component.subtitle      | string     | Section subtitle                |
+| component.show_view_all | bool       | Show "view all" button          |
+| component.categories    | Category[] | Store categories from Salla     |
+| position                | int        | Sort order                      |
 #}
 <section class="az-categories s-block" id="az-categories-{{ position }}" aria-label="قسم: التصنيفات — ثيم: ازدهار">
   <style>
@@ -174,31 +174,31 @@
   <div class="az-categories__inner">
     {# رأس القسم #}
     <div class="az-section-head">
-      <span class="az-section-head__eyebrow">تصفح حسب الفئة</span>
-      <h2 class="az-section-head__title">{{ component.title ?: 'التصنيفات الرئيسية' }}</h2>
+      <span class="az-section-head__eyebrow">{{ trans('common.categories') }}</span>
+      <h2 class="az-section-head__title">{{ component.title ?: trans('blocks.home.categories') }}</h2>
       <div class="az-section-head__divider"></div>
       {% if component.subtitle %}
         <p class="az-section-head__sub">{{ component.subtitle }}</p>
       {% endif %}
     </div>
 
-    {# شبكة التصنيفات #}
+    {# شبكة التصنيفات — من لوحة التحكم أو من المتجر #}
     <div class="az-cat-grid">
-      {% set cats = component.categories is defined and component.categories|length > 0 ? component.categories : categories %}
-      {% if cats is defined and cats|length > 0 %}
+      {% set cats = component.categories is defined and component.categories|length > 0 ? component.categories : [] %}
+      {% if cats|length > 0 %}
         {% for cat in cats %}
           <a href="{{ cat.url }}" class="az-cat-card">
-            {% if cat.image %}
-              <img src="{{ cat.image }}" alt="{{ cat.name }}" class="az-cat-card__img" loading="lazy">
+            {% if cat.image is defined and cat.image %}
+              <img src="{{ cat.image.url | default(cat.image) }}" alt="{{ cat.name }}" class="az-cat-card__img" loading="lazy">
             {% else %}
               <div class="az-cat-card__placeholder">
-                <i class="{{ cat.icon ?: 'sicon-layout-grid-rearrange' }}"></i>
+                <i class="sicon-layout-grid-rearrange"></i>
               </div>
             {% endif %}
             <div class="az-cat-card__overlay">
               <h3 class="az-cat-card__name">{{ cat.name }}</h3>
               <span class="az-cat-card__arrow">
-                تسوق الآن <i class="sicon-arrow-left"></i>
+                {{ trans('common.shop_now') }} <i class="sicon-arrow-left"></i>
               </span>
             </div>
           </a>
@@ -211,8 +211,8 @@
               <i class="sicon-layout-grid-rearrange"></i>
             </div>
             <div class="az-cat-card__overlay">
-              <h3 class="az-cat-card__name">تصنيف {{ i }}</h3>
-              <span class="az-cat-card__arrow">تسوق الآن <i class="sicon-arrow-left"></i></span>
+              <h3 class="az-cat-card__name">{{ trans('common.category') }} {{ i }}</h3>
+              <span class="az-cat-card__arrow">{{ trans('common.shop_now') }} <i class="sicon-arrow-left"></i></span>
             </div>
           </div>
         {% endfor %}
@@ -221,9 +221,9 @@
 
     {% if component.show_view_all is not defined or component.show_view_all %}
     <div class="az-view-all-wrap">
-      <a href="{{ store.url }}/categories" class="az-btn-outline">
+      <a href="{{ link('categories') }}" class="az-btn-outline">
         <i class="sicon-layout-grid-rearrange"></i>
-        عرض جميع التصنيفات
+        {{ trans('blocks.home.display_all') }}
       </a>
     </div>
     {% endif %}

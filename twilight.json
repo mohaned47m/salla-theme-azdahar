@@ -1203,6 +1203,20 @@
           "required": false,
           "value": true,
           "selected": true
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "label": "التصنيفات",
+          "id": "categories",
+          "format": "dropdown-list",
+          "description": "اختر التصنيفات لعرضها",
+          "selected": [],
+          "options": [],
+          "required": false,
+          "multichoice": true,
+          "source": "categories",
+          "searchable": true
         }
       ]
     },
@@ -1258,6 +1272,32 @@
           "required": false,
           "value": true,
           "selected": true
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "label": "المنتجات",
+          "id": "products",
+          "format": "dropdown-list",
+          "description": "اختر المنتجات المميزة لعرضها",
+          "selected": [],
+          "options": [],
+          "required": false,
+          "multichoice": true,
+          "source": "products",
+          "searchable": true,
+          "maxLength": 12,
+          "minLength": 1,
+          "value": []
+        },
+        {
+          "type": "string",
+          "icon": "sicon-link",
+          "label": "رابط عرض الكل",
+          "id": "display_all_url",
+          "format": "text",
+          "required": false,
+          "value": null
         }
       ]
     },
@@ -1302,6 +1342,23 @@
           "value": 12,
           "required": false,
           "format": "number"
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "label": "منتجات العروض",
+          "id": "products",
+          "format": "dropdown-list",
+          "description": "اختر المنتجات للعروض",
+          "selected": [],
+          "options": [],
+          "required": false,
+          "multichoice": true,
+          "source": "products",
+          "searchable": true,
+          "maxLength": 8,
+          "minLength": 1,
+          "value": []
         }
       ]
     },

@@ -1,13 +1,13 @@
 {#
-| Variable                    | Type    | Description                         |
-|-----------------------------|---------|-------------------------------------|
-| component.title             | string  | Section title                       |
-| component.subtitle          | string  | Section subtitle                    |
-| component.products          | array   | Product list from Salla             |
-| component.display_all_url   | string  | "View all" URL                      |
-| component.show_add_to_cart  | bool    | Show add-to-cart button             |
-| component.show_wishlist     | bool    | Show wishlist button                |
-| position                    | int     | Sort order                          |
+| Variable                    | Type       | Description                         |
+|-----------------------------|------------|-------------------------------------|
+| component.title             | string     | Section title                       |
+| component.subtitle          | string     | Section subtitle                    |
+| component.products          | Product[]  | Product list from Salla             |
+| component.display_all_url   | string     | "View all" URL                      |
+| component.show_add_to_cart  | bool       | Show add-to-cart button             |
+| component.show_wishlist     | bool       | Show wishlist button                |
+| position                    | int        | Sort order                          |
 #}
 <section class="az-products s-block" id="az-products-{{ position }}" aria-label="قسم: المنتجات المميزة — ثيم: ازدهار">
   <style>
@@ -56,7 +56,7 @@
       transition: gap 0.3s;
     }
     .az-view-all-link:hover { gap: 0.7rem; color: #87602C; }
-    /* Products grid */
+    /* Products grid — custom cards */
     .az-prod-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -64,7 +64,6 @@
     }
     @media(min-width:640px)  { .az-prod-grid { grid-template-columns: repeat(3, 1fr); } }
     @media(min-width:1024px) { .az-prod-grid { grid-template-columns: repeat(4, 1fr); } }
-
     .az-prod-card {
       background: #fff;
       border-radius: 16px;
@@ -204,47 +203,60 @@
       {% endif %}
     </div>
 
-    {# شبكة المنتجات #}
-    <div class="az-prod-grid">
-      {% if component.products is defined and component.products|length > 0 %}
+    {# شبكة المنتجات — إذا فيه منتجات مختارة من لوحة التحكم #}
+    {% if component.products is defined and component.products|length > 0 %}
+      <div class="az-prod-grid">
         {% for product in component.products %}
           <div class="az-prod-card">
             <div class="az-prod-card__img-wrap">
-              {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="az-prod-card__img" loading="lazy">
-              {% endif %}
+              <a href="{{ product.url }}">
+                {% if product.image %}
+                  <img src="{{ product.image.url }}" alt="{{ product.name }}" class="az-prod-card__img" loading="lazy">
+                {% else %}
+                  <img src="{{ 'images/img_placeholder.png' | asset }}" alt="{{ product.name }}" class="az-prod-card__img" loading="lazy">
+                {% endif %}
+              </a>
               {% if product.is_on_sale %}
-                <span class="az-prod-card__badge">خصم</span>
+                <span class="az-prod-card__badge">{{ trans('common.on_sale') }}</span>
               {% endif %}
               {% if component.show_wishlist is not defined or component.show_wishlist %}
-                <button class="az-prod-card__wishlist" onclick="salla.wishlist.toggle('{{ product.id }}')">
+                <salla-button shape="icon" class="az-prod-card__wishlist"
+                              onclick="salla.wishlist.toggle({{ product.id }})">
                   <i class="sicon-heart"></i>
-                </button>
+                </salla-button>
               {% endif %}
             </div>
             <div class="az-prod-card__body">
-              <h3 class="az-prod-card__name">{{ product.name }}</h3>
+              <a href="{{ product.url }}">
+                <h3 class="az-prod-card__name">{{ product.name }}</h3>
+              </a>
               <div class="az-prod-card__price-row">
-                <span class="az-prod-card__price">{{ product.price.formatted }}</span>
+                <span class="az-prod-card__price">{{ product.price | money }}</span>
                 {% if product.is_on_sale and product.regular_price %}
-                  <span class="az-prod-card__old-price">{{ product.regular_price.formatted }}</span>
+                  <span class="az-prod-card__old-price">{{ product.regular_price | money }}</span>
                 {% endif %}
               </div>
               {% if component.show_add_to_cart is not defined or component.show_add_to_cart %}
-                <a href="{{ product.url }}" class="az-prod-card__add-btn">
-                  <i class="sicon-shopping-bag"></i> أضف للسلة
-                </a>
+                <salla-add-product-button product-id="{{ product.id }}" class="az-prod-card__add-btn">
+                  <i class="sicon-shopping-bag"></i> {{ trans('pages.cart.add_to_cart') }}
+                </salla-add-product-button>
               {% endif %}
             </div>
           </div>
         {% endfor %}
-      {% else %}
-        <div class="az-prod-empty">
-          <i class="sicon-tag" style="font-size:3rem;color:#e2d9d0;display:block;margin-bottom:1rem;"></i>
-          <p>لم تتم إضافة منتجات مميزة بعد</p>
-        </div>
-      {% endif %}
-    </div>
+      </div>
+    {% else %}
+      {# Fallback: استخدام مكون سلة الرسمي لعرض أحدث المنتجات #}
+      <salla-products-slider
+        source="latest"
+        limit="8"
+        {% if component.display_all_url %}
+          display-all-url="{{ component.display_all_url }}"
+        {% endif %}
+        block-title=" "
+        slider-id="az-products-slider-{{ position }}"
+      ></salla-products-slider>
+    {% endif %}
   </div>
 
   <span class="az-section-label">قسم: المنتجات المميزة — ثيم: ازدهار</span>

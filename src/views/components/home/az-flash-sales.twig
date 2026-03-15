@@ -1,11 +1,11 @@
 {#
-| Variable                    | Type    | Description                         |
-|-----------------------------|---------|-------------------------------------|
-| component.title             | string  | Section title                       |
-| component.subtitle          | string  | Section subtitle                    |
-| component.countdown_hours   | number  | Countdown duration in hours         |
-| component.products          | array   | Sale products from Salla            |
-| position                    | int     | Sort order                          |
+| Variable                    | Type       | Description                         |
+|-----------------------------|------------|-------------------------------------|
+| component.title             | string     | Section title                       |
+| component.subtitle          | string     | Section subtitle                    |
+| component.countdown_hours   | number     | Countdown duration in hours         |
+| component.products          | Product[]  | Sale products from Salla            |
+| position                    | int        | Sort order                          |
 #}
 <section class="az-flash s-block" id="az-flash-{{ position }}" aria-label="قسم: عروض الفلاش — ثيم: ازدهار">
   <style>
@@ -79,7 +79,6 @@
     }
     @media(min-width:640px)  { .az-flash__grid { grid-template-columns: repeat(3, 1fr); } }
     @media(min-width:1024px) { .az-flash__grid { grid-template-columns: repeat(4, 1fr); } }
-
     .az-flash-card {
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(200,150,62,0.15);
@@ -200,39 +199,48 @@
       </div>
     </div>
 
-    <div class="az-flash__grid">
-      {% if component.products is defined and component.products|length > 0 %}
+    {% if component.products is defined and component.products|length > 0 %}
+      <div class="az-flash__grid">
         {% for product in component.products %}
           <div class="az-flash-card">
             <div class="az-flash-card__img-wrap">
-              {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="az-flash-card__img" loading="lazy">
-              {% endif %}
+              <a href="{{ product.url }}">
+                {% if product.image %}
+                  <img src="{{ product.image.url }}" alt="{{ product.name }}" class="az-flash-card__img" loading="lazy">
+                {% else %}
+                  <img src="{{ 'images/img_placeholder.png' | asset }}" alt="{{ product.name }}" class="az-flash-card__img" loading="lazy">
+                {% endif %}
+              </a>
               {% if product.is_on_sale %}
-                <span class="az-flash-card__discount">خصم</span>
+                <span class="az-flash-card__discount">{{ trans('common.on_sale') }}</span>
               {% endif %}
             </div>
             <div class="az-flash-card__body">
-              <h3 class="az-flash-card__name">{{ product.name }}</h3>
+              <a href="{{ product.url }}">
+                <h3 class="az-flash-card__name">{{ product.name }}</h3>
+              </a>
               <div class="az-flash-card__prices">
-                <span class="az-flash-card__price">{{ product.price.formatted }}</span>
+                <span class="az-flash-card__price">{{ product.price | money }}</span>
                 {% if product.regular_price %}
-                  <span class="az-flash-card__old">{{ product.regular_price.formatted }}</span>
+                  <span class="az-flash-card__old">{{ product.regular_price | money }}</span>
                 {% endif %}
               </div>
-              <a href="{{ product.url }}" class="az-flash-card__btn">
-                <i class="sicon-shopping-bag"></i> اشتري الآن
-              </a>
+              <salla-add-product-button product-id="{{ product.id }}" class="az-flash-card__btn">
+                <i class="sicon-shopping-bag"></i> {{ trans('pages.cart.add_to_cart') }}
+              </salla-add-product-button>
             </div>
           </div>
         {% endfor %}
-      {% else %}
-        <div class="az-flash-empty">
-          <i class="sicon-lightning" style="font-size:3rem;display:block;margin-bottom:1rem;opacity:0.3;"></i>
-          <p>لا توجد عروض فلاش حالياً</p>
-        </div>
-      {% endif %}
-    </div>
+      </div>
+    {% else %}
+      {# Fallback: استخدام مكون سلة الرسمي لعرض منتجات العروض #}
+      <salla-products-slider
+        source="sale"
+        limit="8"
+        block-title=" "
+        slider-id="az-flash-slider-{{ position }}"
+      ></salla-products-slider>
+    {% endif %}
   </div>
 
   <span class="az-section-label">قسم: عروض الفلاش — ثيم: ازدهار</span>
